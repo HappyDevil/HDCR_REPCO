@@ -13,17 +13,17 @@
         app:srcCompat="@drawable/first_logo" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/professional"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="button1"
+        android:onClick="professional"
         android:text="Je suis un professionnel" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/enterprise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="button2"
+        android:onClick="enterprise"
         android:text="Je suis une entreprise" />
 
 </LinearLayout>
