@@ -35,23 +35,27 @@ public class BottomNavigationActivity extends AppCompatActivity implements  Bott
         mUser = FirebaseConfig.mAuth.getCurrentUser();
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (mUser != null) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    startActivity(postIntent);
-                    return true;
-                case R.id.navigation_dashboard:
-                    startActivity(searchIntent);
-                    return true;
-                case R.id.navigation_notifications:
-                    startActivity(notifIntent);
-                    return true;
-                case R.id.navigation_profile:
-                    profileIntent.putExtra(Keys.UID, mUser.getUid());
-                    startActivity(profileIntent);
-                    return true;
+            if(!item.isChecked()) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        startActivity(postIntent);
+                        return true;
+                    case R.id.navigation_dashboard:
+                        startActivity(searchIntent);
+                        return true;
+                    case R.id.navigation_notifications:
+                        startActivity(notifIntent);
+                        return true;
+                    case R.id.navigation_profile:
+                        profileIntent.putExtra(Keys.UID, mUser.getUid());
+                        startActivity(profileIntent);
+                        return true;
+                }
             }
         }
         return false;

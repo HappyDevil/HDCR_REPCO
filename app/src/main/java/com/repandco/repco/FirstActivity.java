@@ -9,21 +9,39 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.mainActivities.ScrollingActivity;
+import com.repandco.repco.registActivity.LoginActivity;
 import com.repandco.repco.registActivity.RegistBusinessInfo;
 import com.repandco.repco.registActivity.RegistUserInfo;
 
+import static com.repandco.repco.FirebaseConfig.mAuth;
+
 public class FirstActivity extends AppCompatActivity {
 
+    private boolean login = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
-        {
+        if(mAuth.getCurrentUser()!=null) {
             Intent intent = new Intent(this, ScrollingActivity.class);
+            intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
             startActivity(intent);
             finish();
         }
         setContentView(R.layout.activity_first);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(login) finish();
+        else {
+            if (mAuth.getCurrentUser() != null) {
+                Intent intent = new Intent(this, ScrollingActivity.class);
+                intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     public void professional(View view) {
@@ -36,5 +54,11 @@ public class FirstActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegistBusinessInfo.class);
         intent.putExtra(Keys.TYPE, Values.TYPES.ENTERPRISE_TYPE);
         startActivity(intent);
+    }
+
+    public void login(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        login = true;
     }
 }
