@@ -21,7 +21,7 @@ import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.EnterpUser;
 import com.repandco.repco.entities.ProfUser;
-import com.repandco.repco.mainActivities.ScrollingActivity;
+import com.repandco.repco.mainActivities.ProfileFragment;
 
 public class RegistAuthInfo extends AppCompatActivity {
 
@@ -86,7 +86,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                 if (task.isSuccessful())
                 {
                     progressDialog.setMessage("Adding successful");
-                    Intent goProfile = new Intent(context,ScrollingActivity.class);
+                    Intent goProfile = new Intent(context,ProfileFragment.class);
                     goProfile.putExtra(Keys.UID,mUser.getUid());
                     progressDialog.dismiss();
                     startActivity(goProfile);

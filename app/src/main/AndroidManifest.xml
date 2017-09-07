@@ -34,14 +34,8 @@
         <activity android:name=".registActivity.RegistPersonalInfo" />
         <activity android:name=".registActivity.RegistAuthInfo" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".mainActivities.SearchActivity" />
-        <activity android:name=".mainActivities.PostActivity" />
-        <activity android:name=".mainActivities.NotifActivity" />
-        <activity
-            android:name=".mainActivities.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BottomNavigationActivity" />
+
+        <activity android:name=".ManagerActivity" />
         <activity android:name=".registActivity.RegistBusinessInfo" />
         <activity android:name=".registActivity.RegistBusinessContacts" />
         <activity

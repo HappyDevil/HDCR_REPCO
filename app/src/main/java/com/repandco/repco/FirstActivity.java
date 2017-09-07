@@ -5,10 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.Values;
-import com.repandco.repco.mainActivities.ScrollingActivity;
+import com.repandco.repco.mainActivities.ProfileFragment;
 import com.repandco.repco.registActivity.LoginActivity;
 import com.repandco.repco.registActivity.RegistBusinessInfo;
 import com.repandco.repco.registActivity.RegistUserInfo;
@@ -22,7 +21,7 @@ public class FirstActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(mAuth.getCurrentUser()!=null) {
-            Intent intent = new Intent(this, ScrollingActivity.class);
+            Intent intent = new Intent(this, ManagerActivity.class);
             intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
             startActivity(intent);
             finish();
@@ -36,7 +35,7 @@ public class FirstActivity extends AppCompatActivity {
         if(login) finish();
         else {
             if (mAuth.getCurrentUser() != null) {
-                Intent intent = new Intent(this, ScrollingActivity.class);
+                Intent intent = new Intent(this, ManagerActivity.class);
                 intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
                 startActivity(intent);
                 finish();

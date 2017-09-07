@@ -15,7 +15,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -34,16 +33,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.constants.Keys;
-import com.repandco.repco.mainActivities.ScrollingActivity;
+import com.repandco.repco.mainActivities.ProfileFragment;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.repandco.repco.FirebaseConfig.mAuth;
@@ -77,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if(mAuth.getCurrentUser()!=null)
         {
-            Intent intent = new Intent(this, ScrollingActivity.class);
+            Intent intent = new Intent(this, ManagerActivity.class);
             intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
             startActivity(intent);
             finish();
@@ -207,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Intent intent = new Intent(context, ScrollingActivity.class);
+                                Intent intent = new Intent(context, ManagerActivity.class);
                                 intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
                                 startActivity(intent);
                                 finish();
