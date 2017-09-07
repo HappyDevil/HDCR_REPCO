@@ -44,6 +44,7 @@ import com.repandco.repco.mainActivities.ProfileFragment;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.repandco.repco.FirebaseConfig.mAuth;
+import static com.repandco.repco.constants.Toasts.ERR_LOGIN;
 
 /**
  * A login screen that offers login via email/password.
@@ -210,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 finish();
                                 showProgress(false);
                             } else {
-                                Toast.makeText(LoginActivity.this, "Аутентификация не удалась.",
+                                Toast.makeText(LoginActivity.this, ERR_LOGIN,
                                         Toast.LENGTH_SHORT).show();
                                 showProgress(false);
                             }
