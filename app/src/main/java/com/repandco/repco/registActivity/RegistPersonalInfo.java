@@ -3,6 +3,7 @@ package com.repandco.repco.registActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -33,11 +34,29 @@ public class RegistPersonalInfo extends AppCompatActivity {
     }
 
     public void next(View view) {
+        String birthdateStr = birthdate.getText().toString();
+        String phoneStr = phone.getText().toString();
+        if(TextUtils.isEmpty(phoneStr)){
+            phone.setError("Phone is empty!");
+            phone.requestFocus();
+            return;
+        }
+        else {
+            if(phoneStr.length() < 4){
+                phone.setError("Phone is wrong!");
+                phone.requestFocus();
+                return;
+            }
+        }
+        if(TextUtils.isEmpty(birthdateStr)){
+            birthdate.setError("Birthrate is empty!");
+            birthdate.requestFocus();
+            return;
+        }
         if(intent!=null)
         {
-            String s = birthdate.getText().toString();
-            long date = Integer.valueOf(s);
-            intent.putExtra(Keys.PHONE,phone.getText().toString());
+            long date = Integer.valueOf(birthdateStr);
+            intent.putExtra(Keys.PHONE, phoneStr);
             intent.putExtra(Keys.BIRTHDAY,date);
             switch (radioGroup.getCheckedRadioButtonId())
             {

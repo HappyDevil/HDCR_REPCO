@@ -3,6 +3,7 @@ package com.repandco.repco.registActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -33,9 +34,38 @@ public class RegistUserInfo extends AppCompatActivity {
     public void next(View view) {
         if(intent!=null)
         {
-            intent.putExtra(Keys.NAME,name.getText().toString());
-            intent.putExtra(Keys.FIRSTNAME,firstname.getText().toString());
-            intent.putExtra(Keys.EMAIL,email.getText().toString());
+            String nameStr = name.getText().toString();
+            String firstnameStr = firstname.getText().toString();
+            String emailStr = email.getText().toString();
+
+            if(TextUtils.isEmpty(nameStr)){
+                name.setError("Name is empty!");
+                name.requestFocus();
+                return;
+            }
+
+            if(TextUtils.isEmpty(firstnameStr)){
+                firstname.setError("Firstname is empty!");
+                firstname.requestFocus();
+                return;
+            }
+
+            if(TextUtils.isEmpty(emailStr)){
+                email.setError("Email is empty!");
+                email.requestFocus();
+                return;
+            }
+            else {
+                if(!emailStr.contains("@")) {
+                    email.setError("Email is wrong!");
+                    email.requestFocus();
+                    return;
+                }
+            }
+
+            intent.putExtra(Keys.NAME, nameStr);
+            intent.putExtra(Keys.FIRSTNAME, firstnameStr);
+            intent.putExtra(Keys.EMAIL, emailStr);
             intent.setClass(this,RegistPersonalInfo.class);
         }
         else intent = new Intent(this, FirstActivity.class);

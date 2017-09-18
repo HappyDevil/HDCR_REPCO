@@ -1,121 +1,119 @@
 package com.repandco.repco.entities;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "imageurl",
-        "job",
-        "likes",
-        "tags",
-        "text",
-        "title",
-        "userid"
-})
 public class Post {
 
-    @JsonProperty("imageurl")
-    private String imageurl;
-    @JsonProperty("job")
-    private Boolean job;
-    @JsonProperty("likes")
-    private Map<String, Boolean> likes;
-    @JsonProperty("tags")
+    @SerializedName("likes")
+    private Long likes;
+    @SerializedName("tags")
     private Map<String, Boolean> tags = new HashMap<>();
-    @JsonProperty("text")
+    @SerializedName("photos")
+    private ArrayList<String> photos = new ArrayList<>();
+    @SerializedName("text")
     private String text;
-    @JsonProperty("title")
+    @SerializedName("title")
     private String title;
-    @JsonProperty("userid")
+    @SerializedName("userid")
     private String userid;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    @SerializedName("postID")
+    private String postid;
+    @SerializedName("date")
+    private Long date;
+    @SerializedName("type")
+    private Long type;
 
-    @JsonProperty("imageurl")
-    public String getImageurl() {
-        return imageurl;
-    }
-
-    @JsonProperty("imageurl")
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
-
-    @JsonProperty("job")
-    public Boolean getJob() {
-        return job;
-    }
-
-    @JsonProperty("job")
-    public void setJob(Boolean job) {
-        this.job = job;
-    }
-
-    @JsonProperty("likes")
-    public  Map<String, Boolean> getLikes() {
+    @SerializedName("likes")
+    public Long getLikes() {
         return likes;
     }
 
-    @JsonProperty("likes")
-    public void setLikes(Map<String, Boolean> likes) {
+    @SerializedName("likes")
+    public void setLikes(Long likes) {
         this.likes = likes;
     }
 
-    @JsonProperty("tags")
+    @SerializedName("tags")
     public Map<String, Boolean> getTags() {
         return tags;
     }
 
-    @JsonProperty("tags")
+    @SerializedName("tags")
     public void setTags(Map<String, Boolean> tags) {
         this.tags = tags;
     }
 
-    @JsonProperty("text")
+    @SerializedName("text")
     public String getText() {
         return text;
     }
 
-    @JsonProperty("text")
+    @SerializedName("text")
     public void setText(String text) {
         this.text = text;
     }
 
-    @JsonProperty("title")
+    @SerializedName("title")
     public String getTitle() {
         return title;
     }
 
-    @JsonProperty("title")
+    @SerializedName("title")
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @JsonProperty("userid")
+    @SerializedName("userid")
     public String getUserid() {
         return userid;
     }
 
-    @JsonProperty("userid")
+    @SerializedName("userid")
     public void setUserid(String userid) {
         this.userid = userid;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    @SerializedName("date")
+    public Long getDate() {
+        return date;
+    }
+    @SerializedName("date")
+    public void setDate(Long date) {
+        this.date = date;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    @SerializedName("postid")
+    public String getPostid() {
+        return postid;
+    }
+
+    @SerializedName("postid")
+    public void setPostid(String postid) {
+        this.postid = postid;
+    }
+
+    @SerializedName("photos")
+    public ArrayList<String> getPhotos() {
+        return photos;
+    }
+
+    @SerializedName("photos")
+    public void setPhotos(ArrayList<String> photos) {
+        this.photos = photos;
+    }
+
+    @SerializedName("type")
+    public Long getType() {
+        return type;
+    }
+
+    @SerializedName("type")
+    public void setType(Long type) {
+        this.type = type;
     }
 
 }

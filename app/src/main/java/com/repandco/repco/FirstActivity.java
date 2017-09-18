@@ -32,14 +32,11 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(login) finish();
-        else {
-            if (mAuth.getCurrentUser() != null) {
-                Intent intent = new Intent(this, ManagerActivity.class);
-                intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
-                startActivity(intent);
-                finish();
-            }
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(this, ManagerActivity.class);
+            intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
+            startActivity(intent);
+            finish();
         }
     }
 

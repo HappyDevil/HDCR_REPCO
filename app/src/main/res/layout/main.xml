@@ -5,11 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/transtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:visibility="gone" />
+
     <FrameLayout
         android:id="@+id/frgmCont"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="45"></FrameLayout>
+        android:layout_weight="45"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

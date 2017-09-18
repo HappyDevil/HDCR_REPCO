@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Phone number"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/birthdate"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Birthdate"
-            android:inputType="date" />
+            android:inputType="date"
+            android:singleLine="true" />
 
         <RadioGroup
             android:id="@+id/radiogroup"

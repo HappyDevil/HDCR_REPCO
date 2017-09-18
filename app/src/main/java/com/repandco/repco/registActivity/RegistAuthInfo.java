@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.repandco.repco.FirebaseConfig;
+import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
@@ -86,7 +88,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                 if (task.isSuccessful())
                 {
                     progressDialog.setMessage("Adding successful");
-                    Intent goProfile = new Intent(context,ProfileFragment.class);
+                    Intent goProfile = new Intent(context,ManagerActivity.class);
                     goProfile.putExtra(Keys.UID,mUser.getUid());
                     progressDialog.dismiss();
                     startActivity(goProfile);
@@ -106,8 +108,21 @@ public class RegistAuthInfo extends AppCompatActivity {
     }
 
     public void next(View view) {
+        String passwordStr = password.getText().toString();
+        if(TextUtils.isEmpty(passwordStr)){
+            password.setError("Password is empty!");
+            password.requestFocus();
+            return;
+        }
+        else {
+            if(passwordStr.length()<6){
+                password.setError("Password is too short!");
+                password.requestFocus();
+                return;
+            }
+        }
         progressDialog.show();
-        FirebaseConfig.mAuth.createUserWithEmailAndPassword(email, password.getText().toString()).addOnCompleteListener(this,register);
+        FirebaseConfig.mAuth.createUserWithEmailAndPassword(email, passwordStr).addOnCompleteListener(this,register);
         progressDialog.setMessage("Register account...");
     }
 
@@ -129,7 +144,10 @@ public class RegistAuthInfo extends AppCompatActivity {
                 profUser.setGender(intent.getIntExtra(Keys.GENDER,0));
                 profUser.setType(type);
                 profUser.setVisible(Values.Visible.PRIVATE);
-                profUser.setPhotourl(Values.URLS.STANDARD);
+                if(intent.getStringExtra(Keys.PHOTO)!=null) profUser.setPhotourl(intent.getStringExtra(Keys.PHOTO));
+                else profUser.setPhotourl(Values.URLS.STANDARD);
+                if(intent.getStringExtra(Keys.HEADER)!=null) profUser.setHeaderurl(intent.getStringExtra(Keys.HEADER));
+                else profUser.setHeaderurl(Values.URLS.STANDARD);
 
                 databaseTask = reference.child(URLS.USERS+mUser.getUid()).setValue(profUser);
                 break;
@@ -137,14 +155,17 @@ public class RegistAuthInfo extends AppCompatActivity {
                 EnterpUser enterpUser = new EnterpUser();
 
                 enterpUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
-                enterpUser.setAddress(intent.getStringExtra(Keys.ADRESS));
+                enterpUser.setAddress(intent.getStringExtra(Keys.ADDRESS));
                 enterpUser.setBact(intent.getStringExtra(Keys.BACT));
-                enterpUser.setBname(intent.getStringExtra(Keys.NAME));
+                enterpUser.setName(intent.getStringExtra(Keys.NAME));
                 enterpUser.setSIRET(intent.getStringExtra(Keys.SIRET));
                 enterpUser.setEmail(email);
                 enterpUser.setVisible(Values.Visible.PRIVATE);
                 enterpUser.setType(type);
-                enterpUser.setPhotourl(Values.URLS.STANDARD);
+                if(intent.getStringExtra(Keys.PHOTO)!=null) enterpUser.setPhotourl(Values.URLS.STANDARD);
+                else enterpUser.setPhotourl(Values.URLS.STANDARD);
+                if(intent.getStringExtra(Keys.HEADER)!=null) enterpUser.setHeaderurl(Values.URLS.STANDARD);
+                else enterpUser.setHeaderurl(Values.URLS.STANDARD);
 
                 databaseTask = reference.child("users/"+mUser.getUid()).setValue(enterpUser);
                 break;

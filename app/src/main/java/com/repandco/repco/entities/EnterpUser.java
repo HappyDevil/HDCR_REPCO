@@ -1,146 +1,122 @@
 package com.repandco.repco.entities;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import java.util.HashMap;
-import java.util.Map;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "Bact",
-        "Bname",
-        "SIRET",
-        "address",
-        "email",
-        "phonenumber",
-        "photourl",
-        "type",
-        "visible"
-})
+import com.google.gson.annotations.SerializedName;
 
 public class EnterpUser {
 
-
-    @JsonProperty("Bact")
+    @SerializedName("bact")
     private String bact;
-    @JsonProperty("Bname")
-    private String bname;
-    @JsonProperty("SIRET")
+    @SerializedName("name")
+    private String name;
+    @SerializedName("SIRET")
     private String sIRET;
-    @JsonProperty("address")
+    @SerializedName("address")
     private String address;
-    @JsonProperty("email")
+    @SerializedName("email")
     private String email;
-    @JsonProperty("phonenumber")
+    @SerializedName("phonenumber")
     private String phonenumber;
-    @JsonProperty("photourl")
+    @SerializedName("headerurl")
+    private String headerurl;
+    @SerializedName("photourl")
     private String photourl;
-    @JsonProperty("type")
+    @SerializedName("type")
     private Integer type;
-    @JsonProperty("visible")
+    @SerializedName("visible")
     private Integer visible;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("Bact")
+    @SerializedName("Bact")
     public String getBact() {
         return bact;
     }
 
-    @JsonProperty("Bact")
+    @SerializedName("Bact")
     public void setBact(String bact) {
         this.bact = bact;
     }
 
-    @JsonProperty("Bname")
-    public String getBname() {
-        return bname;
+    @SerializedName("Bname")
+    public String getName() {
+        return name;
     }
 
-    @JsonProperty("Bname")
-    public void setBname(String bname) {
-        this.bname = bname;
+    @SerializedName("Bname")
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @JsonProperty("SIRET")
+    @SerializedName("SIRET")
     public String getSIRET() {
         return sIRET;
     }
 
-    @JsonProperty("SIRET")
+    @SerializedName("SIRET")
     public void setSIRET(String sIRET) {
         this.sIRET = sIRET;
     }
 
-    @JsonProperty("address")
+    @SerializedName("address")
     public String getAddress() {
         return address;
     }
 
-    @JsonProperty("address")
+    @SerializedName("address")
     public void setAddress(String address) {
         this.address = address;
     }
 
-    @JsonProperty("email")
+    @SerializedName("email")
     public String getEmail() {
         return email;
     }
 
-    @JsonProperty("email")
+    @SerializedName("email")
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @JsonProperty("phonenumber")
+    @SerializedName("phonenumber")
     public String getPhonenumber() {
         return phonenumber;
     }
 
-    @JsonProperty("phonenumber")
+    @SerializedName("phonenumber")
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 
-    @JsonProperty("photourl")
+    @SerializedName("headerurl")
+    public String getHeaderurl() {
+        return headerurl;
+    }
+
+    @SerializedName("headerurl")
+    public void setHeaderurl(String headerurl) {
+        this.headerurl = headerurl;
+    }
+
     public String getPhotourl() {
         return photourl;
     }
 
-    @JsonProperty("photourl")
     public void setPhotourl(String photourl) {
         this.photourl = photourl;
     }
 
-    @JsonProperty("type")
+    @SerializedName("type")
     public Integer getType() {
         return type;
     }
 
-    @JsonProperty("type")
+    @SerializedName("type")
     public void setType(Integer type) {
         this.type = type;
     }
 
-    @JsonProperty("visible")
+    @SerializedName("visible")
     public Integer getVisible() { return visible; }
 
-    @JsonProperty("visible")
+    @SerializedName("visible")
     public void setVisible(Integer visible) { this.visible = visible; }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }

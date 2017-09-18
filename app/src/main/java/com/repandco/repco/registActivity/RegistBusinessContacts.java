@@ -3,6 +3,7 @@ package com.repandco.repco.registActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -31,9 +32,36 @@ public class RegistBusinessContacts extends AppCompatActivity {
     public void next(View view) {
         if(intent!=null)
         {
-            intent.putExtra(Keys.ADRESS, address.getText().toString());
-            intent.putExtra(Keys.PHONE,phone.getText().toString());
-            intent.putExtra(Keys.EMAIL, emailaddress.getText().toString());
+            String addressStr = address.getText().toString();
+            String phoneStr = phone.getText().toString();
+            String emailStr = emailaddress.getText().toString();
+
+            if(TextUtils.isEmpty(phoneStr)){
+                phone.setError("Phone is empty!");
+                phone.requestFocus();
+                return;
+            }
+            if(TextUtils.isEmpty(emailStr)){
+                emailaddress.setError("Email is empty!");
+                emailaddress.requestFocus();
+                return;
+            }
+            else {
+                if(!emailStr.contains("@")) {
+                    emailaddress.setError("Email is wrong!");
+                    emailaddress.requestFocus();
+                    return;
+                }
+            }
+            if(TextUtils.isEmpty(addressStr)){
+                address.setError("Address is empty!");
+                address.requestFocus();
+                return;
+            }
+
+            intent.putExtra(Keys.ADDRESS, addressStr);
+            intent.putExtra(Keys.PHONE, phoneStr);
+            intent.putExtra(Keys.EMAIL, emailStr);
             intent.setClass(this,RegistAuthInfo.class);
         }
         else intent = new Intent(this, RegistBusinessInfo.class);
