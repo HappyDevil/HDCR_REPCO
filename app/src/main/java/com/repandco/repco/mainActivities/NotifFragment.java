@@ -44,7 +44,6 @@ public class NotifFragment extends Fragment {
 
         history.setHasFixedSize(false);
         historyLayoutManager = new LinearLayoutManager(content.getContext(),LinearLayoutManager.VERTICAL,false);
-        historyLayoutManager.offsetChildrenHorizontal(15);
         history.setLayoutManager(historyLayoutManager);
 
         final DatabaseReference uidNotif = mDatabase.getReference().child(URLS.NOTIFICATIONS).child(mAuth.getCurrentUser().getUid());
@@ -53,14 +52,16 @@ public class NotifFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    String postID = dataSnapshot.getKey();
                     for (DataSnapshot data:dataSnapshot.getChildren()) {
-                        if(dataSnapshot.getValue()!=null) {
-                            News news = dataSnapshot.getValue(News.class);
-                            news.setUid(dataSnapshot.getKey());
-                            news.setPostID(postID);
-                            news.setType((long) Values.NEWS.LIKE);
-                            newses.add(news);
+                        String postID = data.getKey();
+                        if(data.getValue()!=null) {
+                            for (DataSnapshot userlike:data.getChildren()) {
+                                News news = userlike.getValue(News.class);
+                                news.setUid(userlike.getKey());
+                                news.setPostID(postID);
+                                news.setType((long) Values.NEWS.LIKE);
+                                newses.add(news);
+                            }
                         }
                     }
                 }
@@ -75,14 +76,16 @@ public class NotifFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    String postID = dataSnapshot.getKey();
                     for (DataSnapshot data:dataSnapshot.getChildren()) {
-                        if(dataSnapshot.getValue()!=null) {
-                            News news = dataSnapshot.getValue(News.class);
-                            news.setUid(dataSnapshot.getKey());
-                            news.setPostID(postID);
-                            news.setType((long) Values.NEWS.WORK);
-                            newses.add(news);
+                        String postID = data.getKey();
+                        if(data.getValue()!=null) {
+                            for (DataSnapshot userlike:data.getChildren()) {
+                                News news = userlike.getValue(News.class);
+                                news.setUid(userlike.getKey());
+                                news.setPostID(postID);
+                                news.setType((long) Values.NEWS.WORK);
+                                newses.add(news);
+                            }
                         }
                     }
                 }
@@ -97,9 +100,11 @@ public class NotifFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    News news = dataSnapshot.getValue(News.class);
-                    news.setUid(dataSnapshot.getKey());
-                    newses.add(news);
+                    for (DataSnapshot data:dataSnapshot.getChildren()) {
+                        News news = data.getValue(News.class);
+                        news.setUid(data.getKey());
+                        newses.add(news);
+                    }
                 }
                 newsAdapter = new NewsAdapter(manager,newses);
                 history.setAdapter(newsAdapter);

@@ -132,6 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     clicked = false;
+                                    likes.setText(Integer.valueOf((String) likes.getText()) - 1);
                                     clickFinish = true;
                                     like.setImageResource(R.drawable.ic_hearth_24dp);
                                 }
@@ -142,6 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     clicked = true;
                                     clickFinish = true;
+                                    likes.setText(Integer.valueOf((String) likes.getText()) +1);
                                     like.setImageResource(R.drawable.ic_hearth_click_24dp);
                                 }
                             });
@@ -173,7 +175,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public void onBindViewHolder(final PostHolder holder, int position) {
         final StripeJobPost model = jobPosts.get(position);
         if (model.getUserid() != null) {
-            holder.date.setText(DateFormat.getTimeInstance().format(new Date(model.getDate())));
+            holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
             holder.title.setText(model.getTitle());
             holder.text.setText(model.getText());
 

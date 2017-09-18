@@ -19,7 +19,6 @@ import com.repandco.repco.entities.News;
 import com.repandco.repco.entities.StripeJobPost;
 import com.squareup.picasso.Picasso;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +36,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
 
     public NewsAdapter(ManagerActivity manager,ArrayList<News> mDataset) {
         this.manager = manager;
+        Collections.sort(mDataset, new Comparator<News>() {
+            @Override
+            public int compare(final News object1, final News object2) {
+                return (-1)*object1.getDate().compareTo(object2.getDate());
+            }
+        });
         this.mDataset = mDataset;
     }
 
@@ -89,7 +94,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             }
 
 
-            holder.date.setText(DateFormat.getTimeInstance().format(new java.util.Date(model.getDate())));
+            holder.date.setText(DateFormat.getDateTimeInstance().format(new java.util.Date(model.getDate())));
             mDatabase.getReference().child(URLS.USERS + model.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

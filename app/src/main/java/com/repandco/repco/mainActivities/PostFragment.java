@@ -46,7 +46,6 @@ public class PostFragment extends Fragment {
 
         history.setHasFixedSize(false);
         historyLayoutManager = new LinearLayoutManager(content.getContext(),LinearLayoutManager.VERTICAL,false);
-        historyLayoutManager.offsetChildrenHorizontal(15);
         history.setLayoutManager(historyLayoutManager);
         postAdapter = new PostAdapter(manager);
         history.setAdapter(postAdapter);
