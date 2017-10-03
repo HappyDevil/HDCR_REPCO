@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -167,13 +168,17 @@ public class ProfileFragment extends Fragment {
                                         friendType = 1;
                                         follow.setText(R.string.firends);
                                     }
-                                    follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                    }
                                     reference.child(URLS.FRIENDS+curUserID).child(FOLLOW).child(uid).setValue(true);
                                 }
                                 else {
                                     follow.setText(R.string.follow);
                                     friendType = -1;
-                                    follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.button_material_light)));
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.button_material_light)));
+                                    }
                                     reference.child(URLS.FRIENDS+curUserID).child(FOLLOW).child(uid).removeValue();
                                 }
                             }
@@ -210,7 +215,9 @@ public class ProfileFragment extends Fragment {
                                 friendType = (long) dataSnapshot.child(Keys.TYPE).getValue();
                                 if(friendType == 0) follow.setText(R.string.followed);
                                 else follow.setText(R.string.firends);
-                                follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                }
                             }
                             else {
                                 reference.child(FRIENDS + curUserID).child(FOLLOWED).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -249,7 +256,7 @@ public class ProfileFragment extends Fragment {
 
                                     if(photos!=null) {
                                         noimages.setVisibility(View.GONE);
-                                        mAdapter = new ImagesAdapter(photos);
+                                        mAdapter = new ImagesAdapter(photos,manager);
                                         mRecyclerView.setAdapter(mAdapter);
                                     }
 

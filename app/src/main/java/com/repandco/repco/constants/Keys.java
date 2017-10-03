@@ -16,6 +16,8 @@ public class Keys {
     public static final String HEADER = "headerurl";
     public static final String RATING = "rating";
     public static final String RATETIMES = "rateTimes";
+    public static final String SEARCH = "search";
+
 
     public static final String ADDRESS = "address";
     public static final String BACT = "bact";

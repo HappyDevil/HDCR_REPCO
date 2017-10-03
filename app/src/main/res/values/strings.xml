@@ -112,4 +112,6 @@
     <string name="followed">followed</string>
     <string name="follow">follow</string>
     <string name="firends">friends</string>
+    <string name="title">Title</string>
+    <string name="text">Text</string>
 </resources>

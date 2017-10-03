@@ -36,7 +36,7 @@ import static com.repandco.repco.FirebaseConfig.mDatabase;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
-    private ManagerActivity manager;
+    private final ManagerActivity manager;
     private ArrayList<StripeJobPost> jobPosts;
 
 
@@ -44,6 +44,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         public ImageView photo;
         public TextView name;
         public TextView date;
+        private final ManagerActivity managerref;
         public TextView title;
         public TextView text;
         public TextView likes;
@@ -58,10 +59,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         private boolean clicked = false;
         private boolean clickFinish = true;
 
-        public PostHolder(final View itemView) {
+        public PostHolder(final View itemView,final ManagerActivity manager) {
             super(itemView);
 //            itemView.setVisibility(View.INVISIBLE);
 
+            managerref = manager;
             photo = (ImageView) itemView.findViewById(R.id.photo);
             name = (TextView) itemView.findViewById(R.id.name);
             title = (TextView) itemView.findViewById(R.id.title);
@@ -74,12 +76,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
             mRecyclerView.setHasFixedSize(false);
             mLayoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
-            mLayoutManager.offsetChildrenHorizontal(10);
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             tags_list.setHasFixedSize(false);
             RecyclerView.LayoutManager  tagsLayoutManager = new LinearLayoutManager(itemView.getContext(),LinearLayoutManager.HORIZONTAL,false);
-            tagsLayoutManager.offsetChildrenHorizontal(9);
             tags_list.setLayoutManager(tagsLayoutManager);
 
         }
@@ -91,7 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         public void setPhotos(ArrayList<String> photos) {
             this.photos = photos;
             if(photos!=null) {
-                mAdapter = new ImagesAdapter(photos);
+                mAdapter = new ImagesAdapter(photos,managerref);
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
@@ -132,7 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     clicked = false;
-                                    likes.setText(Integer.valueOf((String) likes.getText()) - 1);
+                                    likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) - 1));
                                     clickFinish = true;
                                     like.setImageResource(R.drawable.ic_hearth_24dp);
                                 }
@@ -143,7 +143,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     clicked = true;
                                     clickFinish = true;
-                                    likes.setText(Integer.valueOf((String) likes.getText()) +1);
+                                    likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) + 1));
                                     like.setImageResource(R.drawable.ic_hearth_click_24dp);
                                 }
                             });
@@ -167,7 +167,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     public PostHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v1 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_info_post,parent,false);
-        PostHolder vh = new PostHolder(v1);
+        PostHolder vh = new PostHolder(v1,manager);
         return vh;
     }
 
@@ -236,7 +236,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     }
 
     public void addNewPost(StripeJobPost n){
-        if(!jobPosts.contains(n)) jobPosts.add(n);
+        boolean contain = false;
+        for (int i=0;i<jobPosts.size();i++)
+            if(jobPosts.get(i).getPostid().equals(n.getPostid()))  contain = true;
+        if(!contain) jobPosts.add(n);
         Collections.sort(jobPosts, new Comparator<StripeJobPost>() {
             @Override
             public int compare(final StripeJobPost object1, final StripeJobPost object2) {
@@ -258,4 +261,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         notifyDataSetChanged();
     }
 
+    public void removeAll(){
+        for (int i=0;i<jobPosts.size();i++)
+             jobPosts.remove(i);
+        notifyDataSetChanged();
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -51,9 +52,8 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.9"
                     android:text="Robot Android"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="18sp"
@@ -63,9 +63,8 @@
                     android:id="@+id/date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="5.08"
-                    android:gravity="top"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="0.1"
                     android:text="date" />
             </LinearLayout>
 
@@ -84,9 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Tittle"
-            android:textColor="@color/colorMyText"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/text"
@@ -94,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Text"
-            android:textColor="@android:color/black" />
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_recycler_view"
@@ -114,13 +112,14 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tags_list"
-                android:layout_width="wrap_content"
+                android:layout_width="264dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.96"
                 android:clipChildren="true"
                 android:clipToPadding="true"
                 android:orientation="horizontal"
-                android:scrollbars="horizontal" />
+                android:scrollbars="horizontal"
+                tools:listitem="@layout/adapter_tag"
+                android:layout_weight="0.97" />
 
             <ImageView
                 android:id="@+id/like"

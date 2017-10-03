@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
@@ -19,10 +21,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
+import com.repandco.repco.mainActivities.CreateComPost;
 import com.repandco.repco.mainActivities.NotifFragment;
 import com.repandco.repco.mainActivities.PostFragment;
 import com.repandco.repco.mainActivities.ProfileFragment;
@@ -35,6 +42,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
+import static com.repandco.repco.FirebaseConfig.mStorage;
+import static com.repandco.repco.constants.URLS.IMAGES;
+import static com.repandco.repco.constants.Values.REQUEST.LOAD_POST_PHOTO;
 
 public class ManagerActivity extends AppCompatActivity implements  BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -94,10 +104,14 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
                     fTrans.replace(R.id.frgmCont, postFragment);
                     break;
                 case R.id.navigation_dashboard:
-                    SearchFragment searchFragment = new SearchFragment();
-                    searchFragment.setManager(this);
-                    fTrans.replace(R.id.frgmCont, searchFragment);
+                    CreateComPost createComPost = new CreateComPost();
+                    createComPost.setManager(this);
+                    fTrans.replace(R.id.frgmCont, createComPost);
                     break;
+//                    SearchFragment searchFragment = new SearchFragment();
+//                    searchFragment.setManager(this);
+//                    fTrans.replace(R.id.frgmCont, searchFragment);
+//                    break;
                 case R.id.navigation_notifications:
                     NotifFragment notifFragment = new NotifFragment();
                     notifFragment.setManager(this);
@@ -130,6 +144,21 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
         profileFragment.setArguments(bundle);
 
         fTrans.replace(R.id.frgmCont, profileFragment);
+        fTrans.addToBackStack(null);
+        fTrans.commit();
+    }
+
+    public void openSearh(String search) {
+        fTrans = getFragmentManager().beginTransaction();
+        SearchFragment searchFragment = new SearchFragment();
+        searchFragment.setManager(this);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.SEARCH, search);
+        searchFragment.setArguments(bundle);
+
+        fTrans.replace(R.id.frgmCont, searchFragment);
         fTrans.addToBackStack(null);
         fTrans.commit();
     }
@@ -190,4 +219,51 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
     }
+
+    private ImageView imageView;
+    public void startLoadPhoto(ImageView imageView,int reqCode){
+        this.imageView = imageView;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, reqCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (data != null) {
+                final Uri uri = data.getData();
+
+                if (requestCode == LOAD_POST_PHOTO){
+                    imageView.setImageURI(uri);
+                }
+
+//                mStorage.getReference(IMAGES).child(uri.getLastPathSegment()).putFile(uri)
+//                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    intent.putExtra(intentUrl, task.getResult().getMetadata().getDownloadUrl().toString());
+//                                    progressBar.setVisibility(View.INVISIBLE);
+//                                }
+//                                else {
+//                                    progressBar.setVisibility(View.INVISIBLE);
+//                                    photobut.setImageURI(null);
+//                                }
+//                            }
+//                        })
+//                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//                                progressBar.setProgress((int) progress);
+//                            }
+//                        });
+            }
+        }
+    }
+
 }

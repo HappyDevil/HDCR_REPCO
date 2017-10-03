@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:clipToPadding="true"
+    android:minHeight="181dp"
+    android:visibility="visible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_collapseMode="parallax"
     tools:context="com.repandco.repco.mainActivities.ProfileFragment"
     tools:showIn="@layout/activity_scrolling">
 
@@ -12,9 +16,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_margin="5dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
             android:id="@+id/username"
@@ -481,7 +485,8 @@
                 android:layout_height="match_parent"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
 
@@ -506,7 +511,8 @@
             android:clipToPadding="false"
             android:paddingTop="2dp"
             android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/adapter_info_post" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
