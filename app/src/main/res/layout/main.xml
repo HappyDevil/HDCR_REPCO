@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -16,8 +16,9 @@
     <FrameLayout
         android:id="@+id/frgmCont"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="45"/>
+        android:layout_height="match_parent"
+        android:layout_weight="45"
+        android:layout_marginBottom="50dp"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -26,6 +27,7 @@
         android:layout_alignParentBottom="true"
         android:layout_weight="0"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"
+        android:layout_gravity="bottom" />
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
