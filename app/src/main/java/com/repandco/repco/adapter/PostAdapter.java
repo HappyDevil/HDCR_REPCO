@@ -125,29 +125,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(clickFinish) {
-                        clickFinish = false;
-                        if (clicked) {
-                            mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    clicked = false;
-                                    likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) - 1));
-                                    clickFinish = true;
-                                    like.setImageResource(R.drawable.ic_hearth_24dp);
-                                }
-                            });
-                        } else {
-                            mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    clicked = true;
-                                    clickFinish = true;
-                                    likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) + 1));
-                                    like.setImageResource(R.drawable.ic_hearth_click_24dp);
-                                }
-                            });
-                        }
+                    if (clicked) {
+                        mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).removeValue();
+                        clicked = false;
+                        likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) - 1));
+                        like.setImageResource(R.drawable.ic_hearth_24dp);
+                    } else {
+                        mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(true);
+                        clicked = true;
+                        likes.setText(String.valueOf(Integer.valueOf((String) likes.getText()) + 1));
+                        like.setImageResource(R.drawable.ic_hearth_click_24dp);
                     }
                 }
             });

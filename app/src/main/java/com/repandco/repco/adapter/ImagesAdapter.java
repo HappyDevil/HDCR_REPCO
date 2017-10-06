@@ -36,9 +36,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
 
     private ArrayList<String> mDataset;
     private ManagerActivity manager;
-    private ImageView plus;
-    private boolean addPlus = false;
-    private int reqCode;
+    public ImageView plus;
 
     public static class ImageHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -54,12 +52,6 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                 @Override
                 public void onClick(View view) {
                     if (!url.equals("PLUS")) showImage(url, mImageView);
-                    else {
-//                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                        intent.setType("image/*");
-//                        manager.startActivityForResult(intent, REQUEST_PHOTO);
-                    }
                 }
             });
         }
@@ -142,23 +134,15 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
     public void onBindViewHolder(ImageHolder holder, int position) {
         String url = mDataset.get(position);
         holder.setUrl(url);
-        if (url.equals("PLUS")) {
+        if (!url.equals("PLUS"))
             Picasso.with(holder.mImageView.getContext())
-                    .load(R.drawable.ic_plus_24)
-                    .resize(10, 10)
+                    .load(url)
+                    .resize(200,200)
+                    .centerCrop()
                     .into(holder.mImageView);
+        else {
             plus = holder.mImageView;
-            plus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    manager.startLoadPhoto(plus,LOAD_POST_PHOTO);
-                }
-            });
-        } else Picasso.with(holder.mImageView.getContext())
-                .load(url)
-                .resize(200, 200)
-                .centerCrop()
-                .into(holder.mImageView);
+        }
     }
 
     @Override

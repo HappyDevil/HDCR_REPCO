@@ -24,6 +24,12 @@ public class FindsAdapter extends RecyclerView.Adapter<FindsAdapter.FindHolder> 
 
     public FindsAdapter(ManagerActivity manager) {
         this.manager = manager;
+        this.create = false;
+    }
+
+    public FindsAdapter(ManagerActivity manager,boolean create) {
+        this.manager = manager;
+        this.create = create;
     }
 
     public TreeSet<String> getFinds() {
@@ -80,10 +86,6 @@ public class FindsAdapter extends RecyclerView.Adapter<FindsAdapter.FindHolder> 
     @Override
     public int getItemCount() {
         return (finds!=null) ? finds.size() : 0;
-    }
-
-    public void setCreate(boolean create) {
-        this.create = create;
     }
 
     public void setTagsAdapter(TagsAdapter tagsAdapter) {

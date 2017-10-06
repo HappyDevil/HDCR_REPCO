@@ -144,7 +144,8 @@ public class ProfileFragment extends Fragment {
                     history.setLayoutManager(historyLayoutManager);
                     postAdapter = new PostAdapter(manager);
 
-                    mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addChildEventListener(new PostListener(postAdapter));
+                    mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter));
+
 
                     history.setAdapter(postAdapter);
 

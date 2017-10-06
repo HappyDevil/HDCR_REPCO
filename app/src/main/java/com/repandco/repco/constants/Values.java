@@ -48,5 +48,7 @@ public class Values {
 
     public static class REQUEST{
         public static final int LOAD_POST_PHOTO = 10001;
+        public static final int REQUEST_HEADER = 9000;
+        public static final int REQUEST_PHOTO = 9001;
     }
 }

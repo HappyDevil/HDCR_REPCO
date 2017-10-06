@@ -23,11 +23,12 @@ import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mStorage;
 import static com.repandco.repco.constants.URLS.IMAGES;
 import static com.repandco.repco.constants.URLS.USERS;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
 
 public class RegistBusinessInfo extends AppCompatActivity {
 
-    private static final int REQUEST_HEADER = 9000;
-    private static final int REQUEST_PHOTO = 9001;
+
     private Intent intent;
     private EditText bact;
     private EditText bname;

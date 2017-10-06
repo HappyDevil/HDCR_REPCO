@@ -19,24 +19,26 @@ import static com.repandco.repco.constants.Values.SIZES.TAG_SIZES;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
-//    private Iterator<String> iterator;
     private ArrayList<String> tags_List;
-//    private Map<String, Boolean> tags;
     private ManagerActivity manager;
-    private boolean create = false;
+    private boolean create;
 
     public TagsAdapter(ManagerActivity manager,Map<String, Boolean> tags) {
-//        this.tags = tags;
         tags_List = new ArrayList<>(tags.keySet());
         this.manager = manager;
-//        iterator = tags.keySet().iterator();
+        this.create = false;
     }
 
     public TagsAdapter(ManagerActivity manager) {
-//        this.tags = new HashMap<>();
         tags_List = new ArrayList<>();
         this.manager = manager;
-//        iterator = tags.keySet().iterator();
+        this.create = false;
+    }
+
+    public TagsAdapter(ManagerActivity manager,boolean create) {
+        tags_List = new ArrayList<>();
+        this.manager = manager;
+        this.create = create;
     }
 
     public static class TagHolder extends RecyclerView.ViewHolder {
@@ -60,8 +62,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
     @Override
     public void onBindViewHolder(final TagHolder holder, final int position) {
-//        if(iterator.hasNext()) {
-//            final String tagName = iterator.next();
         final String tagName = tags_List.get(position);
             if (tagName != null) {
                 if (holder.tag != null) holder.tag.setText(tagName);
@@ -71,8 +71,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
                         public void onClick(View view) {
                             if (!create) manager.openSearh(tagName);
                             else {
-//                                tags.remove(tagName);
-//                                notifyDataSetChanged();
                                 tags_List.remove(position);
                                 notifyDataSetChanged();
                             }
@@ -89,8 +87,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
     }
 
     public void addTag(String tag){
-//        tags.put(tag,true);
-//        iterator = tags.keySet().iterator();
         if(tags_List.size()<TAG_SIZES) {
             if (!tags_List.contains(tag)) tags_List.add(tag);
             notifyDataSetChanged();
@@ -101,9 +97,5 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
         Map<String,Boolean> map = new HashMap<>();
         for (String tag : tags_List) map.put(tag,true);
         return map;
-    }
-
-    public void setCreate(boolean create) {
-        this.create = create;
     }
 }

@@ -56,6 +56,12 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        bottomNavigationView.getMenu().findItem(R.id.navigation_profile).setChecked(true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -104,14 +110,14 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
                     fTrans.replace(R.id.frgmCont, postFragment);
                     break;
                 case R.id.navigation_dashboard:
-                    CreateComPost createComPost = new CreateComPost();
-                    createComPost.setManager(this);
-                    fTrans.replace(R.id.frgmCont, createComPost);
+                    SearchFragment searchFragment = new SearchFragment();
+                    searchFragment.setManager(this);
+                    fTrans.replace(R.id.frgmCont, searchFragment);
                     break;
-//                    SearchFragment searchFragment = new SearchFragment();
-//                    searchFragment.setManager(this);
-//                    fTrans.replace(R.id.frgmCont, searchFragment);
-//                    break;
+                case R.id.navigation_add_post:
+                    Intent postIntent = new Intent(this, CreateComPost.class);
+                    startActivity(postIntent);
+                    break;
                 case R.id.navigation_notifications:
                     NotifFragment notifFragment = new NotifFragment();
                     notifFragment.setManager(this);
@@ -218,52 +224,6 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
 
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
-    }
-
-    private ImageView imageView;
-    public void startLoadPhoto(ImageView imageView,int reqCode){
-        this.imageView = imageView;
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, reqCode);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                final Uri uri = data.getData();
-
-                if (requestCode == LOAD_POST_PHOTO){
-                    imageView.setImageURI(uri);
-                }
-
-//                mStorage.getReference(IMAGES).child(uri.getLastPathSegment()).putFile(uri)
-//                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    intent.putExtra(intentUrl, task.getResult().getMetadata().getDownloadUrl().toString());
-//                                    progressBar.setVisibility(View.INVISIBLE);
-//                                }
-//                                else {
-//                                    progressBar.setVisibility(View.INVISIBLE);
-//                                    photobut.setImageURI(null);
-//                                }
-//                            }
-//                        })
-//                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//                                progressBar.setProgress((int) progress);
-//                            }
-//                        });
-            }
-        }
     }
 
 }
