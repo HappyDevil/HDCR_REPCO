@@ -36,13 +36,13 @@
         <activity android:name=".registActivity.RegistAuthInfo" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".mainActivities.CreateComPost" />
-
         <activity android:name=".ManagerActivity" />
         <activity android:name=".registActivity.RegistBusinessInfo" />
         <activity android:name=".registActivity.RegistBusinessContacts" />
         <activity
             android:name=".registActivity.LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity android:name=".mainActivities.ChoseType"></activity>
     </application>
 
 </manifest>

@@ -139,7 +139,12 @@ public class ProfileFragment extends Fragment {
                     mRecyclerView.setLayoutManager(mLayoutManager);
 
                     history.setHasFixedSize(false);
-                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false);
+                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false){
+                        @Override
+                        public boolean canScrollVertically() {
+                            return false;
+                        }
+                    };
                     historyLayoutManager.offsetChildrenHorizontal(15);
                     history.setLayoutManager(historyLayoutManager);
                     postAdapter = new PostAdapter(manager);
@@ -375,8 +380,9 @@ public class ProfileFragment extends Fragment {
         if(curRate!=0) ratingdialog.setTitle("Your last voute: "+curRate);
         else ratingdialog.setTitle("Choose rate:");
         ratingdialog.setView(rating);
-        rating.setMax(10);
-        rating.setStepSize(1);
+        rating.setMax(5);
+        rating.setNumStars(5);
+        rating.setStepSize(0.25f);
 
         ratingdialog.setPositiveButton("Accept",
                 new DialogInterface.OnClickListener() {

@@ -5,13 +5,12 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,15 +20,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
-import com.repandco.repco.mainActivities.CreateComPost;
+import com.repandco.repco.mainActivities.ChoseType;
 import com.repandco.repco.mainActivities.NotifFragment;
 import com.repandco.repco.mainActivities.PostFragment;
 import com.repandco.repco.mainActivities.ProfileFragment;
@@ -42,11 +36,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
-import static com.repandco.repco.FirebaseConfig.mStorage;
-import static com.repandco.repco.constants.URLS.IMAGES;
-import static com.repandco.repco.constants.Values.REQUEST.LOAD_POST_PHOTO;
 
-public class ManagerActivity extends AppCompatActivity implements  BottomNavigationView.OnNavigationItemSelectedListener{
+public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationView.OnNavigationItemSelectedListener{
 
     private BottomNavigationView bottomNavigationView;
     private FragmentTransaction fTrans;
@@ -65,6 +56,7 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -115,7 +107,7 @@ public class ManagerActivity extends AppCompatActivity implements  BottomNavigat
                     fTrans.replace(R.id.frgmCont, searchFragment);
                     break;
                 case R.id.navigation_add_post:
-                    Intent postIntent = new Intent(this, CreateComPost.class);
+                    Intent postIntent = new Intent(this, ChoseType.class);
                     startActivity(postIntent);
                     break;
                 case R.id.navigation_notifications:

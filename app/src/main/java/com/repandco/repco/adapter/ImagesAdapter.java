@@ -2,58 +2,53 @@ package com.repandco.repco.adapter;
 
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.repandco.repco.ManagerActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.repandco.repco.customClasses.ImageViewLoader;
+import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static com.repandco.repco.constants.Values.REQUEST.LOAD_POST_PHOTO;
+import static com.repandco.repco.FirebaseConfig.mStorage;
+import static com.repandco.repco.constants.URLS.IMAGES;
 
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolder> {
 
     private ArrayList<String> mDataset;
-    private ManagerActivity manager;
-    public ImageView plus;
+    private LoadPhotoAct loadPhoto;
+    public ImageViewLoader plus;
+    private ImagesAdapter imagesAdapter;
 
     public static class ImageHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public ImageView mImageView;
         private String url;
         private Dialog builder;
+        private CardView v;
 
         public ImageHolder(CardView v) {
             super(v);
-            mImageView = (ImageView) v.findViewById(R.id.imageviewcard);
+            this.v = v;
 
-            mImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!url.equals("PLUS")) showImage(url, mImageView);
-                }
-            });
         }
 
         private void showImage(String url, ImageView mImageView) {
@@ -112,14 +107,25 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
             return url;
         }
 
-        public void setUrl(String url) {
+        public void setUrl(final String url) {
             this.url = url;
+
+            if (!url.equals("PLUS")) mImageView = (ImageView) v.findViewById(R.id.imageviewcard);
+            else mImageView = (ImageView) v.findViewById(R.id.imageviewcard);
+
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!url.equals("PLUS")) showImage(url, mImageView);
+                }
+            });
         }
     }
 
-    public ImagesAdapter(ArrayList<String> mDataset,ManagerActivity manager) {
+    public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto) {
         this.mDataset = mDataset;
-        this.manager = manager;
+        this.loadPhoto = loadPhoto;
+        this.imagesAdapter = this;
     }
 
     @Override
@@ -137,11 +143,31 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
         if (!url.equals("PLUS"))
             Picasso.with(holder.mImageView.getContext())
                     .load(url)
-                    .resize(200,200)
+                    .resize(300,300)
                     .centerCrop()
                     .into(holder.mImageView);
         else {
-            plus = holder.mImageView;
+            final ImageViewLoader imageViewLoader = new ImageViewLoader(holder.mImageView);
+            plus = new ImageViewLoader(holder.mImageView);
+            plus.getImageView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (view instanceof ImageView) {
+                        ImageView imageView = (ImageView) view;
+                        if (imageView.getTag() != null) {
+                            String s = imageView.getTag().toString();
+                            mStorage.getReference(IMAGES).child(s).delete();
+                            imageView.setTag(null);
+                            imageView.setImageResource(R.drawable.ic_plus_24);
+                            mDataset.remove(s);
+                            notifyDataSetChanged();
+                        } else {
+                            loadPhoto.loadPhoto(imagesAdapter);
+                            notifyItemChanged(mDataset.size());
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -155,11 +181,33 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
         notifyDataSetChanged();
     }
 
-    public void addPlus() {
-        if (plus == null) {
-            mDataset.add("PLUS");
-            notifyDataSetChanged();
+    public void deletePhoto(String url) {
+        mDataset.remove(url);
+        notifyDataSetChanged();
+    }
+
+    public void convertUrlPhoto(String fromURL,String toURL){
+        for(int i=0;i<mDataset.size();i++){
+            if(mDataset.get(i).equals(fromURL)){
+                mDataset.set(i,toURL);
+                return;
+            }
         }
+    }
+
+    public void convertPlus(String url){
+        convertUrlPhoto("PLUS",url);
+    }
+
+
+    public void addPlus() {
+        if(!mDataset.contains("PLUS"))
+            mDataset.add("PLUS");
+            notifyItemChanged(mDataset.size());
+    }
+
+    public ArrayList<String> getPhotos() {
+        return mDataset;
     }
 }
 

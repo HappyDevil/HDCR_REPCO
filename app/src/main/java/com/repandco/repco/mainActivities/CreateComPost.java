@@ -1,26 +1,20 @@
 package com.repandco.repco.mainActivities;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.adapter.FindsAdapter;
@@ -35,10 +29,9 @@ import java.util.TreeSet;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
-import static com.repandco.repco.constants.Values.REQUEST.LOAD_POST_PHOTO;
 
 
-public class CreateComPost extends AppCompatActivity {
+public class CreateComPost extends LoadPhotoAct {
     private ManagerActivity manager;
     private EditText search;
     private RecyclerView finds;
@@ -59,6 +52,7 @@ public class CreateComPost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.fragment_create_com_post);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         finds = (RecyclerView) findViewById(R.id.finds);
         search = (EditText) findViewById(R.id.search);
@@ -87,7 +81,7 @@ public class CreateComPost extends AppCompatActivity {
         RecyclerView.LayoutManager  photosLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         photos.setLayoutManager(photosLayoutManager);
 
-        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),manager);
+        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),this);
         imagesAdapter.addPlus();
         photos.setAdapter(imagesAdapter);
 
@@ -104,7 +98,7 @@ public class CreateComPost extends AppCompatActivity {
                     mDatabase.getReference().child(URLS.TAGS).orderByKey().startAt(searchText).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            TreeSet<String> keys = new TreeSet<String>();
+                            TreeSet<String> keys = new TreeSet<>();
                             for (DataSnapshot data: dataSnapshot.getChildren()) {
                                 String key = data.getKey();
                                 if(!key.startsWith(searchText)) break;
@@ -147,21 +141,11 @@ public class CreateComPost extends AppCompatActivity {
                 post.setType(Values.POSTS.STANDARD_POST);
                 post.setUserid(mAuth.getCurrentUser().getUid());
                 post.setTags(adapter.getTags());
-                mDatabase.getReference().child(URLS.POSTS).push();
-            }
-        });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(imagesAdapter.plus!=null) imagesAdapter.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(intent, LOAD_POST_PHOTO);
+                imagesAdapter.deletePhoto("PLUS");
+                post.setPhotos(imagesAdapter.getPhotos());
+                mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
+                finish();
+                finish();
             }
         });
     }
@@ -170,43 +154,6 @@ public class CreateComPost extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                final Uri uri = data.getData();
-
-                if (requestCode == LOAD_POST_PHOTO){
-                    imagesAdapter.plus.setImageURI(uri);
-                }
-
-//                mStorage.getReference(IMAGES).child(uri.getLastPathSegment()).putFile(uri)
-//                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    intent.putExtra(intentUrl, task.getResult().getMetadata().getDownloadUrl().toString());
-//                                    progressBar.setVisibility(View.INVISIBLE);
-//                                }
-//                                else {
-//                                    progressBar.setVisibility(View.INVISIBLE);
-//                                    photobut.setImageURI(null);
-//                                }
-//                            }
-//                        })
-//                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//                                progressBar.setProgress((int) progress);
-//                            }
-//                        });
-            }
-        }
     }
 
     public ManagerActivity getManager() {
