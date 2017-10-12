@@ -139,20 +139,20 @@ public class ProfileFragment extends Fragment {
                     mRecyclerView.setLayoutManager(mLayoutManager);
 
                     history.setHasFixedSize(false);
-                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false){
-                        @Override
-                        public boolean canScrollVertically() {
-                            return false;
-                        }
-                    };
-                    historyLayoutManager.offsetChildrenHorizontal(15);
+                    history.setNestedScrollingEnabled(false);
+                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false);
                     history.setLayoutManager(historyLayoutManager);
                     postAdapter = new PostAdapter(manager);
 
                     mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter));
 
+//                    historyLayoutManager.set
 
                     history.setAdapter(postAdapter);
+
+
+                    history.setHasFixedSize(true);
+                    history.setMinimumHeight(40 * postAdapter.getItemCount());
 
                     curUserID = mAuth.getCurrentUser().getUid();
                     if(curUserID.equals(this.uid)) {
