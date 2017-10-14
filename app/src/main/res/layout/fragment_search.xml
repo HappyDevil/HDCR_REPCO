@@ -28,6 +28,7 @@
         android:id="@+id/finds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="vertical"
         android:visibility="visible"
         tools:listitem="@layout/adapter_find">
 

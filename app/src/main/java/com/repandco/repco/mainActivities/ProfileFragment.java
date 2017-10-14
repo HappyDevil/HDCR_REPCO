@@ -139,14 +139,12 @@ public class ProfileFragment extends Fragment {
                     mRecyclerView.setLayoutManager(mLayoutManager);
 
                     history.setHasFixedSize(false);
-                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false){
-                        @Override
-                        public boolean canScrollVertically() {
-                            return false;
-                        }
-                    };
+                    historyLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.VERTICAL,false);
                     historyLayoutManager.offsetChildrenHorizontal(15);
+                    historyLayoutManager.setAutoMeasureEnabled(true);
                     history.setLayoutManager(historyLayoutManager);
+                    history.setNestedScrollingEnabled(false);
+
                     postAdapter = new PostAdapter(manager);
 
                     mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter));

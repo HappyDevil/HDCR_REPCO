@@ -2,10 +2,11 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipToPadding="true"
+    android:fillViewport="true"
+    android:orientation="vertical"
     app:layout_collapseMode="parallax"
     tools:context="com.repandco.repco.mainActivities.ProfileFragment"
     tools:showIn="@layout/activity_scrolling">
@@ -16,8 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/username"
@@ -25,10 +25,10 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="Robot Android"
             android:adjustViewBounds="true"
+            android:text="Robot Android"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -65,10 +65,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
+                    android:adjustViewBounds="true"
                     android:numStars="5"
                     android:rating="3.75"
                     android:stepSize="0.25"
-                    android:adjustViewBounds="true"
                     android:theme="@style/MyRatingBar" />
 
                 <TextView
@@ -82,26 +82,26 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:adjustViewBounds="true"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/follow"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
                         android:layout_weight="1"
+                        android:adjustViewBounds="true"
                         android:elevation="0dp"
                         android:text="Follow"
                         android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <Button
                         android:id="@+id/rate"
-                        android:adjustViewBounds="true"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:adjustViewBounds="true"
                         android:elevation="0dp"
                         android:text="Rate"
                         android:textAppearance="@style/TextAppearance.AppCompat" />
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="?attr/colorButtonNormal"
+            android:background="@color/cardtags1"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"
             android:paddingTop="2dp"
@@ -127,20 +127,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:orientation="vertical"
-            android:visibility="visible"
-            >
+            android:visibility="visible">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_email"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:visibility="visible"
@@ -148,25 +147,25 @@
 
                 <LinearLayout
                     android:layout_width="373dp"
-                    android:adjustViewBounds="true"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
                     <ImageView
                         android:id="@+id/imageView9"
-                        android:adjustViewBounds="true"
                         android:layout_width="39dp"
                         android:layout_height="25dp"
                         android:layout_margin="6dp"
+                        android:adjustViewBounds="true"
                         app:srcCompat="@drawable/ic_email_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView17"
                         android:layout_width="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_height="25dp"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="bottom"
                         android:text="Email:"
                         android:textSize="18sp" />
@@ -181,8 +180,8 @@
                         android:id="@+id/text_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="end"
                         android:lineSpacingExtra="8sp"
                         android:text="aaaa@gmail.com"
@@ -197,10 +196,10 @@
                 android:id="@+id/card_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:visibility="visible"
@@ -208,8 +207,8 @@
 
                 <LinearLayout
                     android:layout_width="373dp"
-                    android:adjustViewBounds="true"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -234,16 +233,16 @@
                     <LinearLayout
                         android:layout_width="21dp"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
                         android:layout_weight="0.13"
+                        android:adjustViewBounds="true"
                         android:orientation="vertical" />
 
                     <TextView
                         android:id="@+id/text_phone"
                         android:layout_width="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="end"
                         android:text="8(123)4567891"
                         android:textColor="@color/colorMyText"
@@ -259,8 +258,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:visibility="visible"
@@ -269,24 +268,24 @@
                 <LinearLayout
                     android:layout_width="373dp"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:adjustViewBounds="true"
+                    android:orientation="horizontal"
                     android:weightSum="1">
 
                     <ImageView
                         android:id="@+id/imageView19"
                         android:layout_width="39dp"
-                        android:adjustViewBounds="true"
                         android:layout_height="25dp"
                         android:layout_margin="6dp"
+                        android:adjustViewBounds="true"
                         app:srcCompat="@drawable/ic_people_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView20"
                         android:layout_width="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_height="25dp"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="bottom"
                         android:text="Gender:"
                         android:textSize="18sp" />
@@ -294,16 +293,16 @@
                     <LinearLayout
                         android:layout_width="21dp"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
                         android:layout_weight="0.04"
+                        android:adjustViewBounds="true"
                         android:orientation="vertical" />
 
                     <TextView
                         android:id="@+id/text_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="end"
                         android:text="Male"
                         android:textColor="@color/colorMyText"
@@ -317,10 +316,10 @@
                 android:id="@+id/card_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="22dp"
                 android:visibility="visible"
@@ -328,41 +327,41 @@
 
                 <LinearLayout
                     android:layout_width="373dp"
-                    android:adjustViewBounds="true"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
                     <ImageView
                         android:id="@+id/imageView8"
-                        android:adjustViewBounds="true"
                         android:layout_width="39dp"
                         android:layout_height="25dp"
                         android:layout_margin="6dp"
+                        android:adjustViewBounds="true"
                         app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView15"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:adjustViewBounds="true"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="bottom"
                         android:text="Birthday:"
                         android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="21dp"
-                        android:adjustViewBounds="true"
                         android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
                         android:orientation="vertical" />
 
                     <TextView
                         android:id="@+id/text_birthday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="end"
                         android:text="24.12.1996"
                         android:textColor="@color/colorMyText"
@@ -375,11 +374,11 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/card_bact"
                 android:layout_width="match_parent"
-                android:adjustViewBounds="true"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:visibility="gone"
@@ -396,16 +395,16 @@
                         android:id="@+id/imageView12"
                         android:layout_width="39dp"
                         android:layout_height="25dp"
-                        android:adjustViewBounds="true"
                         android:layout_margin="6dp"
+                        android:adjustViewBounds="true"
                         app:srcCompat="@drawable/ic_business_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView22"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:adjustViewBounds="true"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="bottom"
                         android:text="Activity:"
                         android:textColor="@color/cardview_dark_background"
@@ -414,8 +413,8 @@
                     <LinearLayout
                         android:layout_width="21dp"
                         android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
                         android:layout_weight="0.04"
+                        android:adjustViewBounds="true"
                         android:orientation="vertical" />
 
                     <TextView
@@ -437,10 +436,10 @@
                 android:id="@+id/card_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_gravity="right"
                 android:layout_margin="3dp"
                 android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
                 android:paddingBottom="2dp"
                 android:paddingTop="2dp"
                 android:visibility="gone"
@@ -448,8 +447,8 @@
 
                 <LinearLayout
                     android:layout_width="373dp"
-                    android:adjustViewBounds="true"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -457,8 +456,8 @@
                         android:id="@+id/imageView13"
                         android:layout_width="39dp"
                         android:layout_height="25dp"
-                        android:adjustViewBounds="true"
                         android:layout_margin="6dp"
+                        android:adjustViewBounds="true"
                         app:srcCompat="@drawable/ic_add_location_black_24dp" />
 
                     <TextView
@@ -482,9 +481,9 @@
                     <TextView
                         android:id="@+id/text_address"
                         android:layout_width="220dp"
-                        android:adjustViewBounds="true"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:adjustViewBounds="true"
                         android:gravity="start"
                         android:text="Some address"
                         android:textColor="@color/colorMyText"
@@ -499,9 +498,9 @@
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
-            android:background="?attr/colorButtonNormal"
+            android:adjustViewBounds="true"
+            android:background="@color/cardtags1"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"
             android:paddingTop="2dp"
@@ -513,30 +512,28 @@
         <LinearLayout
             android:id="@+id/portfolio"
             android:layout_width="wrap_content"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:orientation="horizontal"
             android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            >
+            android:paddingTop="3dp">
 
             <TextView
                 android:id="@+id/noimages"
                 android:layout_width="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:gravity="center"
                 android:text="No images" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
                 android:layout_width="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_height="match_parent"
+                android:adjustViewBounds="true"
                 android:clipChildren="true"
                 android:clipToPadding="true"
-                android:scrollbars="vertical"
-                />
+                android:scrollbars="vertical" />
 
         </LinearLayout>
 
@@ -544,10 +541,10 @@
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorButtonNormal"
+            android:adjustViewBounds="true"
+            android:background="@color/cardtags1"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"
-            android:adjustViewBounds="true"
             android:paddingTop="2dp"
             android:text="Post history"
             android:textAppearance="@style/TextAppearance.AppCompat"
@@ -558,8 +555,8 @@
             android:id="@+id/history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:paddingTop="2dp" />
+            android:paddingTop="2dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
