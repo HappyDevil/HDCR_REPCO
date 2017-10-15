@@ -27,7 +27,7 @@ public class FindsAdapter extends RecyclerView.Adapter<FindsAdapter.FindHolder> 
         this.create = false;
     }
 
-    public FindsAdapter(ManagerActivity manager,boolean create) {
+    public FindsAdapter(ManagerActivity manager, boolean create) {
         this.manager = manager;
         this.create = create;
     }
@@ -74,13 +74,17 @@ public class FindsAdapter extends RecyclerView.Adapter<FindsAdapter.FindHolder> 
                         if(!create) manager.openSearh(findName);
                         else {
                             if(tagsAdapter!=null){
-                                tagsAdapter.addTag(findName);
+                                if(findName.length()>0) tagsAdapter.addTag(findName);
                             }
                         }
                     }
                 });
             }
         }
+    }
+
+    public void addNewTag(String tagName){
+        tagsAdapter.addTag(tagName);
     }
 
     @Override

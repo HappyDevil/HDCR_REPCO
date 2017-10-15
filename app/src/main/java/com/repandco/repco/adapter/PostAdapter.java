@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         public TextView text;
         public TextView likes;
         public ImageView like;
+        public ImageButton deletebut;
         public RecyclerView mRecyclerView;
         private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
@@ -71,6 +73,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             likes = (TextView) itemView.findViewById(R.id.likes);
             date = (TextView) itemView.findViewById(R.id.date);
             like = (ImageView) itemView.findViewById(R.id.like);
+            deletebut = (ImageButton) itemView.findViewById(R.id.deletebut);
+
+
+
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.my_recycler_view);
             tags_list = (RecyclerView) itemView.findViewById(R.id.tags_list);
 
@@ -122,6 +128,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
+            deletebut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDatabase.getReference().child(URLS.POSTS+ postID).removeValue();
+                }
+            });
+
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -146,6 +159,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         public void setUid(final String uid) {
             this.uid = uid;
+            if(uid!= mAuth.getCurrentUser().getUid()) deletebut.setVisibility(View.GONE);
         }
     }
 
@@ -230,7 +244,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         Collections.sort(jobPosts, new Comparator<StripeJobPost>() {
             @Override
             public int compare(final StripeJobPost object1, final StripeJobPost object2) {
-                return (-1)*object1.getDate().compareTo(object2.getDate());
+                return ((object1.getDate()!=null) && (object2.getDate()!=null)) ? ((-1)*object1.getDate().compareTo(object2.getDate())) : 0;
             }
         });
         notifyDataSetChanged();

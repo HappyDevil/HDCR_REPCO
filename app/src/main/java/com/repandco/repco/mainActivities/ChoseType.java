@@ -1,5 +1,6 @@
 package com.repandco.repco.mainActivities;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,33 +8,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 
-public class ChoseType extends AppCompatActivity {
+public class ChoseType extends Fragment {
 
     private CardView info;
     private CardView job;
+    private ManagerActivity manager;
     private Context context;
-    private Toolbar postTolbar;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_post);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if(manager!=null) manager.getBottomNavigationView().getMenu().findItem(R.id.navigation_add_post).setChecked(true);
 
-        info = (CardView) findViewById(R.id.info);
-        job = (CardView) findViewById(R.id.job);
-        context = this;
+        View content = inflater.inflate(R.layout.activity_add_post, container, false);
 
-        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
-        setSupportActionBar(postTolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        info = (CardView) content.findViewById(R.id.info);
+        job = (CardView) content.findViewById(R.id.job);
+        context = content.getContext();
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,11 +50,14 @@ public class ChoseType extends AppCompatActivity {
                 startActivity(postIntent);
             }
         });
+        return content;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public ManagerActivity getManager() {
+        return manager;
+    }
+
+    public void setManager(ManagerActivity manager) {
+        this.manager = manager;
     }
 }

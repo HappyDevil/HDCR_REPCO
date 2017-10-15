@@ -376,10 +376,10 @@ public class ProfileFragment extends Fragment {
         ratingdialog.setIcon(android.R.drawable.btn_star_big_on);
         if(curRate!=0) ratingdialog.setTitle("Your last voute: "+curRate);
         else ratingdialog.setTitle("Choose rate:");
-        ratingdialog.setView(rating);
         rating.setMax(5);
         rating.setNumStars(5);
         rating.setStepSize(0.25f);
+        ratingdialog.setView(rating);
 
         ratingdialog.setPositiveButton("Accept",
                 new DialogInterface.OnClickListener() {

@@ -107,8 +107,9 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                     fTrans.replace(R.id.frgmCont, searchFragment);
                     break;
                 case R.id.navigation_add_post:
-                    Intent postIntent = new Intent(this, ChoseType.class);
-                    startActivity(postIntent);
+                    ChoseType choseType = new ChoseType();
+                    choseType.setManager(this);
+                    fTrans.replace(R.id.frgmCont, choseType);
                     break;
                 case R.id.navigation_notifications:
                     NotifFragment notifFragment = new NotifFragment();

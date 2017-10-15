@@ -22,6 +22,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
     private ArrayList<String> tags_List;
     private ManagerActivity manager;
     private boolean create;
+    private CardView tags_card;
+
+    public void setTags_card(CardView tags_card) {
+        this.tags_card = tags_card;
+    }
 
     public TagsAdapter(ManagerActivity manager,Map<String, Boolean> tags) {
         tags_List = new ArrayList<>(tags.keySet());
@@ -72,6 +77,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
                             if (!create) manager.openSearh(tagName);
                             else {
                                 tags_List.remove(position);
+                                if(tags_List.size()==0) tags_card.setVisibility(View.GONE);
                                 notifyDataSetChanged();
                             }
                         }
@@ -87,6 +93,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
     }
 
     public void addTag(String tag){
+        if(tags_List.size()==0) tags_card.setVisibility(View.VISIBLE);
         if(tags_List.size()<TAG_SIZES) {
             if (!tags_List.contains(tag)) tags_List.add(tag);
             notifyDataSetChanged();
