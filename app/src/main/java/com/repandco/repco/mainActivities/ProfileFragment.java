@@ -24,7 +24,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,12 +38,10 @@ import com.repandco.repco.adapter.PostAdapter;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
-import com.repandco.repco.entities.StripeJobPost;
 import com.repandco.repco.listeners.PostListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -105,7 +102,7 @@ public class ProfileFragment extends Fragment {
         reference = FirebaseConfig.mDatabase.getReference();
 
         uid = this.getArguments().getString(Keys.UID);
-        context = inflater.inflate(R.layout.test_profile, container,false);
+        context = inflater.inflate(R.layout.fragment_profile, container,false);
 
         if(uid!=null) {
             if(context!=null) {

@@ -159,7 +159,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
         public void setUid(final String uid) {
             this.uid = uid;
-            if(uid!= mAuth.getCurrentUser().getUid()) deletebut.setVisibility(View.GONE);
+            if(uid.equals(mAuth.getCurrentUser().getUid())) deletebut.setVisibility(View.VISIBLE);
         }
     }
 

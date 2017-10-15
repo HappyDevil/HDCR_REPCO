@@ -81,6 +81,7 @@
                 android:layout_weight="0.89"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
+                android:visibility="invisible"
                 app:srcCompat="@android:drawable/ic_delete" />
 
         </LinearLayout>
