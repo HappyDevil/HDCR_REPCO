@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="192dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/x2010_1x" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/temp"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:text="Robot Android"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="true"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp">
+
+
+                <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/photo"
+                    android:layout_width="320dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/podcast_ac_new_0"
+                    app:riv_corner_radius="20dip"
+                    app:riv_mutate_background="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:orientation="vertical">
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="@style/Widget.AppCompat.RatingBar.Indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="35dp"
+                        android:adjustViewBounds="true"
+                        android:numStars="5"
+                        android:rating="3.75"
+                        android:stepSize="0.25"
+                        android:theme="@style/MyRatingBar" />
+
+                    <TextView
+                        android:id="@+id/rateTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:gravity="center"
+                        android:text="3.5/5"
+                        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/follow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:elevation="0dp"
+                            android:text="Follow"
+                            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+                        <Button
+                            android:id="@+id/rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:elevation="0dp"
+                            android:text="Rate"
+                            android:textAppearance="@style/TextAppearance.AppCompat" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/Info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/cardtags1"
+                android:paddingBottom="2dp"
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:text="User info"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView9"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_email_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Email:"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.15"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="end"
+                            android:lineSpacingExtra="8sp"
+                            android:text="aaaa@gmail.com"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView10"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_phone_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Phone:"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.13"
+                            android:adjustViewBounds="true"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="end"
+                            android:text="8(123)4567891"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView19"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_people_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Gender:"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.04"
+                            android:adjustViewBounds="true"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="end"
+                            android:text="Male"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="22dp"
+                    android:visibility="visible"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Birthday:"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_birthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="end"
+                            android:text="24.12.1996"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_bact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView12"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_business_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Activity:"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.04"
+                            android:adjustViewBounds="true"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_bact"
+                            android:layout_width="220dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="start"
+                            android:text="Some bact"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="3dp"
+                    android:layout_marginTop="2dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/cardview_light_background">
+
+                    <LinearLayout
+                        android:layout_width="373dp"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/imageView13"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:layout_margin="6dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_add_location_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="bottom"
+                            android:text="Address:"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:layout_width="21dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.04"
+                            android:adjustViewBounds="true"
+                            android:orientation="vertical" />
+
+                        <TextView
+                            android:id="@+id/text_address"
+                            android:layout_width="220dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="start"
+                            android:text="Some address"
+                            android:textColor="@color/colorMyText"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/cardtags1"
+                android:paddingBottom="2dp"
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:text="Profile portfolio"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/portfolio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="horizontal"
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp">
+
+                <TextView
+                    android:id="@+id/noimages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:text="No images" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/my_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:clipChildren="true"
+                    android:clipToPadding="true"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/cardtags1"
+                android:paddingBottom="2dp"
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:text="Post history"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

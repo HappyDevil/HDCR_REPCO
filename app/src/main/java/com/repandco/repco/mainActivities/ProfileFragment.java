@@ -101,11 +101,11 @@ public class ProfileFragment extends Fragment {
         reference = FirebaseConfig.mDatabase.getReference();
 
         uid = this.getArguments().getString(Keys.UID);
-        context = inflater.inflate(R.layout.activity_scrolling, container,false);
+        context = inflater.inflate(R.layout.test_profile, container,false);
 
         if(uid!=null) {
             if(context!=null) {
-                content = context.findViewById(R.id.content);
+                content = context;
                 bar = (ProgressBar) context.findViewById(R.id.temp);
                 header = (ImageView) context.findViewById(R.id.header);
                 if (content != null){
@@ -143,7 +143,6 @@ public class ProfileFragment extends Fragment {
                     historyLayoutManager.offsetChildrenHorizontal(15);
                     historyLayoutManager.setAutoMeasureEnabled(true);
                     history.setLayoutManager(historyLayoutManager);
-                    history.setNestedScrollingEnabled(false);
 
                     postAdapter = new PostAdapter(manager);
 
