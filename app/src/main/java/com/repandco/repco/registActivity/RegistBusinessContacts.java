@@ -1,8 +1,10 @@
 package com.repandco.repco.registActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -16,11 +18,19 @@ public class RegistBusinessContacts extends AppCompatActivity {
     private EditText emailaddress;
     private EditText phone;
     private Intent intent;
+    private Toolbar postTolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_business_contacts);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
+        postTolbar.setTitle("Register contact info:");
+        setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         intent = getIntent();
 

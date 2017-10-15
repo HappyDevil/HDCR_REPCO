@@ -128,13 +128,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 }
             });
 
-            deletebut.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mDatabase.getReference().child(URLS.POSTS+ postID).removeValue();
-                }
-            });
-
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -206,6 +199,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         }
                     });
                     holder.setUid(model.getUserid());
+
+                    holder.deletebut.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String postid = model.getPostid();
+                            mDatabase.getReference().child(URLS.POSTS+ postid).removeValue();
+                            jobPosts.remove(postid);
+                            notifyDataSetChanged();
+                        }
+                    });
                     holder.setPostID(model.getPostid());
                     holder.setPhotos(model.getPhotos());
 

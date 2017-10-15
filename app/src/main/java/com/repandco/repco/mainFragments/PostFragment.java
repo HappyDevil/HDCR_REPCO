@@ -1,4 +1,4 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco.mainFragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,20 +12,13 @@ import android.widget.ProgressBar;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.adapter.PostAdapter;
-import com.repandco.repco.constants.Keys;
-import com.repandco.repco.constants.URLS;
 import com.repandco.repco.entities.StripeJobPost;
-import com.repandco.repco.listeners.PostListener;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
-import static com.repandco.repco.FirebaseConfig.mDatabase;
 
 
 public class PostFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco.mainFragments;
 
 
 import android.app.Fragment;
@@ -21,7 +21,6 @@ import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.News;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;

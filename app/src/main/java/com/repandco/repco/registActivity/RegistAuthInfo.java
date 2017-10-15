@@ -3,9 +3,11 @@ package com.repandco.repco.registActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +25,6 @@ import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.EnterpUser;
 import com.repandco.repco.entities.ProfUser;
-import com.repandco.repco.mainActivities.ProfileFragment;
 
 public class RegistAuthInfo extends AppCompatActivity {
 
@@ -36,12 +37,22 @@ public class RegistAuthInfo extends AppCompatActivity {
     private Context context;
     private ProgressDialog progressDialog;
     private OnCompleteListener waitDelete;
+    private Toolbar postTolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_auth_info);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
+        postTolbar.setTitle("Register auth info:");
+        setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         intent = getIntent();
         
         email = getIntent().getStringExtra(Keys.EMAIL);

@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.Values;
-import com.repandco.repco.mainActivities.ProfileFragment;
 import com.repandco.repco.registActivity.LoginActivity;
 import com.repandco.repco.registActivity.RegistBusinessInfo;
 import com.repandco.repco.registActivity.RegistUserInfo;

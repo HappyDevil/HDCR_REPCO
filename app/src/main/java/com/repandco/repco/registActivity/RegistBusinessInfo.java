@@ -1,10 +1,12 @@
 package com.repandco.repco.registActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mStorage;
 import static com.repandco.repco.constants.URLS.IMAGES;
 import static com.repandco.repco.constants.URLS.USERS;
+import static com.repandco.repco.constants.Values.REQUEST.LOAD_POST_PHOTO;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
 
@@ -35,12 +38,20 @@ public class RegistBusinessInfo extends AppCompatActivity {
     private EditText siret;
     private ImageButton photobut;
     private ImageButton headerbut;
+    private Toolbar postTolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_business_info);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
+        postTolbar.setTitle("Register auth info:");
+        setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        
         intent = getIntent();
 
         bact = (EditText) findViewById(R.id.bact);
@@ -92,17 +103,17 @@ public class RegistBusinessInfo extends AppCompatActivity {
     }
 
     public void header(View view) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Intent intent = new Intent();
         intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, REQUEST_HEADER);
     }
 
 
     public void photo(View view) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Intent intent = new Intent();
         intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, REQUEST_PHOTO);
     }
 

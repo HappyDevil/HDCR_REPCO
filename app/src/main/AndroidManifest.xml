@@ -36,7 +36,7 @@
         <activity android:name=".registActivity.RegistAuthInfo" />
         <activity android:name=".EditProfileActivity" />
         <activity
-            android:name=".mainActivities.CreateComPost"
+            android:name=".CreateComPost"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".registActivity.RegistBusinessInfo" />
@@ -45,12 +45,15 @@
             android:name=".registActivity.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".mainActivities.ChoseType"
+            android:name=".mainFragments.ChoseType"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TESTESTE"
             android:label="@string/title_activity_testeste"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco.mainFragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 

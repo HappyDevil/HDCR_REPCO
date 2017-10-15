@@ -1,4 +1,4 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -19,8 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.repandco.repco.customClasses.LoadPhotoAct;
-import com.repandco.repco.ManagerActivity;
-import com.repandco.repco.R;
 import com.repandco.repco.adapter.FindsAdapter;
 import com.repandco.repco.adapter.ImagesAdapter;
 import com.repandco.repco.adapter.TagsAdapter;
@@ -57,13 +55,17 @@ public class  CreateComPost extends LoadPhotoAct {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_create_com_post);
+        setContentView(R.layout.activity_create_com_post);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
+        postTolbar.setTitle("Create post");
+        setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         finds = (RecyclerView) findViewById(R.id.finds);
         search = (EditText) findViewById(R.id.search);
         text = (EditText) findViewById(R.id.text);
-        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
         title = (EditText) findViewById(R.id.title);
         tags_list = (RecyclerView) findViewById(R.id.tags_list);
         photos = (RecyclerView) findViewById(R.id.photos);
@@ -71,11 +73,7 @@ public class  CreateComPost extends LoadPhotoAct {
         find_card = (CardView) findViewById(R.id.find_card);
         tags_card = (CardView) findViewById(R.id.tags_card);
 
-        postTolbar.setTitle("Create post");
 
-        setSupportActionBar(postTolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         tags_list.setHasFixedSize(false);

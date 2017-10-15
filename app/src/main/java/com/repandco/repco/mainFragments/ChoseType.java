@@ -1,18 +1,15 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco.mainFragments;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
+import com.repandco.repco.CreateComPost;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 

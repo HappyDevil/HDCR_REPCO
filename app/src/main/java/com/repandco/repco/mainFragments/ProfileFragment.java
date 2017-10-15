@@ -1,4 +1,4 @@
-package com.repandco.repco.mainActivities;
+package com.repandco.repco.mainFragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
