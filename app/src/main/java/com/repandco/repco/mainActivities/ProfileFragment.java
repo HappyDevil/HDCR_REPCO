@@ -3,9 +3,11 @@ package com.repandco.repco.mainActivities;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.repandco.repco.FirebaseConfig;
+import com.repandco.repco.FirstActivity;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.adapter.ImagesAdapter;
@@ -82,6 +85,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private FloatingActionButton exitButton;
 
     private String photourl;
     private double ratingV;
@@ -131,6 +135,7 @@ public class ProfileFragment extends Fragment {
                     card_phone = (CardView) content.findViewById(R.id.card_phone);
                     card_bact = (CardView) content.findViewById(R.id.card_bact);
                     card_address = (CardView) content.findViewById(R.id.card_address);
+                    exitButton = (FloatingActionButton) content.findViewById(R.id.exitButton);
 
 
                     mRecyclerView.setHasFixedSize(true);
@@ -155,6 +160,16 @@ public class ProfileFragment extends Fragment {
                     if(curUserID.equals(this.uid)) {
                         follow.setVisibility(View.GONE);
                         rate.setVisibility(View.GONE);
+                        exitButton.setVisibility(View.VISIBLE);
+                        exitButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                mAuth.signOut();
+                                Intent intent = new Intent(context.getContext(), FirstActivity.class);
+                                startActivity(intent);
+                                manager.finish();
+                            }
+                        });
                         if(manager!=null) manager.getBottomNavigationView().getMenu().findItem(R.id.navigation_profile).setChecked(true);
                     }
                     else {
