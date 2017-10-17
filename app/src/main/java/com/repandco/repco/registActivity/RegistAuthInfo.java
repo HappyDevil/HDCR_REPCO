@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +16,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 import com.repandco.repco.FirebaseConfig;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
@@ -25,6 +31,14 @@ import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.EnterpUser;
 import com.repandco.repco.entities.ProfUser;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import static com.repandco.repco.FirebaseConfig.mStorage;
+import static com.repandco.repco.constants.URLS.IMAGES;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
 
 public class RegistAuthInfo extends AppCompatActivity {
 
@@ -142,11 +156,78 @@ public class RegistAuthInfo extends AppCompatActivity {
     {
         int type = intent.getIntExtra(Keys.TYPE, Values.TYPES.DEFAULT_TYPE);
         Task<Void> databaseTask = null;
+        final Task<UploadTask.TaskSnapshot> photoTask;
+        final Task<UploadTask.TaskSnapshot> headerTask;
         DatabaseReference reference = FirebaseConfig.mDatabase.getReference();
+
+        final String[] resPhoto = new String[1];
+        final String[] resHeader = new String[1];
+
+        String photoSTR = intent.getStringExtra(Keys.PHOTO);
+        final String headerSTR = intent.getStringExtra(Keys.HEADER);
+
+        final Uri photoURI = (photoSTR!=null) ? Uri.parse(photoSTR) : null;
+        final Uri headerURI = (headerSTR!=null) ? Uri.parse(headerSTR) : null;
+
+        progressDialog.setMessage("Loading photo");
+        if(photoURI != null) photoTask = mStorage.getReference(IMAGES).child(photoURI.getLastPathSegment()).putFile(photoURI)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            progressDialog.setMessage("Loading header");
+                            resPhoto[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                        }
+                        else {
+                            progressDialog.setMessage("Failed load photo");
+                            resPhoto[0] =  Values.URLS.STANDARD;
+                        }
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setProgress((int) progress);
+                    }
+                });
+        else {
+            photoTask = null;
+            resPhoto[0] = Values.URLS.STANDARD;
+        }
+
+
+        if(headerURI != null) headerTask = mStorage.getReference(IMAGES).child(headerURI.getLastPathSegment()).putFile(headerURI)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            progressDialog.setMessage("Loading header");
+                            resHeader[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                        }
+                        else {
+                            progressDialog.setMessage("Failed load header");
+                            resHeader[0] = Values.URLS.STANDARD;
+                        }
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setProgress((int) progress);
+                    }
+                });
+        else{
+            headerTask = null;
+            resHeader[0] = Values.URLS.STANDARD;
+        }
+
+
         switch(type)
         {
             case 1:
-                ProfUser profUser = new ProfUser();
+                final ProfUser profUser = new ProfUser();
                 profUser.setName(intent.getStringExtra(Keys.NAME));
                 profUser.setEmail(email);
                 profUser.setFirstname(intent.getStringExtra(Keys.FIRSTNAME));
@@ -155,11 +236,13 @@ public class RegistAuthInfo extends AppCompatActivity {
                 profUser.setGender(intent.getIntExtra(Keys.GENDER,0));
                 profUser.setType(type);
                 profUser.setVisible(Values.Visible.PRIVATE);
-                if(intent.getStringExtra(Keys.PHOTO)!=null) profUser.setPhotourl(intent.getStringExtra(Keys.PHOTO));
-                else profUser.setPhotourl(Values.URLS.STANDARD);
-                if(intent.getStringExtra(Keys.HEADER)!=null) profUser.setHeaderurl(intent.getStringExtra(Keys.HEADER));
-                else profUser.setHeaderurl(Values.URLS.STANDARD);
 
+                photoTask.getResult();
+                headerTask.getResult();
+                profUser.setHeaderurl(resHeader[0]);
+                profUser.setPhotourl(resPhoto[0]);
+
+                progressDialog.setMessage("Loading main info");
                 databaseTask = reference.child(URLS.USERS+mUser.getUid()).setValue(profUser);
                 break;
             case 2:
@@ -173,10 +256,11 @@ public class RegistAuthInfo extends AppCompatActivity {
                 enterpUser.setEmail(email);
                 enterpUser.setVisible(Values.Visible.PRIVATE);
                 enterpUser.setType(type);
-                if(intent.getStringExtra(Keys.PHOTO)!=null) enterpUser.setPhotourl(Values.URLS.STANDARD);
-                else enterpUser.setPhotourl(Values.URLS.STANDARD);
-                if(intent.getStringExtra(Keys.HEADER)!=null) enterpUser.setHeaderurl(Values.URLS.STANDARD);
-                else enterpUser.setHeaderurl(Values.URLS.STANDARD);
+
+                photoTask.getResult();
+                headerTask.getResult();
+                enterpUser.setHeaderurl(resHeader[0]);
+                enterpUser.setPhotourl(resPhoto[0]);
 
                 databaseTask = reference.child("users/"+mUser.getUid()).setValue(enterpUser);
                 break;

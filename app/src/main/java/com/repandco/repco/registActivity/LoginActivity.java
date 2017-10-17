@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
             startActivity(intent);
             finish();
+            finish();
         }
 
         // Set up the login form.

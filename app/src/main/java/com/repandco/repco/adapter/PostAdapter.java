@@ -166,7 +166,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final PostHolder holder, int position) {
+    public void onBindViewHolder(final PostHolder holder, final int position) {
         final StripeJobPost model = jobPosts.get(position);
         if (model.getUserid() != null) {
             holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
@@ -206,7 +206,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                             String postid = model.getPostid();
                             mDatabase.getReference().child(URLS.POSTS+ postid).removeValue();
                             jobPosts.remove(postid);
-                            notifyDataSetChanged();
+                            notifyItemChanged(position);
                         }
                     });
                     holder.setPostID(model.getPostid());

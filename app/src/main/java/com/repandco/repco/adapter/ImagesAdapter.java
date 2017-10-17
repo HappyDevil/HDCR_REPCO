@@ -137,7 +137,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
     }
 
     @Override
-    public void onBindViewHolder(ImageHolder holder, int position) {
+    public void onBindViewHolder(ImageHolder holder, final int position) {
         String url = mDataset.get(position);
         holder.setUrl(url);
         if (!url.equals("PLUS"))
@@ -160,10 +160,10 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                             imageView.setTag(null);
                             imageView.setImageResource(R.drawable.ic_plus_24);
                             mDataset.remove(s);
-                            notifyDataSetChanged();
+                            notifyItemChanged(position);
                         } else {
                             loadPhoto.loadPhoto(imagesAdapter);
-                            notifyItemChanged(mDataset.size());
+                            notifyItemChanged(position);
                         }
                     }
                 }

@@ -118,52 +118,21 @@ public class RegistBusinessInfo extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        final String intentUrl;
-        final ProgressBar progressBar;
-
-
         if (resultCode == RESULT_OK) {
             if (data != null) {
                 final Uri uri = data.getData();
 
                 if (requestCode == REQUEST_HEADER){
-                    intentUrl = Keys.HEADER;
                     headerbut.setImageURI(uri);
-                    progressBar = (ProgressBar) findViewById(R.id.progressheader);
+                    intent.putExtra(Keys.HEADER, uri);
                 }
-                else{
-                    intentUrl = Keys.PHOTO;
+                else
+                if (requestCode == REQUEST_PHOTO){
                     photobut.setImageURI(uri);
-                    progressBar = (ProgressBar) findViewById(R.id.progressphoto);
+                    intent.putExtra(Keys.PHOTO, uri);
                 }
-
-                progressBar.setVisibility(View.VISIBLE);
-
-
-                mStorage.getReference(IMAGES).child(uri.getLastPathSegment()).putFile(uri)
-                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    intent.putExtra(intentUrl, task.getResult().getMetadata().getDownloadUrl().toString());
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                }
-                                else {
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                    photobut.setImageURI(null);
-                                }
-                            }
-                        })
-                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                progressBar.setProgress((int) progress);
-                            }
-                        });
             }
         }
     }
