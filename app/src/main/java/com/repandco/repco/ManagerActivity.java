@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
+import com.repandco.repco.entities.StripeJobPost;
 import com.repandco.repco.mainFragments.ChoseType;
 import com.repandco.repco.mainFragments.NotifFragment;
 import com.repandco.repco.mainFragments.PostFragment;
@@ -218,4 +220,25 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         return bottomNavigationView;
     }
 
+    public void openPost(StripeJobPost model) {
+        Intent postIntent = new Intent(this, OpenPost.class);
+        postIntent.putExtra(Keys.TEXT,model.getText());
+        postIntent.putExtra(Keys.COMMISSION,model.getCommission());
+        postIntent.putExtra(Keys.CURRENCY,model.getCurrency());
+        postIntent.putExtra(Keys.PRICE,model.getPrice());
+        postIntent.putExtra(Keys.CATEGORY,model.getCategory());
+        postIntent.putExtra(Keys.DATE,model.getDate());
+        postIntent.putExtra(Keys.LIKES,model.getLikes());
+        postIntent.putExtra(Keys.PHOTOS,model.getPhotos());
+        postIntent.putExtra(Keys.POSTID,model.getPostid());
+        postIntent.putExtra(Keys.PROFESSION,model.getProfession());
+        postIntent.putExtra(Keys.TITLE,model.getTitle());
+        postIntent.putExtra(Keys.TYPE,model.getType());
+        postIntent.putExtra(Keys.UID,model.getUserid());
+        postIntent.putExtra(Keys.TEXT,model.getText());
+        String[] tags = new String[model.getTags().keySet().size()];
+        model.getTags().keySet().toArray(tags);
+        postIntent.putExtra(Keys.TAGS,tags);
+        startActivity(postIntent);
+    }
 }

@@ -9,10 +9,10 @@ public class Values {
     }
 
     public static class POSTS {
-        public static final long STANDARD_POST = 0;
-        public static final long CDD_JOB_POST = 1;
-        public static final long CDI_JOB_POST = 2;
-        public static final long EXTRA_JOB_POST = 3;
+        public static final int STANDARD_POST = 0;
+        public static final int CDD_JOB_POST = 1;
+        public static final int CDI_JOB_POST = 2;
+        public static final int EXTRA_JOB_POST = 3;
     }
 
 

@@ -74,8 +74,6 @@ public class  CreateComPost extends LoadPhotoAct {
         tags_card = (CardView) findViewById(R.id.tags_card);
 
 
-
-
         tags_list.setHasFixedSize(false);
         RecyclerView.LayoutManager  tagsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         tags_list.setLayoutManager(tagsLayoutManager);
@@ -162,7 +160,7 @@ public class  CreateComPost extends LoadPhotoAct {
                 Post post = new Post();
                 post.setText(text.getText().toString());
                 post.setTitle(title.getText().toString());
-                post.setType(Values.POSTS.STANDARD_POST);
+                post.setType((long) Values.POSTS.STANDARD_POST);
                 post.setUserid(mAuth.getCurrentUser().getUid());
                 post.setTags(tagsAdapter.getTags());
                 imagesAdapter.deletePhoto("PLUS");

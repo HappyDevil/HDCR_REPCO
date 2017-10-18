@@ -1,6 +1,7 @@
 package com.repandco.repco.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +43,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
 
     public static class PostHolder extends RecyclerView.ViewHolder {
+        private final CardView type_card;
+        private final TextView typeText;
         public ImageView photo;
         public TextView name;
         public TextView date;
@@ -58,12 +61,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         private ArrayList<String> photos;
         private String postID;
         private String uid;
+        private View itemView;
         private boolean clicked = false;
         private boolean clickFinish = true;
 
         public PostHolder(final View itemView,final ManagerActivity manager) {
             super(itemView);
 //            itemView.setVisibility(View.INVISIBLE);
+
+            this.itemView = itemView;
 
             managerref = manager;
             photo = (ImageView) itemView.findViewById(R.id.photo);
@@ -75,7 +81,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             like = (ImageView) itemView.findViewById(R.id.like);
             deletebut = (ImageButton) itemView.findViewById(R.id.deletebut);
 
-
+            type_card = (CardView) itemView.findViewById(R.id.type_card);
+            typeText = (TextView) itemView.findViewById(R.id.typeText);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.my_recycler_view);
             tags_list = (RecyclerView) itemView.findViewById(R.id.tags_list);
@@ -154,6 +161,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             this.uid = uid;
             if(uid.equals(mAuth.getCurrentUser().getUid())) deletebut.setVisibility(View.VISIBLE);
         }
+
+
+        public View getItemView() {
+            return itemView;
+        }
     }
 
 
@@ -168,6 +180,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
     @Override
     public void onBindViewHolder(final PostHolder holder, final int position) {
         final StripeJobPost model = jobPosts.get(position);
+
         if (model.getUserid() != null) {
             holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
             holder.title.setText(model.getTitle());
@@ -212,7 +225,35 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     holder.setPostID(model.getPostid());
                     holder.setPhotos(model.getPhotos());
 
+                    if(model.getType()!=Values.POSTS.STANDARD_POST){
+                        holder.type_card.setBackgroundResource(R.color.addinfopost);
+                        holder.like.setVisibility(View.GONE);
+                        holder.likes.setVisibility(View.GONE);
+                    }
+                    switch (model.getType().intValue()){
+                        case Values.POSTS.STANDARD_POST:
+                            holder.typeText.setText("INFO");
+                            holder.type_card.setBackgroundResource(R.color.addjobpost);
+                            break;
+                        case Values.POSTS.CDD_JOB_POST:
+                            holder.typeText.setText("CDD");
+                            break;
+                        case Values.POSTS.CDI_JOB_POST:
+                            holder.typeText.setText("CDI");
+                            break;
+                        case Values.POSTS.EXTRA_JOB_POST:
+                            holder.typeText.setText("EXTRA");
+                            break;
+                    }
+
                     holder.setTags(new TagsAdapter(manager,model.getTags()));
+
+                    holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            manager.openPost(model);
+                        }
+                    });
                 }
 
                 @Override

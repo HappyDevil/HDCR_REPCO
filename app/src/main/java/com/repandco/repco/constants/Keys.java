@@ -22,4 +22,15 @@ public class Keys {
     public static final String ADDRESS = "address";
     public static final String BACT = "bact";
     public static final String SIRET = "siret";
+    public static final String TEXT = "text";
+    public static final String COMMISSION = "commission";
+    public static final String CURRENCY = "currency";
+    public static final String CATEGORY = "category";
+    public static final String DATE = "date";
+    public static final String LIKES = "likes";
+    public static final String POSTID = "postid";
+    public static final String PROFESSION = "profession";
+    public static final String TITLE = "title";
+    public static final String TAGS = "tags";
+    public static final String PRICE = "price";
 }
