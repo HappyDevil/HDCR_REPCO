@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -134,7 +135,6 @@ public class ProfileFragment extends Fragment {
                     card_address = (CardView) content.findViewById(R.id.card_address);
                     exitButton = (FloatingActionButton) content.findViewById(R.id.exitButton);
 
-
                     mRecyclerView.setHasFixedSize(true);
                     mLayoutManager = new LinearLayoutManager(context.getContext(),LinearLayoutManager.HORIZONTAL,false);
                     mLayoutManager.offsetChildrenHorizontal(10);
@@ -148,6 +148,18 @@ public class ProfileFragment extends Fragment {
 
                     postAdapter = new PostAdapter(manager);
 
+                    NestedScrollView nsv = (NestedScrollView) content.findViewById(R.id.nested_profile);
+                    nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                        @Override
+                        public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                            if (scrollY > oldScrollY) {
+                                exitButton.hide();
+                            } else {
+                                exitButton.show();
+                            }
+                        }
+                    });
+
                     mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter));
 
 
@@ -158,6 +170,7 @@ public class ProfileFragment extends Fragment {
                         follow.setVisibility(View.GONE);
                         rate.setVisibility(View.GONE);
                         exitButton.setVisibility(View.VISIBLE);
+                        exitButton.show();
                         exitButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

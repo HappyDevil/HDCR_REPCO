@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="0dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -24,12 +29,13 @@
         android:layout_height="2dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
         android:background="@color/cardtags1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -98,7 +104,7 @@
         <ImageButton
             android:id="@+id/deletebut"
             android:layout_width="10dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_weight="0.89"
             android:adjustViewBounds="true"
@@ -116,44 +122,14 @@
         android:background="@color/cardtags1" />
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:adjustViewBounds="true"
-        android:background="@color/cardtags1"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
-        android:text="Title"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:text="Tittle"
-        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:background="@color/cardtags1"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
-        android:text="Text"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/text"
@@ -162,18 +138,15 @@
         android:layout_margin="5dp"
         android:text="Text"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/subCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:adjustViewBounds="true"
         android:background="@color/cardtags1"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
+        android:padding="2dp"
         android:text="Category"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="15sp"
@@ -185,18 +158,15 @@
         android:layout_height="wrap_content"
         android:text="Category:"
         android:textColor="@color/colorMyText"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/subProfession"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:adjustViewBounds="true"
         android:background="@color/cardtags1"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
+        android:padding="2dp"
         android:text="@string/profession"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="15sp"
@@ -208,7 +178,8 @@
         android:layout_height="wrap_content"
         android:text="Profesion"
         android:textColor="@color/colorMyText"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:layout_margin="5dp"/>
 
     <LinearLayout
         android:id="@+id/money_info"
@@ -219,20 +190,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView89"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:adjustViewBounds="true"
                 android:background="@color/cardtags1"
-                android:paddingBottom="2dp"
-                android:paddingLeft="2dp"
-                android:paddingTop="2dp"
+                android:padding="2dp"
                 android:text="Price"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="15sp"
@@ -242,6 +209,7 @@
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="Price"
                 android:textColor="@color/colorMyText"
                 android:textSize="17sp" />
@@ -254,15 +222,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView87"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:adjustViewBounds="true"
                 android:background="@color/cardtags1"
-                android:paddingBottom="2dp"
-                android:paddingLeft="2dp"
-                android:paddingTop="2dp"
+                android:padding="2dp"
                 android:text="Commission %"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="15sp"
@@ -274,7 +238,8 @@
                 android:layout_height="wrap_content"
                 android:text="Commission"
                 android:textColor="@color/colorMyText"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:layout_margin="5dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -287,12 +252,8 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:adjustViewBounds="true"
                 android:background="@color/cardtags1"
-                android:paddingBottom="2dp"
-                android:paddingLeft="2dp"
-                android:paddingTop="2dp"
+                android:padding="2dp"
                 android:text="Currency"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="15sp"
@@ -304,7 +265,8 @@
                 android:layout_height="wrap_content"
                 android:text="Currency"
                 android:textColor="@color/colorMyText"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:layout_margin="5dp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -312,12 +274,8 @@
         android:id="@+id/textView14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:adjustViewBounds="true"
         android:background="@color/cardtags1"
-        android:paddingBottom="2dp"
-        android:paddingLeft="2dp"
-        android:paddingTop="2dp"
+        android:padding="2dp"
         android:text="Photos"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="15sp"
@@ -336,40 +294,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1">
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/apply"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="7dp"
-            android:layout_marginRight="4dp"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:cardBackgroundColor="@color/addjobpost"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:contentPadding="3dp">
-
-            <TextView
-                android:id="@+id/text_apply"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="Apply Job"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-        </android.support.v7.widget.CardView>
+        android:weightSum="1"
+        android:layout_margin="5dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tags_list"
-            android:layout_width="264dp"
-            android:layout_height="170dp"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:clipChildren="true"
             android:clipToPadding="true"
             android:orientation="horizontal"
@@ -386,14 +318,40 @@
         <TextView
             android:id="@+id/likes"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="0.04"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:gravity="center|end"
             android:text="12"
-            android:textAlignment="viewStart"
             android:textSize="18sp" />
 
     </LinearLayout>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_marginRight="4dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:cardBackgroundColor="@color/addjobpost"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:contentPadding="3dp">
+
+        <TextView
+            android:id="@+id/text_apply"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:text="Apply Job"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>
+</ScrollView>

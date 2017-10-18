@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,6 +37,7 @@
         android:layout_centerInParent="true" />
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
@@ -47,17 +49,55 @@
             android:adjustViewBounds="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/username"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:text="Robot Android"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:adjustViewBounds="true"
+                    android:text="Robot Android"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    app:cardBackgroundColor="@color/cardtags1"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="1dp"
+                    app:contentPadding="3dp"
+                    android:layout_margin="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:text="112"
+                            android:layout_margin="3dp" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            app:srcCompat="@drawable/ic_supervisor_account_black_24dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -584,20 +624,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
-                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"/>
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior" />
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/exitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:clickable="true"
+        android:layout_margin="15dp"
         android:visibility="gone"
+        app:backgroundTint="@color/colorPrimaryLight"
         app:fabSize="normal"
+        app:rippleColor="@color/cardtags1"
         app:srcCompat="@android:drawable/stat_notify_sdcard" />
 
 </android.support.design.widget.CoordinatorLayout>
