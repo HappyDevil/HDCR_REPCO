@@ -52,6 +52,7 @@ public class LoadPhotoAct extends AppCompatActivity {
 //                                    imageViewLoader.setLoadPhotoUrl();
                                     imagesAdapter.convertPlus(task.getResult().getMetadata().getDownloadUrl().toString());
                                     imagesAdapter.plus.getImageView().setTag(task.getResult().getMetadata().getDownloadUrl().toString());
+                                    imagesAdapter.plus.getProgressBar().setVisibility(View.GONE);
                                     imagesAdapter.addPlus();
                                     Toast.makeText(context,"SUCSESS",Toast.LENGTH_SHORT).show();
                                     if(imageViewLoader.getProgressBar()!=null) imageViewLoader.getProgressBar().setVisibility(View.INVISIBLE);

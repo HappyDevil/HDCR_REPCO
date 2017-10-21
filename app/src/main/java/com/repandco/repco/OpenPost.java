@@ -64,7 +64,6 @@ public class OpenPost extends AppCompatActivity {
     private Context context;
 
     private CardView apply;
-    private CardView type_card;
 
     private StripeJobPost model;
     private Long type;
@@ -126,7 +125,6 @@ public class OpenPost extends AppCompatActivity {
         like = (ImageView) findViewById(R.id.like);
         deletebut = (ImageButton) findViewById(R.id.deletebut);
         apply = (CardView) findViewById(R.id.apply);
-        type_card = (CardView) findViewById(R.id.type_card);
         currency = (TextView) findViewById(R.id.currency);
         price = (TextView) findViewById(R.id.price);
         commission = (TextView) findViewById(R.id.commission);
@@ -256,7 +254,6 @@ public class OpenPost extends AppCompatActivity {
             if(type!=Values.POSTS.STANDARD_POST){
                 category.setText(model.getCategory());
                 profession.setText(profession.getText());
-                type_card.setBackgroundResource(R.color.addinfopost);
 
                 like.setVisibility(View.GONE);
                 likes.setVisibility(View.GONE);
@@ -264,7 +261,9 @@ public class OpenPost extends AppCompatActivity {
             switch (type.intValue()){
                 case Values.POSTS.STANDARD_POST:
                     typeText.setText("INFO");
-                    type_card.setBackgroundResource(R.color.addjobpost);
+                    typeText.setTextColor(getResources().getColor(R.color.addjobpost));
+                    typeText.setBackground(getResources().getDrawable(R.drawable.rounded_info));
+
                     apply.setVisibility(View.GONE);
                     subCategory.setVisibility(View.GONE);
                     subProfession.setVisibility(View.GONE);

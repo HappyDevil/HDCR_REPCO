@@ -41,6 +41,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
     public static class ImageHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public ImageView mImageView;
+        public ProgressBar photoprogress;
         private String url;
         private Dialog builder;
         private CardView v;
@@ -48,13 +49,12 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
         public ImageHolder(CardView v) {
             super(v);
             this.v = v;
-
+            photoprogress = (ProgressBar) v.findViewById(R.id.photoprogress);
         }
 
         private void showImage(String url, ImageView mImageView) {
             if (url != null) {
                 Context context = mImageView.getContext();
-
                 final Dialog progressDialog = new Dialog(context, R.style.Theme_AppCompat);
                 progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
@@ -137,7 +137,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
     }
 
     @Override
-    public void onBindViewHolder(ImageHolder holder, final int position) {
+    public void onBindViewHolder(final ImageHolder holder, final int position) {
         String url = mDataset.get(position);
         holder.setUrl(url);
         if (!url.equals("PLUS"))
@@ -147,8 +147,8 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                     .centerCrop()
                     .into(holder.mImageView);
         else {
-            final ImageViewLoader imageViewLoader = new ImageViewLoader(holder.mImageView);
             plus = new ImageViewLoader(holder.mImageView);
+            plus.setProgressBar(holder.photoprogress);
             plus.getImageView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -163,6 +163,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                             notifyItemChanged(position);
                         } else {
                             loadPhoto.loadPhoto(imagesAdapter);
+                            plus.getProgressBar().setVisibility(View.VISIBLE);
                             notifyItemChanged(position);
                         }
                     }
