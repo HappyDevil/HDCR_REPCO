@@ -114,12 +114,18 @@
 
     </LinearLayout>
 
-    <View
+    <TextView
+        android:id="@+id/textView12"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@color/cardtags1" />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:text="EXTRA"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:background="@drawable/rounded"
+        android:textColor="@color/addinfopost"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:layout_margin="2dp"/>
 
     <TextView
         android:id="@+id/title"
