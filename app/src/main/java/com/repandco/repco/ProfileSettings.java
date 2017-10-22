@@ -33,6 +33,8 @@ import com.repandco.repco.entities.ProfUser;
 import com.squareup.picasso.Picasso;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -145,7 +147,8 @@ public class ProfileSettings extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(birthdayLONG));
-            birthdaySTR.setText(calendar.toString());
+
+            birthdaySTR.setText(DateFormat.getDateInstance().format(calendar.getTime()));
 
 
             name.setText(profUser.getName());
