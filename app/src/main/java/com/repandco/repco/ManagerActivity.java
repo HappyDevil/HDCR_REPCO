@@ -50,13 +50,6 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     private Retrofit cloudFunctions;
     public CloudFuncAPI cloudAPI;
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        bottomNavigationView.getMenu().findItem(R.id.navigation_profile).setChecked(true);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +58,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-//        Gson gson = new GsonBuilder()
-//                .setLenient()
-//                .create();
-//
-//        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-//                .addConverterFactory(GsonConverterFactory.create(gson));
+        bottomNavigationView.getMenu().findItem(R.id.navigation_profile).setChecked(true);
 
         cloudFunctions = new Retrofit.Builder()
                 .baseUrl(URLS.cloudFunc)
@@ -84,15 +71,22 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         setSupportActionBar(t);
 
         fTrans = getFragmentManager().beginTransaction();
-        ProfileFragment profileFragment = new ProfileFragment();
-        profileFragment.setManager(this);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(Keys.UID, mAuth.getCurrentUser().getUid());
-        profileFragment.setArguments(bundle);
+        String tag = getIntent().getStringExtra(Keys.TAG);
+        if (tag != null) {
+            openSearh(tag);
+        }
+        else {
+            ProfileFragment profileFragment = new ProfileFragment();
+            profileFragment.setManager(this);
 
-        fTrans.add(R.id.frgmCont, profileFragment);
-        fTrans.commit();
+            Bundle bundle = new Bundle();
+            bundle.putString(Keys.UID, mAuth.getCurrentUser().getUid());
+            profileFragment.setArguments(bundle);
+
+            fTrans.add(R.id.frgmCont, profileFragment);
+            fTrans.commit();
+        }
     }
 
 
@@ -289,6 +283,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     public void signOut() {
         mAuth.signOut();
         Intent intent = new Intent(this, FirstActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         this.finish();
     }

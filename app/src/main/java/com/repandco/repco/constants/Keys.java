@@ -34,4 +34,5 @@ public class Keys {
     public static final String TAGS = "tags";
     public static final String PRICE = "price";
     public static final String VISIBILITY = "visibility";
+    public static final String TAG = "tag";
 }

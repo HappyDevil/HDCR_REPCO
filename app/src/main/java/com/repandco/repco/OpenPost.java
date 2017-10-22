@@ -1,5 +1,6 @@
 package com.repandco.repco;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -35,10 +36,10 @@ import static com.repandco.repco.FirebaseConfig.mDatabase;
 
 public class OpenPost extends AppCompatActivity {
 
+    public Activity act;
     public ImageView photo;
     public TextView name;
     public TextView date;
-    private final ManagerActivity managerref;
     public TextView title;
     public TextView price;
     public TextView currency;
@@ -71,14 +72,14 @@ public class OpenPost extends AppCompatActivity {
 
     public OpenPost() {
         super();
-
-        this.managerref = (ManagerActivity) getParent();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_post);
+
+        act = this;
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         postTolbar = (Toolbar) findViewById(R.id.postTolbar);
@@ -175,7 +176,8 @@ public class OpenPost extends AppCompatActivity {
                     photo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            managerref.openProfile(model.getUserid());
+                            Intent intent = new Intent(context, ManagerActivity.class);
+                            startActivity(intent);
                         }
                     });
 
@@ -238,10 +240,10 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
                     if(model.getPhotos()!=null) {
-                        mAdapter = new ImagesAdapter(model.getPhotos(),managerref);
+                        mAdapter = new ImagesAdapter(model.getPhotos(),null);
                         mRecyclerView.setAdapter(mAdapter);
                     }
-                    tags_list.setAdapter(new TagsAdapter(managerref,model.getTags()));
+                    tags_list.setAdapter(new TagsAdapter(act,model.getTags()));
                 }
 
                 @Override

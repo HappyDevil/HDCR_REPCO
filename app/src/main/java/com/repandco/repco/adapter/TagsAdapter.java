@@ -1,5 +1,7 @@
 package com.repandco.repco.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +11,13 @@ import android.widget.TextView;
 
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
+import com.repandco.repco.constants.Keys;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.constants.Values.SIZES.TAG_SIZES;
 
 
@@ -23,6 +27,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
     private ManagerActivity manager;
     private boolean create;
     private CardView tags_card;
+    private Activity act;
 
     public void setTags_card(CardView tags_card) {
         this.tags_card = tags_card;
@@ -44,6 +49,13 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
         tags_List = new ArrayList<>();
         this.manager = manager;
         this.create = create;
+    }
+
+    public TagsAdapter(Activity act,Map<String, Boolean> tags) {
+        tags_List = new ArrayList<>(tags.keySet());
+        this.manager = null;
+        this.act = act;
+        this.create = false;
     }
 
     public static class TagHolder extends RecyclerView.ViewHolder {
@@ -74,7 +86,14 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
                     holder.card.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (!create) manager.openSearh(tagName);
+                            if (!create){
+                                if(manager!=null) manager.openSearh(tagName);
+                                else{
+                                    Intent intent = new Intent(act, ManagerActivity.class);
+                                    intent.putExtra(Keys.TAG, tagName);
+                                    act.startActivity(intent);
+                                }
+                            }
                             else {
                                 tags_List.remove(position);
                                 if(tags_List.size()==0) tags_card.setVisibility(View.GONE);
