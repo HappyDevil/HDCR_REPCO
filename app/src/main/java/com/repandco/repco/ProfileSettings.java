@@ -143,6 +143,10 @@ public class ProfileSettings extends AppCompatActivity {
 
             birthdayLONG = profUser.getBirthday();
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date(birthdayLONG));
+            birthdaySTR.setText(calendar.toString());
+
 
             name.setText(profUser.getName());
             firstname.setText(profUser.getFirstname());
@@ -232,7 +236,7 @@ public class ProfileSettings extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                attemptLogin();
             }
         });
 
