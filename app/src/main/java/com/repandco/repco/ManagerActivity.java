@@ -15,14 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.repandco.repco.constants.Values;
 import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
+import com.repandco.repco.entities.EnterpUser;
+import com.repandco.repco.entities.ProfUser;
 import com.repandco.repco.entities.StripeJobPost;
 import com.repandco.repco.mainFragments.ChoseType;
 import com.repandco.repco.mainFragments.NotifFragment;
@@ -240,5 +244,52 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         model.getTags().keySet().toArray(tags);
         postIntent.putExtra(Keys.TAGS,tags);
         startActivity(postIntent);
+    }
+
+    public void openSettings(int type,Object user){
+        if(user==null) return;
+        if(type == Values.TYPES.PROFESSIONAL_TYPE){
+            ProfUser profUser = (ProfUser) user;
+
+            Intent setIntent = new Intent(this, ProfileSettings.class);
+
+            setIntent.putExtra(Keys.TYPE,profUser.getType());
+            setIntent.putExtra(Keys.BIRTHDAY,profUser.getBirthday());
+            setIntent.putExtra(Keys.EMAIL,profUser.getEmail());
+            setIntent.putExtra(Keys.FIRSTNAME,profUser.getFirstname());
+            setIntent.putExtra(Keys.GENDER,profUser.getGender());
+            setIntent.putExtra(Keys.HEADER,profUser.getHeaderurl());
+            setIntent.putExtra(Keys.NAME,profUser.getName());
+            setIntent.putExtra(Keys.PHONE,profUser.getPhonenumber());
+            setIntent.putExtra(Keys.PHOTO,profUser.getPhotourl());
+            setIntent.putExtra(Keys.VISIBILITY,profUser.getVisible());
+
+            startActivity(setIntent);
+        }
+        else {
+            EnterpUser enterpUser = (EnterpUser) user;
+
+            Intent setIntent = new Intent(this, ProfileSettings.class);
+
+            setIntent.putExtra(Keys.TYPE,enterpUser.getType());
+            setIntent.putExtra(Keys.BACT,enterpUser.getBact());
+            setIntent.putExtra(Keys.EMAIL,enterpUser.getEmail());
+            setIntent.putExtra(Keys.SIRET,enterpUser.getSIRET());
+            setIntent.putExtra(Keys.ADDRESS,enterpUser.getAddress());
+            setIntent.putExtra(Keys.HEADER,enterpUser.getHeaderurl());
+            setIntent.putExtra(Keys.NAME,enterpUser.getName());
+            setIntent.putExtra(Keys.PHONE,enterpUser.getPhonenumber());
+            setIntent.putExtra(Keys.PHOTO,enterpUser.getPhotourl());
+            setIntent.putExtra(Keys.VISIBILITY,enterpUser.getVisible());
+
+            startActivity(setIntent);
+        }
+    }
+
+    public void signOut() {
+        mAuth.signOut();
+        Intent intent = new Intent(this, FirstActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }

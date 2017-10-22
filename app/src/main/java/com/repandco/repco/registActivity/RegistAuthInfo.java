@@ -226,7 +226,7 @@ public class RegistAuthInfo extends AppCompatActivity {
 
         switch(type)
         {
-            case 1:
+            case Values.TYPES.PROFESSIONAL_TYPE:
                 final ProfUser profUser = new ProfUser();
                 profUser.setName(intent.getStringExtra(Keys.NAME));
                 profUser.setEmail(email);
@@ -245,7 +245,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                 progressDialog.setMessage("Loading main info");
                 databaseTask = reference.child(URLS.USERS+mUser.getUid()).setValue(profUser);
                 break;
-            case 2:
+            case Values.TYPES.ENTERPRISE_TYPE:
                 EnterpUser enterpUser = new EnterpUser();
 
                 enterpUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));

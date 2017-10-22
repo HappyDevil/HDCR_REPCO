@@ -30,6 +30,7 @@
             android:visibility="gone"
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="26dp" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

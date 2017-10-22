@@ -39,6 +39,8 @@ import com.repandco.repco.adapter.PostAdapter;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
+import com.repandco.repco.entities.EnterpUser;
+import com.repandco.repco.entities.ProfUser;
 import com.repandco.repco.listeners.PostListener;
 import com.squareup.picasso.Picasso;
 
@@ -84,6 +86,11 @@ public class ProfileFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton exitButton;
+
+
+    private EnterpUser enterpUser;
+    private ProfUser profUser;
+
 
     private String photourl;
     private double ratingV;
@@ -174,10 +181,12 @@ public class ProfileFragment extends Fragment {
                         exitButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                mAuth.signOut();
-                                Intent intent = new Intent(context.getContext(), FirstActivity.class);
-                                startActivity(intent);
-                                manager.finish();
+                                if(enterpUser!=null){
+                                    manager.openSettings(enterpUser.getType(),enterpUser);
+                                }
+                                if(profUser!=null){
+                                    manager.openSettings(profUser.getType(),profUser);
+                                }
                             }
                         });
                         if(manager!=null) manager.getBottomNavigationView().getMenu().findItem(R.id.navigation_profile).setChecked(true);
@@ -267,6 +276,10 @@ public class ProfileFragment extends Fragment {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     long type = (long) dataSnapshot.child(Keys.TYPE).getValue();
+
+                                    if (type == Values.TYPES.PROFESSIONAL_TYPE) profUser = dataSnapshot.getValue(ProfUser.class);
+                                    else enterpUser = dataSnapshot.getValue(EnterpUser.class);
+
                                     Object rateObj = dataSnapshot.child(Keys.RATING).getValue();
                                     if(rateObj!=null) {
                                         if (rateObj instanceof Double) ratingV = (double) rateObj;

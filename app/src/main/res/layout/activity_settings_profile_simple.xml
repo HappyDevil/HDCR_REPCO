@@ -16,8 +16,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            android:contextClickable="false"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme"
+            app:title="Settigns"
+            app:titleTextColor="@color/cardview_light_background">
+
+            <ImageButton
+                android:id="@+id/exitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:foregroundGravity=""
+                app:srcCompat="@android:drawable/btn_star_big_on" />
+        </android.support.v7.widget.Toolbar>
 
         <LinearLayout
             android:orientation="vertical"
@@ -26,12 +40,12 @@
             android:layout_margin="10dp">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ems="10"
-                android:hint="FirstName"
+                android:hint="Name"
                 android:inputType="textPersonName" />
 
             <View
@@ -44,21 +58,22 @@
                 tools:ignore="DuplicateIds" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/bact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ems="10"
-                android:hint="Activity"
-                android:inputType="textPersonName" />
+                android:hint="Business activity"
+                android:inputType="textPersonName"
+                android:visibility="gone" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:ems="10"
-                android:hint="LastName"
+                android:hint="First name"
                 android:inputType="textPersonName" />
 
             <View
@@ -71,7 +86,7 @@
                 tools:ignore="DuplicateIds" />
 
             <EditText
-                android:id="@+id/editText8"
+                android:id="@+id/phonenumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -89,13 +104,14 @@
                 tools:ignore="DuplicateIds" />
 
             <EditText
-                android:id="@+id/editText9"
+                android:id="@+id/siret"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:ems="10"
                 android:hint="SIRET"
                 android:inputType="textPersonName"
-                android:layout_margin="5dp"/>
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/view2"
@@ -107,34 +123,36 @@
                 tools:ignore="DuplicateIds" />
 
             <LinearLayout
+                android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birthday:" />
+                    android:text="Birthday:"
+                    android:layout_weight="0.2"/>
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/birthdaySTR"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="01.12.1996"
+                    android:textColor="@color/colorMyText"
+                    android:textSize="20sp" />
 
-                <Spinner
-                    android:id="@+id/spinner5"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:onClick="showDatePickerDialog"
+                    android:text="CHANGE" />
 
-                <Spinner
-                    android:id="@+id/spinner6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
             </LinearLayout>
 
             <View
@@ -147,13 +165,13 @@
                 tools:ignore="DuplicateIds" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Switch"
+                android:layout_margin="5dp"
+                android:text="Sex"
                 android:textOff="Male"
-                android:textOn="Female"
-                android:layout_margin="5dp"/>
+                android:textOn="Female" />
 
             <View
                 android:id="@+id/view2"
@@ -177,13 +195,14 @@
                     android:layout_weight="0.5"
                     android:orientation="vertical">
 
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
                         android:background="@color/cardtags1"
-                        app:srcCompat="@drawable/ic_add_black_24dp"
-                        android:layout_gravity="center"/>
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/ic_add_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -200,14 +219,15 @@
                     android:layout_weight="0.5"
                     android:orientation="vertical">
 
-                    <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                    <ImageView
+                        android:id="@+id/header"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
                         android:background="@color/cardtags1"
                         android:elevation="1dp"
-                        app:srcCompat="@drawable/ic_add_black_24dp"
-                        android:layout_gravity="center"/>
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/ic_add_black_24dp" />
 
                     <TextView
                         android:id="@+id/textView8"
@@ -228,14 +248,16 @@
                 tools:ignore="DuplicateIds" />
 
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/visibility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Switch"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:text="Visibility"
+                android:textOff="Private"
+                android:textOn="Public" />
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/save"
                 style="@android:style/Widget.Button.Inset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -244,7 +266,7 @@
                 android:text="Save"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@android:color/white"
-                android:textSize="17sp"/>
+                android:textSize="17sp" />
         </LinearLayout>
 
     </LinearLayout>
