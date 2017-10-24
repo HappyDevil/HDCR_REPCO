@@ -43,7 +43,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
 
 
     public static class PostHolder extends RecyclerView.ViewHolder {
-        private final CardView type_card;
         private final TextView typeText;
         public ImageView photo;
         public TextView name;
@@ -81,7 +80,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             like = (ImageView) itemView.findViewById(R.id.like);
             deletebut = (ImageButton) itemView.findViewById(R.id.deletebut);
 
-            type_card = (CardView) itemView.findViewById(R.id.type_card);
             typeText = (TextView) itemView.findViewById(R.id.typeText);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.my_recycler_view);
@@ -226,14 +224,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     holder.setPhotos(model.getPhotos());
 
                     if(model.getType()!=Values.POSTS.STANDARD_POST){
-                        holder.type_card.setBackgroundResource(R.color.addinfopost);
                         holder.like.setVisibility(View.GONE);
                         holder.likes.setVisibility(View.GONE);
                     }
                     switch (model.getType().intValue()){
                         case Values.POSTS.STANDARD_POST:
                             holder.typeText.setText("INFO");
-                            holder.type_card.setBackgroundResource(R.color.addjobpost);
+//                            holder.typeText.setTextColor(getResources().getColor(R.color.addjobpost));
+//                            holder.typeText.setBackground(getResources().getDrawable(R.drawable.rounded_info));
                             break;
                         case Values.POSTS.CDD_JOB_POST:
                             holder.typeText.setText("CDD");

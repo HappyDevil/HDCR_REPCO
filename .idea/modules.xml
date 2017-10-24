@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HDCR_REPCO.iml" filepath="$PROJECT_DIR$/HDCR_REPCO.iml" />
-      <module fileurl="file://C:/Users/User/AndroidStudioProjects/RepAndCo/HDCR_REPCO.iml" filepath="C:/Users/User/AndroidStudioProjects/RepAndCo/HDCR_REPCO.iml" />
-      <module fileurl="file://C:/Users/User/AndroidStudioProjects/RepAndCo/Rep&amp;Co.iml" filepath="C:/Users/User/AndroidStudioProjects/RepAndCo/Rep&amp;Co.iml" />
+      <module fileurl="file://C:\Users\User\AndroidStudioProjects\RepAndCo\HDCR_REPCO.iml" filepath="C:\Users\User\AndroidStudioProjects\RepAndCo\HDCR_REPCO.iml" />
+      <module fileurl="file://C:\Users\User\AndroidStudioProjects\RepAndCo\Rep&amp;Co.iml" filepath="C:\Users\User\AndroidStudioProjects\RepAndCo\Rep&amp;Co.iml" />
       <module fileurl="file://$PROJECT_DIR$/RepAndCo.iml" filepath="$PROJECT_DIR$/RepAndCo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
