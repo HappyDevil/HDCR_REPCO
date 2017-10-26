@@ -165,10 +165,11 @@
                     android:id="@+id/textView25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:text="Commission"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textSize="17sp"
-                    android:layout_marginLeft="20dp"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <android.support.v7.widget.CardView
