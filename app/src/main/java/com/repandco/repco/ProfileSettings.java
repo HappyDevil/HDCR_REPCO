@@ -264,10 +264,12 @@ public class ProfileSettings extends AppCompatActivity {
         }
     }
 
-
+    Task<Void> databaseTask;
+    boolean h = false;
+    boolean p = false;
     private void attemptLogin() {
         // Reset errors.
-        Task<Void> databaseTask;
+
         final Task<UploadTask.TaskSnapshot> photoTask;
         final Task<UploadTask.TaskSnapshot> headerTask;
         final String[] resPhoto = new String[1];
@@ -346,10 +348,12 @@ public class ProfileSettings extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressDialog.setMessage("Loading header");
                             resPhoto[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                            p = true;
                         }
                         else {
                             progressDialog.setMessage("Failed load photo");
                             resPhoto[0] =  Values.URLS.STANDARD;
+                            p = true;
                         }
                     }
                 })
@@ -362,6 +366,7 @@ public class ProfileSettings extends AppCompatActivity {
                 });
         else {
             photoTask = null;
+            p = true;
             resPhoto[0] = Values.URLS.STANDARD;
         }
 
@@ -373,10 +378,12 @@ public class ProfileSettings extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressDialog.setMessage("Loading header");
                             resHeader[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                            h = true;
                         }
                         else {
                             progressDialog.setMessage("Failed load header");
                             resHeader[0] = Values.URLS.STANDARD;
+                            h = true;
                         }
                     }
                 })
@@ -389,48 +396,53 @@ public class ProfileSettings extends AppCompatActivity {
                 });
         else{
             headerTask = null;
+            h = true;
             resHeader[0] = Values.URLS.STANDARD;
         }
 
-        switch(type)
-        {
-            case Values.TYPES.PROFESSIONAL_TYPE:
-                photoTask.getResult();
-                headerTask.getResult();
-                profUser.setHeaderurl(resHeader[0]);
-                profUser.setPhotourl(resPhoto[0]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(photoTask!=null) photoTask.getResult();
+                if(headerTask!=null) headerTask.getResult();
 
-                progressDialog.setMessage("Loading main info");
-                databaseTask = mDatabase.getReference().child(URLS.USERS + mAuth.getCurrentUser().getUid()).setValue(profUser);
-                break;
-            case Values.TYPES.ENTERPRISE_TYPE:
-                photoTask.getResult();
-                headerTask.getResult();
-                enterpUser.setHeaderurl(resHeader[0]);
-                enterpUser.setPhotourl(resPhoto[0]);
+                switch(type)
+                {
+                    case Values.TYPES.PROFESSIONAL_TYPE:
+                        profUser.setHeaderurl(resHeader[0]);
+                        profUser.setPhotourl(resPhoto[0]);
 
-                databaseTask = mDatabase.getReference().child("users/"+ mAuth.getCurrentUser().getUid()).setValue(enterpUser);
-                break;
-            default:
-                databaseTask = null;
-        }
+                        progressDialog.setMessage("Loading main info");
+                        databaseTask = mDatabase.getReference().child(URLS.USERS + mAuth.getCurrentUser().getUid()).setValue(profUser);
+                        break;
+                    case Values.TYPES.ENTERPRISE_TYPE:
+                        enterpUser.setHeaderurl(resHeader[0]);
+                        enterpUser.setPhotourl(resPhoto[0]);
 
-        if(databaseTask!=null) {
-            databaseTask.addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful())
-                    {
-                        progressDialog.setMessage("Update successful");
-                        progressDialog.dismiss();
+                        databaseTask = mDatabase.getReference().child("users/"+ mAuth.getCurrentUser().getUid()).setValue(enterpUser);
+                        break;
+                    default:
+                        databaseTask = null;
+                }
+
+                if(databaseTask !=null) {
+                    databaseTask.addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                progressDialog.setMessage("Update successful");
+                                progressDialog.dismiss();
 //                        Intent goProfile = new Intent(context,ManagerActivity.class);
 //                        goProfile.putExtra(Keys.UID,mAuth.getCurrentUser().getUid());
 //                        startActivity(goProfile);
-                        finish();
-                    }
+                                finish();
+                            }
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
     }
 
     public void showDatePickerDialog(View view) {
@@ -450,7 +462,7 @@ public class ProfileSettings extends AppCompatActivity {
                 cal.set(Calendar.DAY_OF_MONTH, day);
                 birthdayLONG = cal.getTimeInMillis();
 
-                birthdaySTR.setText(cal.toString());
+                birthdaySTR.setText(DateFormat.getDateInstance().format(cal.getTime()));
             }
         },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 

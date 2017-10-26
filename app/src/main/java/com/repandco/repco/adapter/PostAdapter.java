@@ -1,6 +1,7 @@
 package com.repandco.repco.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -230,8 +231,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     switch (model.getType().intValue()){
                         case Values.POSTS.STANDARD_POST:
                             holder.typeText.setText("INFO");
-//                            holder.typeText.setTextColor(getResources().getColor(R.color.addjobpost));
-//                            holder.typeText.setBackground(getResources().getDrawable(R.drawable.rounded_info));
+                            holder.typeText.setTextColor(holder.itemView.getResources().getColor(R.color.addjobpost));
+                            holder.typeText.setBackground(holder.itemView.getResources().getDrawable(R.drawable.rounded_info));
                             break;
                         case Values.POSTS.CDD_JOB_POST:
                             holder.typeText.setText("CDD");
