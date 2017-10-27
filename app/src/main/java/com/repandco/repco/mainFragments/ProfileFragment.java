@@ -335,7 +335,7 @@ public class ProfileFragment extends Fragment {
                                             if (gender == Values.GENDERS.FEMALE)
                                                 ((TextView) card_gender.findViewById(R.id.text_gender)).setText(R.string.female);
                                         }
-                                        Integer birthday = dataSnapshot.child(Keys.BIRTHDAY).getValue(Integer.class);
+                                        Long birthday = dataSnapshot.child(Keys.BIRTHDAY).getValue(Long.class);
                                         if (birthday != null)
                                             ((TextView) card_birthday.findViewById(R.id.text_birthday)).setText(DateFormat.getDateInstance().format(new Date(birthday)));
                                         ((TextView) card_email.findViewById(R.id.text_email)).setText(dataSnapshot.child(Keys.EMAIL).getValue(String.class));

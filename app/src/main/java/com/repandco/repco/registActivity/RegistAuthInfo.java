@@ -237,8 +237,8 @@ public class RegistAuthInfo extends AppCompatActivity {
                 profUser.setType(type);
                 profUser.setVisible(Values.Visible.PRIVATE);
 
-                photoTask.getResult();
-                headerTask.getResult();
+                if(photoTask!=null) photoTask.getResult();
+                if(headerTask!=null) headerTask.getResult();
                 profUser.setHeaderurl(resHeader[0]);
                 profUser.setPhotourl(resPhoto[0]);
 
@@ -257,8 +257,8 @@ public class RegistAuthInfo extends AppCompatActivity {
                 enterpUser.setVisible(Values.Visible.PRIVATE);
                 enterpUser.setType(type);
 
-                photoTask.getResult();
-                headerTask.getResult();
+                if(photoTask!=null) photoTask.getResult();
+                if(headerTask!=null) headerTask.getResult();
                 enterpUser.setHeaderurl(resHeader[0]);
                 enterpUser.setPhotourl(resPhoto[0]);
 

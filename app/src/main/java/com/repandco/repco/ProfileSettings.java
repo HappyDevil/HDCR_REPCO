@@ -79,6 +79,8 @@ public class ProfileSettings extends AppCompatActivity {
     private Uri headerURI,photoURI;
     private ProgressDialog progressDialog;
 
+    private String header_START_STR,photo_START_STR;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,8 @@ public class ProfileSettings extends AppCompatActivity {
         Intent setIntent = getIntent();
 
         type = setIntent.getIntExtra(Keys.TYPE,0);
+        header_START_STR = setIntent.getStringExtra(Keys.HEADER);
+        photo_START_STR = setIntent.getStringExtra(Keys.PHOTO);
         if(type == Values.TYPES.PROFESSIONAL_TYPE){
             profUser = new ProfUser();
 
@@ -137,10 +141,10 @@ public class ProfileSettings extends AppCompatActivity {
             profUser.setEmail(setIntent.getStringExtra(Keys.EMAIL));
             profUser.setFirstname(setIntent.getStringExtra(Keys.FIRSTNAME));
             profUser.setGender(setIntent.getIntExtra(Keys.GENDER,0));
-            profUser.setHeaderurl(setIntent.getStringExtra(Keys.HEADER));
+            profUser.setHeaderurl(header_START_STR);
             profUser.setName(setIntent.getStringExtra(Keys.NAME));
             profUser.setPhonenumber(setIntent.getStringExtra(Keys.PHONE));
-            profUser.setPhotourl(setIntent.getStringExtra(Keys.PHOTO));
+            profUser.setPhotourl(photo_START_STR);
             profUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
 
             birthdayLONG = profUser.getBirthday();
@@ -189,10 +193,10 @@ public class ProfileSettings extends AppCompatActivity {
             enterpUser.setEmail(setIntent.getStringExtra(Keys.EMAIL));
             enterpUser.setSIRET(setIntent.getStringExtra(Keys.SIRET));
             enterpUser.setAddress(setIntent.getStringExtra(Keys.ADDRESS));
-            enterpUser.setHeaderurl(setIntent.getStringExtra(Keys.HEADER));
+            enterpUser.setHeaderurl(header_START_STR);
             enterpUser.setName(setIntent.getStringExtra(Keys.NAME));
             enterpUser.setPhonenumber(setIntent.getStringExtra(Keys.PHONE));
-            enterpUser.setPhotourl(setIntent.getStringExtra(Keys.PHOTO));
+            enterpUser.setPhotourl(photo_START_STR);
             enterpUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
 
 
@@ -272,6 +276,7 @@ public class ProfileSettings extends AppCompatActivity {
 
         final Task<UploadTask.TaskSnapshot> photoTask;
         final Task<UploadTask.TaskSnapshot> headerTask;
+
         final String[] resPhoto = new String[1];
         final String[] resHeader = new String[1];
 
@@ -335,7 +340,6 @@ public class ProfileSettings extends AppCompatActivity {
             enterpUser.setBact(bact.getText().toString());
             enterpUser.setSIRET(siret.getText().toString());
 
-
             if(visibility.isChecked()) enterpUser.setVisible(Values.Visible.PRIVATE);
             else enterpUser.setVisible(Values.Visible.PUBLIC);
         }
@@ -352,7 +356,7 @@ public class ProfileSettings extends AppCompatActivity {
                         }
                         else {
                             progressDialog.setMessage("Failed load photo");
-                            resPhoto[0] =  Values.URLS.STANDARD;
+                            resPhoto[0] =  (photo_START_STR==null) ? Values.URLS.STANDARD : photo_START_STR;
                             p = true;
                         }
                     }
@@ -367,7 +371,7 @@ public class ProfileSettings extends AppCompatActivity {
         else {
             photoTask = null;
             p = true;
-            resPhoto[0] = Values.URLS.STANDARD;
+            resPhoto[0] = (photo_START_STR==null) ? Values.URLS.STANDARD : photo_START_STR;
         }
 
 
@@ -382,7 +386,7 @@ public class ProfileSettings extends AppCompatActivity {
                         }
                         else {
                             progressDialog.setMessage("Failed load header");
-                            resHeader[0] = Values.URLS.STANDARD;
+                            resHeader[0] = (header_START_STR==null) ? Values.URLS.STANDARD : header_START_STR;
                             h = true;
                         }
                     }
@@ -397,14 +401,15 @@ public class ProfileSettings extends AppCompatActivity {
         else{
             headerTask = null;
             h = true;
-            resHeader[0] = Values.URLS.STANDARD;
+            resHeader[0] = (header_START_STR==null) ? Values.URLS.STANDARD : header_START_STR;
         }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(photoTask!=null) photoTask.getResult();
-                if(headerTask!=null) headerTask.getResult();
+                while(true){
+                    if(h&&p) break;
+                }
 
                 switch(type)
                 {
@@ -433,16 +438,18 @@ public class ProfileSettings extends AppCompatActivity {
                             {
                                 progressDialog.setMessage("Update successful");
                                 progressDialog.dismiss();
-//                        Intent goProfile = new Intent(context,ManagerActivity.class);
-//                        goProfile.putExtra(Keys.UID,mAuth.getCurrentUser().getUid());
-//                        startActivity(goProfile);
+                                Intent goProfile = new Intent(context,ManagerActivity.class);
+                                goProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                goProfile.putExtra(Keys.UID,mAuth.getCurrentUser().getUid());
+                                startActivity(goProfile);
+                                finish();
                                 finish();
                             }
                         }
                     });
                 }
             }
-        });
+        }).start();
     }
 
     public void showDatePickerDialog(View view) {
