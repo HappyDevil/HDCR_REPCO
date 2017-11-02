@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,15 +13,43 @@
         android:gravity="center"
         android:text="Subscribe"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20sp" />
+        android:textSize="23sp"
+        android:textColor="@color/addjobpost"/>
 
     <TextView
         android:id="@+id/textView27"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Because you use a business account, you need to pay 59.90$ per month"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:layout_margin="5dp"
+        android:text="Because you use a business account, you need to pay"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_gravity="center"/>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardBackgroundColor="@color/addjobpost"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        app:contentPadding="3dp">
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="59.90$"
+            android:textColor="@android:color/white" />
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="per month"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_margin="3dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/cardtags1"
-            android:text="Ok" />
+            android:backgroundTint="@color/addjobpost"
+            android:text="Ok"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 </LinearLayout>
