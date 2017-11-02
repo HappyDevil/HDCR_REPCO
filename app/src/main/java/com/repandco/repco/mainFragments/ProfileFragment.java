@@ -1,7 +1,10 @@
 package com.repandco.repco.mainFragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -111,6 +115,9 @@ public class ProfileFragment extends Fragment {
 
         uid = this.getArguments().getString(Keys.UID);
         context = inflater.inflate(R.layout.fragment_profile, container,false);
+
+        onCreateDialog(null);
+
 
         if(uid!=null) {
             if(context!=null) {
@@ -448,5 +455,28 @@ public class ProfileFragment extends Fragment {
         ratingdialog.create();
         ratingdialog.show();
     }
+
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View inflate = inflater.inflate(R.layout.alert_dialog_stripe, null);
+        builder.setView(inflate);
+
+        Button button = (Button)inflate.findViewById(R.id.button7);
+        EditText editText = (EditText)inflate.findViewById(R.id.editText2);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        return builder.create();
+    }
+
+
 }
 
