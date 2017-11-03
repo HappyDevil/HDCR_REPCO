@@ -6,6 +6,8 @@ public class Keys {
     public static final String NAME = "name";
     public static final String FIRSTNAME = "firstname";
     public static final String EMAIL = "email";
+    public static final String STRIPE_EMAIL = "stripeEmail";
+    public static final String STATUS = "status";
     public static final String BIRTHDAY = "birthday";
     public static final String PHONE = "phonenumber";
     public static final String GENDER = "gender";

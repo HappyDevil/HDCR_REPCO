@@ -12,6 +12,9 @@ public class URLS {
     public static final String IMAGES = "images/";
     public static final String PHOTOS = "photos/";
     public static final String TAGS = "tags/";
+    public static final String CATEGORY = "category/";
+    public static final String JOB = "job/";
+    public static final String CURRENCY= "currency/";
     public static final String NOTIFICATIONS = "notifications/";
 
     public static class ChildURLS{
@@ -22,6 +25,7 @@ public class URLS {
 
     public static final String cloudFunc = "https://us-central1-repandco-5df9a.cloudfunctions.net/";
     public static final String findFriendsPost = "findFriendsPost";
+    public static final String createSubscription = "createSubscription";
     public static final String rateReq = "rateReq";
     public static final String developNotReq = "developNotReq";
 }

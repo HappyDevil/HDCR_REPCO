@@ -227,6 +227,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                     if(model.getType()!=Values.POSTS.STANDARD_POST){
                         holder.like.setVisibility(View.GONE);
                         holder.likes.setVisibility(View.GONE);
+                        holder.typeText.setTextColor(holder.itemView.getResources().getColor(R.color.addinfopost));
+                        holder.typeText.setBackground(holder.itemView.getResources().getDrawable(R.drawable.rounded));
                     }
                     switch (model.getType().intValue()){
                         case Values.POSTS.STANDARD_POST:

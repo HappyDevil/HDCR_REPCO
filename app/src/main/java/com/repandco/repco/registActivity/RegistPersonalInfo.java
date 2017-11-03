@@ -1,8 +1,10 @@
 package com.repandco.repco.registActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,11 +22,19 @@ public class RegistPersonalInfo extends AppCompatActivity {
     private EditText birthdate;
     private RadioGroup radioGroup;
     private Intent intent;
+    private Toolbar postTolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_personal_info);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        postTolbar = (Toolbar) findViewById(R.id.postTolbar);
+        postTolbar.setTitle("Register auth info:");
+        setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         phone = (EditText) findViewById(R.id.phone);
         birthdate = (EditText) findViewById(R.id.birthdate);
@@ -74,5 +84,11 @@ public class RegistPersonalInfo extends AppCompatActivity {
         else intent = new Intent(this, RegistUserInfo.class);
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

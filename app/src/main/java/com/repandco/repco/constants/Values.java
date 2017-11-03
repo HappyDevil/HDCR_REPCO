@@ -51,4 +51,9 @@ public class Values {
         public static final int REQUEST_HEADER = 9000;
         public static final int REQUEST_PHOTO = 9001;
     }
+
+    public static class STATUS {
+        public static final String ERROR= "error";
+        public static final String ACTIVE = "active";
+    }
 }

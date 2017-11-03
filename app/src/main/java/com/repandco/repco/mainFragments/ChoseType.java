@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.repandco.repco.CreateComPost;
+import com.repandco.repco.CreateJobPost;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 
@@ -43,7 +44,7 @@ public class ChoseType extends Fragment {
         job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent postIntent = new Intent(context, CreateComPost.class);
+                Intent postIntent = new Intent(context, CreateJobPost.class);
                 startActivity(postIntent);
             }
         });

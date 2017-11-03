@@ -197,6 +197,8 @@ public class OpenPost extends AppCompatActivity {
                             if(dataSnapshot.getValue()!=null){
                                 clicked = true;
                                 like.setImageResource(R.drawable.ic_hearth_click_24dp);
+                                text_apply.setText("Applyed");
+                                apply.setCardBackgroundColor(getResources().getColor(R.color.cardtags2));
                             }
                         }
 
@@ -229,13 +231,13 @@ public class OpenPost extends AppCompatActivity {
                             if (clicked) {
                                 mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).removeValue();
                                 clicked = false;
-                                text_apply.setText("Applyed");
-                                apply.setBackgroundResource(R.color.cardtags2);
+                                text_apply.setText("Apply Job");
+                                apply.setCardBackgroundColor(getResources().getColor(R.color.addjobpost));
                             } else {
                                 mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(true);
                                 clicked = true;
-                                text_apply.setText("Apply Job");
-                                apply.setBackgroundResource(R.color.addjobpost);
+                                text_apply.setText("Applyed");
+                                apply.setCardBackgroundColor(getResources().getColor(R.color.cardtags2));
                             }
                         }
                     });

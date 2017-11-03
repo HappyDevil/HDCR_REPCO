@@ -21,4 +21,6 @@ public interface CloudFuncAPI {
     @GET(URLS.findFriendsPost)
     Call<StripeJobPost[]> findFriendsPost(@Query("id") String id, @Query("chunk") Long chunk);
 
+    @GET(URLS.createSubscription)
+    Call<Void> createSubscription(@Query("id") String id);
 }

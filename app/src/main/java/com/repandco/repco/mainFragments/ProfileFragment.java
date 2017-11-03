@@ -51,6 +51,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +72,7 @@ public class ProfileFragment extends Fragment {
     private TextView usename;
     private TextView rateTimes;
     private TextView noimages;
+    private TextView friendCount;
     private RatingBar ratingBar;
     private Button follow;
     private Button rate;
@@ -80,6 +82,7 @@ public class ProfileFragment extends Fragment {
     private CardView card_email;
     private CardView card_phone;
     private CardView card_bact;
+    private CardView friends;
     private CardView card_address;
     private RecyclerView history;
     private RecyclerView.LayoutManager historyLayoutManager;
@@ -116,8 +119,6 @@ public class ProfileFragment extends Fragment {
         uid = this.getArguments().getString(Keys.UID);
         context = inflater.inflate(R.layout.fragment_profile, container,false);
 
-        onCreateDialog(null);
-
 
         if(uid!=null) {
             if(context!=null) {
@@ -131,6 +132,7 @@ public class ProfileFragment extends Fragment {
                     content.setVisibility(View.INVISIBLE);
                     usename = (TextView) content.findViewById(R.id.username);
                     noimages = (TextView) content.findViewById(R.id.noimages);
+                    friendCount = (TextView) content.findViewById(R.id.friendCount);
                     mRecyclerView = (RecyclerView) content.findViewById(R.id.my_recycler_view);
                     history = (RecyclerView) content.findViewById(R.id.history);
 
@@ -147,6 +149,7 @@ public class ProfileFragment extends Fragment {
                     card_phone = (CardView) content.findViewById(R.id.card_phone);
                     card_bact = (CardView) content.findViewById(R.id.card_bact);
                     card_address = (CardView) content.findViewById(R.id.card_address);
+                    friends = (CardView) content.findViewById(R.id.friends);
                     exitButton = (FloatingActionButton) content.findViewById(R.id.exitButton);
 
                     mRecyclerView.setHasFixedSize(true);
@@ -167,9 +170,9 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                             if (scrollY > oldScrollY) {
-                                exitButton.hide();
+                                if(curUserID.equals(uid)) exitButton.hide();
                             } else {
-                                exitButton.show();
+                                if(curUserID.equals(uid)) exitButton.show();
                             }
                         }
                     });
@@ -249,6 +252,25 @@ public class ProfileFragment extends Fragment {
                             }
                         });
                     }
+
+                    reference.child(FRIENDS+uid).child(FOLLOWED).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                            int i = 0;
+                            while(iterator.hasNext()) {
+                              i++;
+                              iterator.next();
+                            }
+
+                            friendCount.setText(String.valueOf(i));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            friendCount.setText(String.valueOf(0));
+                        }
+                    });
                 }
                 if (usename != null)
                 {
@@ -329,6 +351,11 @@ public class ProfileFragment extends Fragment {
                                             });
                                         }
                                     }
+                                    ((TextView) card_email.findViewById(R.id.text_email)).setText(dataSnapshot.child(Keys.EMAIL).getValue(String.class));
+                                    ((TextView) card_phone.findViewById(R.id.text_phone)).setText(dataSnapshot.child(Keys.PHONE).getValue(String.class));
+
+
+                                    String value = dataSnapshot.child(Keys.STATUS).getValue(String.class);
 
                                     if (type == Values.TYPES.PROFESSIONAL_TYPE) {
                                         enterpriseInfo(View.GONE);
@@ -345,8 +372,7 @@ public class ProfileFragment extends Fragment {
                                         Long birthday = dataSnapshot.child(Keys.BIRTHDAY).getValue(Long.class);
                                         if (birthday != null)
                                             ((TextView) card_birthday.findViewById(R.id.text_birthday)).setText(DateFormat.getDateInstance().format(new Date(birthday)));
-                                        ((TextView) card_email.findViewById(R.id.text_email)).setText(dataSnapshot.child(Keys.EMAIL).getValue(String.class));
-                                        ((TextView) card_phone.findViewById(R.id.text_phone)).setText(dataSnapshot.child(Keys.PHONE).getValue(String.class));
+
                                     } else {
                                         if (type == Values.TYPES.ENTERPRISE_TYPE) {
                                             proffesionalInfo(View.GONE);
@@ -357,10 +383,9 @@ public class ProfileFragment extends Fragment {
 
                                             ((TextView) card_bact.findViewById(R.id.text_bact)).setText(dataSnapshot.child(Keys.BACT).getValue(String.class));
                                             ((TextView) card_address.findViewById(R.id.text_address)).setText(dataSnapshot.child(Keys.ADDRESS).getValue(String.class));
-                                            ((TextView) card_email.findViewById(R.id.text_email)).setText(dataSnapshot.child(Keys.EMAIL).getValue(String.class));
-                                            ((TextView) card_phone.findViewById(R.id.text_phone)).setText(dataSnapshot.child(Keys.PHONE).getValue(String.class));
                                         }
                                     }
+
                                     mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                                         @Override
                                         public void onGlobalLayout() {
@@ -445,7 +470,7 @@ public class ProfileFragment extends Fragment {
                     }
                 })
 
-                .setNegativeButton("Cncel",
+                .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -455,28 +480,6 @@ public class ProfileFragment extends Fragment {
         ratingdialog.create();
         ratingdialog.show();
     }
-
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        View inflate = inflater.inflate(R.layout.alert_dialog_stripe, null);
-        builder.setView(inflate);
-
-        Button button = (Button)inflate.findViewById(R.id.button7);
-        EditText editText = (EditText)inflate.findViewById(R.id.editText2);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        return builder.create();
-    }
-
 
 }
 

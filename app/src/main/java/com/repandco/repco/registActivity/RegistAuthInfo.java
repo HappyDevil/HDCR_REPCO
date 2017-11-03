@@ -151,6 +151,12 @@ public class RegistAuthInfo extends AppCompatActivity {
         progressDialog.setMessage("Register account...");
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private Task<Void> addUserToFirebase()
     {
