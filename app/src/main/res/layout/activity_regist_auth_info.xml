@@ -25,12 +25,17 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/addjobpost"
+        android:elevation="10dp"
         android:onClick="next"
-        android:text="Next" />
+        android:text="Next"
+        android:textColor="@android:color/white" />
 </LinearLayout>

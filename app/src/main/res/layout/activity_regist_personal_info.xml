@@ -26,7 +26,8 @@
         android:ems="10"
         android:hint="Phone number"
         android:inputType="phone"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_margin="3dp"/>
 
     <EditText
         android:id="@+id/birthdate"
@@ -35,12 +36,14 @@
         android:ems="10"
         android:hint="Birthdate"
         android:inputType="date"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_margin="3dp"/>
 
     <RadioGroup
         android:id="@+id/radiogroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
 
         <RadioButton
             android:id="@+id/male"
@@ -62,7 +65,11 @@
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/addjobpost"
+        android:elevation="10dp"
         android:onClick="next"
-        android:text="Next" />
+        android:text="Next"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

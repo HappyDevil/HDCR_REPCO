@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Phone number"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:layout_margin="3dp"/>
 
     <EditText
         android:id="@+id/emailaddress"
@@ -33,7 +34,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email address"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:layout_margin="3dp"/>
 
     <EditText
         android:id="@+id/address"
@@ -41,13 +43,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Business location address"
-        android:inputType="textAutoCorrect" />
+        android:inputType="textAutoCorrect"
+        android:layout_margin="3dp"/>
 
     <Button
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/addjobpost"
+        android:elevation="10dp"
         android:onClick="next"
-        android:text="Next" />
+        android:text="Next"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

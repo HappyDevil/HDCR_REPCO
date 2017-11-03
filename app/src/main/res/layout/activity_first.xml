@@ -17,15 +17,21 @@
         android:id="@+id/professional"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/addjobpost"
+        android:elevation="10dp"
         android:onClick="professional"
-        android:text="Je suis un professionnel" />
+        android:text="Je suis un professionnel"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/enterprise"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/addjobpost"
+        android:elevation="10dp"
         android:onClick="enterprise"
-        android:text="Je suis une entreprise" />
+        android:text="Je suis une entreprise"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/login"
@@ -41,6 +47,7 @@
         android:shadowColor="#000000"
         android:shadowDx="1"
         android:shadowDy="1"
-        android:shadowRadius="2"/>
+        android:shadowRadius="2"
+        android:layout_margin="5dp"/>
 
 </LinearLayout>
