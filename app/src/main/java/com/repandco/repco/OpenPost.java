@@ -116,6 +116,7 @@ public class OpenPost extends AppCompatActivity {
 
         HashMap<String,Boolean> stringHashMap = new HashMap<>();
 
+        postID = model.getPostid();
         type = model.getType();
 
         String[] stringArrayExtra = postIntent.getStringArrayExtra(Keys.TAGS);
@@ -221,27 +222,6 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
 
-                    mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            ArrayList<Like> likes = new ArrayList<>();
-                            for (DataSnapshot data:dataSnapshot.getChildren()) {
-                                if(data.getValue() instanceof Boolean){
-                                    Like like = new Like();
-                                    like.setAccept((Boolean) data.getValue());
-                                    like.setPostID(postID);
-                                    like.setUid(data.getKey());
-                                }
-                            }
-                            acceptAdapter = new AcceptAdapter(likes,OpenPost.this);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
                     like.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -259,7 +239,30 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
 
-                    if(model.getUserid().equals(mAuth.getCurrentUser().getUid())) apply.setVisibility(View.GONE);
+                    if(model.getUserid().equals(mAuth.getCurrentUser().getUid())){
+                        mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                ArrayList<Like> likes = new ArrayList<>();
+                                for (DataSnapshot data:dataSnapshot.getChildren()) {
+                                    if(data.getValue() instanceof Boolean){
+                                        Like like = new Like();
+                                        like.setAccept((Boolean) data.getValue());
+                                        like.setPostID(postID);
+                                        like.setUid(data.getKey());
+                                    }
+                                }
+                                acceptAdapter = new AcceptAdapter(likes,OpenPost.this);
+                                accept_jobs.setAdapter(acceptAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                        apply.setVisibility(View.GONE);
+                    }
                     apply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -304,6 +307,7 @@ public class OpenPost extends AppCompatActivity {
                     typeText.setBackground(getResources().getDrawable(R.drawable.rounded_info));
 
                     apply.setVisibility(View.GONE);
+
                     subCategory.setVisibility(View.GONE);
                     subProfession.setVisibility(View.GONE);
                     profession.setVisibility(View.GONE);
@@ -337,6 +341,10 @@ public class OpenPost extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void hideElements(){
+        act.setVisible(false);
     }
 
 }

@@ -281,6 +281,7 @@
         android:id="@+id/accept_jobs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         tools:listitem="@layout/adapter_accept_job" />
 
     <LinearLayout
