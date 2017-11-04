@@ -236,8 +236,11 @@
                 android:id="@+id/create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/addjobpost"
+                android:elevation="10dp"
                 android:text="Create"
-                android:layout_marginBottom="10dp"/>
+                android:textColor="@android:color/white"/>
         </LinearLayout>
     </ScrollView>
 
