@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/postTolbar">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar2"

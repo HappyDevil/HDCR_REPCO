@@ -52,6 +52,7 @@ public class OpenPost extends AppCompatActivity {
     public TextView text;
     public TextView typeText;
     public TextView subCategory;
+    public TextView canditates;
     public TextView category;
     public TextView commission;
     public TextView subProfession;
@@ -139,6 +140,7 @@ public class OpenPost extends AppCompatActivity {
         currency = (TextView) findViewById(R.id.currency);
         price = (TextView) findViewById(R.id.price);
         commission = (TextView) findViewById(R.id.commission);
+        canditates = (TextView) findViewById(R.id.canditates);
 
         typeText = (TextView) findViewById(R.id.typeText);
         subCategory = (TextView) findViewById(R.id.subCategory);
@@ -240,6 +242,7 @@ public class OpenPost extends AppCompatActivity {
                     });
 
                     if(model.getUserid().equals(mAuth.getCurrentUser().getUid())){
+                        canditates.setVisibility(View.VISIBLE);
                         mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

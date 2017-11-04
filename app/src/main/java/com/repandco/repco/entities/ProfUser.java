@@ -31,6 +31,12 @@ public class ProfUser {
     private Integer visible;
     @SerializedName("photos")
     ArrayList<String> photos;
+    @SerializedName("job")
+    private String job;
+    @SerializedName("videourl")
+    private String videourl;
+    @SerializedName("jobdescription")
+    private String jobdescription;
 
     @SerializedName("birthday")
     public Long getBirthday() {
@@ -139,5 +145,29 @@ public class ProfUser {
     @SerializedName("photos")
     public void setPhotos(ArrayList<String> photos) {
         this.photos = photos;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getVideourl() {
+        return videourl;
+    }
+
+    public void setVideourl(String videourl) {
+        this.videourl = videourl;
+    }
+
+    public String getJobdescription() {
+        return jobdescription;
+    }
+
+    public void setJobdescription(String jobdescription) {
+        this.jobdescription = jobdescription;
     }
 }

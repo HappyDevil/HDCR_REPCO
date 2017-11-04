@@ -13,12 +13,11 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/postTolbar"
         android:layout_width="match_parent"
-        app:titleTextColor="@color/cardview_light_background"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
+        app:titleTextColor="@color/cardview_light_background"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:popupTheme="@style/AppTheme.AppBarOverlay" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -51,7 +51,7 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".OpenPost" />
         <activity android:name=".CreateJobPost" />
-        <activity android:name=".Followers_Act"></activity>
+        <activity android:name=".Followers_Act"/>
     </application>
 
 </manifest>

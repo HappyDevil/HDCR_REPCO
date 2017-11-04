@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/postTolbar">
 
             <ImageView
                 android:id="@+id/header"

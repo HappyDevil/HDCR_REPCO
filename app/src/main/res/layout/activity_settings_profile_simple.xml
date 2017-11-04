@@ -16,11 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:contextClickable="false"
+            app:titleTextColor="@color/cardview_light_background"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:title="Settigns"
-            app:titleTextColor="@color/cardview_light_background">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             <ImageButton
                 android:id="@+id/exitButton"

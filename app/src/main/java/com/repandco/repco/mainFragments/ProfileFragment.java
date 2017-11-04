@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.repandco.repco.FirebaseConfig;
 import com.repandco.repco.FirstActivity;
+import com.repandco.repco.Followers_Act;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.adapter.ImagesAdapter;
@@ -113,7 +114,7 @@ public class ProfileFragment extends Fragment {
     private View content;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         reference = FirebaseConfig.mDatabase.getReference();
 
@@ -151,6 +152,15 @@ public class ProfileFragment extends Fragment {
                     card_bact = (CardView) content.findViewById(R.id.card_bact);
                     card_address = (CardView) content.findViewById(R.id.card_address);
                     friends = (CardView) content.findViewById(R.id.friends);
+
+                    friends.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent followIntent = new Intent(manager, Followers_Act.class);
+                            followIntent.putExtra(Keys.UID,uid);
+                            startActivity(followIntent);
+                        }
+                    });
                     exitButton = (FloatingActionButton) content.findViewById(R.id.exitButton);
 
                     mRecyclerView.setHasFixedSize(true);

@@ -294,14 +294,16 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/canditates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:background="@color/cardtags1"
             android:text="Candidates"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:gravity="center"
-            android:layout_margin="3dp"
-            android:textSize="17sp"/>
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/accept_jobs"

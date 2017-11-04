@@ -6,48 +6,34 @@
     android:layout_height="match_parent"
     android:background="@color/cardtags1">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/postTolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@color/cardview_light_background"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:popupTheme="@style/AppTheme.AppBarOverlay" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <android.support.design.widget.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_light_background">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/postTolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Followers" />
+            android:background="@color/colorPrimary"/>
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/tabItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Follow" />
-
-    </android.support.design.widget.TabLayout>
-
-
+    </android.support.design.widget.AppBarLayout>
 
         <ProgressBar
             android:id="@+id/progressPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="true"
-            android:clipToPadding="true"
-            android:scrollbars="vertical"
-            android:layout_marginTop="10dp"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

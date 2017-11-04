@@ -10,15 +10,12 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/postTolbar"
-        app:popupTheme="@style/AppTheme.AppBarOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
         app:titleTextColor="@color/cardview_light_background"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <EditText
         android:id="@+id/name"
