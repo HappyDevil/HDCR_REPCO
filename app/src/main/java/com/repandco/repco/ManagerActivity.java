@@ -69,7 +69,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     private Retrofit cloudFunctions;
     public CloudFuncAPI cloudAPI;
 
-    private long type;
+    public long type;
     private String status;
     private String stripeEmail;
     private String email;

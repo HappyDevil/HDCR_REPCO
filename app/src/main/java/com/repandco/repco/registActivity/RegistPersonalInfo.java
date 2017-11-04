@@ -49,6 +49,8 @@ public class RegistPersonalInfo extends AppCompatActivity {
         birthdaySTR = (TextView) findViewById(R.id.birthdaySTR);
         birthdayLONG = new Date().getTime();
 
+        birthdaySTR.setText(DateFormat.getDateInstance().format(new Date()));
+
         radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         intent = getIntent();
     }

@@ -217,7 +217,7 @@ public class ProfileFragment extends Fragment {
                                         follow.setText(R.string.firends);
                                     }
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardtags2)));
                                     }
                                     reference.child(URLS.FRIENDS+curUserID).child(FOLLOW).child(uid).setValue(true);
                                 }
@@ -225,7 +225,7 @@ public class ProfileFragment extends Fragment {
                                     follow.setText(R.string.follow);
                                     friendType = -1;
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.button_material_light)));
+                                        follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.addjobpost)));
                                     }
                                     reference.child(URLS.FRIENDS+curUserID).child(FOLLOW).child(uid).removeValue();
                                 }

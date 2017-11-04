@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,17 +21,21 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.repandco.repco.adapter.AcceptAdapter;
 import com.repandco.repco.adapter.ImagesAdapter;
 import com.repandco.repco.adapter.TagsAdapter;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
+import com.repandco.repco.entities.Like;
 import com.repandco.repco.entities.StripeJobPost;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
@@ -58,6 +64,7 @@ public class OpenPost extends AppCompatActivity {
     public RecyclerView mRecyclerView;
     public RecyclerView accept_jobs;
     private ImagesAdapter mAdapter;
+    private AcceptAdapter acceptAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView tags_list;
     private String postID;
@@ -182,9 +189,7 @@ public class OpenPost extends AppCompatActivity {
                     photo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(context, ManagerActivity.class);
-                            intent.putExtra(Keys.UID,model.getUserid());
-                            startActivity(intent);
+                            openProfile(model.getUserid());
                         }
                     });
 
@@ -205,7 +210,8 @@ public class OpenPost extends AppCompatActivity {
                                 clicked = true;
                                 like.setImageResource(R.drawable.ic_hearth_click_24dp);
                                 text_apply.setText("Applyed");
-                                apply.setCardBackgroundColor(getResources().getColor(R.color.cardtags2));
+
+                                apply.setCardBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(apply.getContext(), R.color.cardtags2)));
                             }
                         }
 
@@ -218,7 +224,16 @@ public class OpenPost extends AppCompatActivity {
                     mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
+                            ArrayList<Like> likes = new ArrayList<>();
+                            for (DataSnapshot data:dataSnapshot.getChildren()) {
+                                if(data.getValue() instanceof Boolean){
+                                    Like like = new Like();
+                                    like.setAccept((Boolean) data.getValue());
+                                    like.setPostID(postID);
+                                    like.setUid(data.getKey());
+                                }
+                            }
+                            acceptAdapter = new AcceptAdapter(likes,OpenPost.this);
                         }
 
                         @Override
@@ -252,12 +267,12 @@ public class OpenPost extends AppCompatActivity {
                                 mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).removeValue();
                                 clicked = false;
                                 text_apply.setText("Apply Job");
-                                apply.setCardBackgroundColor(getResources().getColor(R.color.addjobpost));
+                                apply.setCardBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(apply.getContext(), R.color.addjobpost)));
                             } else {
                                 mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(false);
                                 clicked = true;
                                 text_apply.setText("Applyed");
-                                apply.setCardBackgroundColor(getResources().getColor(R.color.cardtags2));
+                                apply.setCardBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(apply.getContext(), R.color.cardtags2)));
                             }
                         }
                     });
@@ -311,6 +326,13 @@ public class OpenPost extends AppCompatActivity {
 
         }
     }
+
+    public void openProfile(String uid) {
+        Intent intent = new Intent(context, ManagerActivity.class);
+        intent.putExtra(Keys.UID,uid);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

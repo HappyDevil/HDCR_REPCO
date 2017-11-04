@@ -197,7 +197,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         final StripeJobPost model = jobPosts.get(position);
 
         if (model.getUserid() != null) {
-            holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
+            if(model.getDate()!=null) holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
             holder.title.setText(model.getTitle());
             holder.text.setText(model.getText());
             holder.hideItems(true);

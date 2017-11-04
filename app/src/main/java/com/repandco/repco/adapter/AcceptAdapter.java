@@ -1,6 +1,8 @@
 package com.repandco.repco.adapter;
 
+import android.content.res.ColorStateList;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,29 +14,42 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.repandco.repco.ManagerActivity;
+import com.repandco.repco.OpenPost;
 import com.repandco.repco.R;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.Like;
+import com.repandco.repco.request.CloudFuncAPI;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.repandco.repco.FirebaseConfig.mDatabase;
 
 public class AcceptAdapter extends RecyclerView.Adapter<AcceptAdapter.AcceptHolder> {
 
+    private Retrofit cloudFunctions;
+    private CloudFuncAPI cloudAPI;
     private ArrayList<Like> likes;
-    private ManagerActivity manager;
+    private OpenPost manager;
 
-    public AcceptAdapter(ArrayList<Like> likes,ManagerActivity manager) {
+    public AcceptAdapter(ArrayList<Like> likes,OpenPost manager) {
         this.likes = likes;
         this.manager = manager;
+
+        cloudFunctions = new Retrofit.Builder()
+                .baseUrl(URLS.cloudFunc)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        cloudAPI = cloudFunctions.create(CloudFuncAPI.class);
     }
 
-    public AcceptAdapter(ManagerActivity manager) {
+    public AcceptAdapter(OpenPost manager) {
         likes = new ArrayList<>();
         this.manager = manager;
     }
@@ -80,7 +95,7 @@ public class AcceptAdapter extends RecyclerView.Adapter<AcceptAdapter.AcceptHold
                     holder.ignore.setVisibility(View.GONE);
                     holder.accept.setText("Accepted");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        holder.accept.setBackgroundTintList(manager.getResources().getColorStateList(R.color.cardtags2));
+                        holder.accept.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.accept.getContext(), R.color.cardtags2)));
                     }
                     holder.accept.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -95,15 +110,15 @@ public class AcceptAdapter extends RecyclerView.Adapter<AcceptAdapter.AcceptHold
                     holder.ignore.setVisibility(View.VISIBLE);
                     holder.accept.setText("Accept");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        holder.accept.setBackgroundTintList(manager.getResources().getColorStateList(R.color.addjobpost));
+                        holder.accept.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.accept.getContext(), R.color.addjobpost)));
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        holder.accept.setBackgroundTintList(manager.getResources().getColorStateList(R.color.cardtags2));
+                        holder.accept.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.accept.getContext(), R.color.cardtags2)));
                     }
                     holder.accept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            manager.cloudAPI.developNotReq(model.getPostID(),model.getUid());
+                            cloudAPI.developNotReq(model.getPostID(),model.getUid());
                             mDatabase.getReference().child(URLS.LIKES + model.getPostID()+ "/" + model.getUid()).setValue(true);
                             model.setAccept(true);
                             notifyDataSetChanged();

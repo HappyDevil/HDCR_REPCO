@@ -13,6 +13,7 @@ import com.repandco.repco.CreateComPost;
 import com.repandco.repco.CreateJobPost;
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
+import com.repandco.repco.constants.Values;
 
 public class ChoseType extends Fragment {
 
@@ -33,6 +34,7 @@ public class ChoseType extends Fragment {
         job = (CardView) content.findViewById(R.id.job);
         context = content.getContext();
 
+        if(manager.type!= Values.TYPES.ENTERPRISE_TYPE) job.setVisibility(View.GONE);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

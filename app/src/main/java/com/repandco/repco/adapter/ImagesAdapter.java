@@ -165,7 +165,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
         }
         if(tags!=null)
             if(tags.size()>position)
-            if(isTags) holder.mImageView.setTag(tags.get(position));
+            if((isTags)&&(!url.equals("PLUS"))) holder.mImageView.setTag(tags.get(position));
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
