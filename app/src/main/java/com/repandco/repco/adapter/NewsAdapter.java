@@ -84,7 +84,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(model.getPostREF()==null) manager.openPost(model.getPostID(),model.getUid());
+                        if(model.getPostREF()==null) manager.openPost(model.getPostID());
                         else manager.openPost(model.getPostREF());
                     }
                 });
