@@ -277,6 +277,23 @@
         </android.support.v7.widget.RecyclerView>
 
         <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video"
+            android:padding="2dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="@color/cardtags1"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
