@@ -481,13 +481,12 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
 
     }
 
-    public void openPost(final String postID, final String uid) {
+    public void openPost(final String postID) {
         mDatabase.getReference().child(URLS.POSTS+postID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StripeJobPost post = dataSnapshot.getValue(StripeJobPost.class);
                 if(post!=null) {
-                    post.setUserid(uid);
                     openPost(post);
                 }
             }

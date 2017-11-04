@@ -250,6 +250,7 @@ public class OpenPost extends AppCompatActivity {
                                         like.setAccept((Boolean) data.getValue());
                                         like.setPostID(postID);
                                         like.setUid(data.getKey());
+                                        likes.add(like);
                                     }
                                 }
                                 acceptAdapter = new AcceptAdapter(likes,OpenPost.this);
