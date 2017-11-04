@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ">
-
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -272,16 +271,30 @@
             android:clipChildren="true"
             android:clipToPadding="true"
             android:orientation="horizontal"
-            android:scrollbars="horizontal">
+            android:scrollbars="horizontal"
+            android:layout_margin="10dp">
 
         </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Candidates"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:gravity="center"
+            android:layout_margin="3dp"
+            android:textSize="17sp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/accept_jobs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            tools:listitem="@layout/adapter_accept_job" />
+            tools:listitem="@layout/adapter_accept_job"
+            >
+
+        </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -347,4 +360,4 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
