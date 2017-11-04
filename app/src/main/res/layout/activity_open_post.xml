@@ -126,13 +126,14 @@
             android:id="@+id/subCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:background="@color/cardtags1"
             android:padding="2dp"
             android:text="Category"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" />
 
         <TextView
             android:id="@+id/category"
@@ -150,9 +151,11 @@
             android:background="@color/cardtags1"
             android:padding="2dp"
             android:text="@string/profession"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" />
 
         <TextView
             android:id="@+id/profession"
@@ -180,12 +183,14 @@
                     android:id="@+id/textView89"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:background="@color/cardtags1"
+                    android:gravity="center"
                     android:padding="2dp"
                     android:text="Price"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/price"
@@ -211,9 +216,11 @@
                     android:background="@color/cardtags1"
                     android:padding="2dp"
                     android:text="Commission %"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp" />
 
                 <TextView
                     android:id="@+id/commission"
@@ -238,9 +245,11 @@
                     android:background="@color/cardtags1"
                     android:padding="2dp"
                     android:text="Currency"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp" />
 
                 <TextView
                     android:id="@+id/currency"
@@ -260,9 +269,11 @@
             android:background="@color/cardtags1"
             android:padding="2dp"
             android:text="Photos"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_recycler_view"
@@ -282,10 +293,12 @@
             android:layout_height="wrap_content"
             android:text="Video"
             android:padding="2dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:background="@color/cardtags1"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/cardtags1" />
 
         <VideoView
             android:id="@+id/videoView"
@@ -297,13 +310,13 @@
             android:id="@+id/canditates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:background="@color/cardtags1"
+            android:gravity="center"
             android:text="Candidates"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/accept_jobs"
