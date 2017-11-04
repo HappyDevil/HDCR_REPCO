@@ -56,7 +56,8 @@ public class OpenPost extends AppCompatActivity {
     public ImageView like;
     public ImageButton deletebut;
     public RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    public RecyclerView accept_jobs;
+    private ImagesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView tags_list;
     private String postID;
@@ -69,6 +70,7 @@ public class OpenPost extends AppCompatActivity {
     private StripeJobPost model;
     private Long type;
     private Toolbar postTolbar;
+    private LinearLayoutManager accept_manager;
 
     public OpenPost() {
         super();
@@ -139,11 +141,15 @@ public class OpenPost extends AppCompatActivity {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        accept_jobs = (RecyclerView) findViewById(R.id.accept_jobs);
         tags_list = (RecyclerView) findViewById(R.id.tags_list);
 
         mRecyclerView.setHasFixedSize(false);
+        accept_jobs.setHasFixedSize(false);
         mLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        accept_manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        accept_jobs.setLayoutManager(accept_manager);
 
         tags_list.setHasFixedSize(false);
         RecyclerView.LayoutManager  tagsLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
@@ -177,6 +183,7 @@ public class OpenPost extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(context, ManagerActivity.class);
+                            intent.putExtra(Keys.UID,model.getUserid());
                             startActivity(intent);
                         }
                     });
@@ -208,6 +215,18 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
 
+                    mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                     like.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -225,6 +244,7 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
 
+                    if(model.getUserid().equals(mAuth.getCurrentUser().getUid())) apply.setVisibility(View.GONE);
                     apply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -234,7 +254,7 @@ public class OpenPost extends AppCompatActivity {
                                 text_apply.setText("Apply Job");
                                 apply.setCardBackgroundColor(getResources().getColor(R.color.addjobpost));
                             } else {
-                                mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(true);
+                                mDatabase.getReference().child(URLS.LIKES + postID + "/" + mAuth.getCurrentUser().getUid()).setValue(false);
                                 clicked = true;
                                 text_apply.setText("Applyed");
                                 apply.setCardBackgroundColor(getResources().getColor(R.color.cardtags2));
@@ -291,4 +311,10 @@ public class OpenPost extends AppCompatActivity {
 
         }
     }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }

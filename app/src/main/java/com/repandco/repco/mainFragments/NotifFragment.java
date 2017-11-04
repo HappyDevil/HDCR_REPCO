@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,7 @@ public class NotifFragment extends Fragment {
     private ManagerActivity manager;
     private RecyclerView history;
     private LinearLayoutManager historyLayoutManager;
+    private ProgressBar temp;
     private NewsAdapter newsAdapter;
     private final ArrayList<News> newses = new ArrayList<>();
 
@@ -40,10 +42,12 @@ public class NotifFragment extends Fragment {
 
         View content = inflater.inflate(R.layout.fragment_notif, container, false);
         history = (RecyclerView) content.findViewById(R.id.history);
-
+        temp = (ProgressBar) content.findViewById(R.id.temp);
+        temp.setVisibility(View.VISIBLE);
         history.setHasFixedSize(false);
         historyLayoutManager = new LinearLayoutManager(content.getContext(),LinearLayoutManager.VERTICAL,false);
         history.setLayoutManager(historyLayoutManager);
+        newses.clear();
 
         final DatabaseReference uidNotif = mDatabase.getReference().child(URLS.NOTIFICATIONS).child(mAuth.getCurrentUser().getUid());
 
@@ -105,7 +109,8 @@ public class NotifFragment extends Fragment {
                         newses.add(news);
                     }
                 }
-                newsAdapter = new NewsAdapter(manager,newses);
+                temp.setVisibility(View.GONE);
+                newsAdapter = new NewsAdapter(manager,newses,temp);
                 history.setAdapter(newsAdapter);
             }
 

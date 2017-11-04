@@ -3,6 +3,8 @@ package com.repandco.repco.entities;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class ProfUser {
@@ -27,6 +29,8 @@ public class ProfUser {
     private Integer type;
     @SerializedName("visible")
     private Integer visible;
+    @SerializedName("photos")
+    ArrayList<String> photos;
 
     @SerializedName("birthday")
     public Long getBirthday() {
@@ -127,4 +131,13 @@ public class ProfUser {
         this.visible = visible;
     }
 
+    @SerializedName("photos")
+    public ArrayList<String> getPhotos() {
+        return photos;
+    }
+
+    @SerializedName("photos")
+    public void setPhotos(ArrayList<String> photos) {
+        this.photos = photos;
+    }
 }

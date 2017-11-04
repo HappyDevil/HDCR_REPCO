@@ -27,6 +27,8 @@ import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.StripeJobPost;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +66,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         private View itemView;
         private boolean clicked = false;
         private boolean clickFinish = true;
+
+        public void hideItems(boolean t){
+            int visibilyty = (t) ? View.INVISIBLE : View.VISIBLE;
+            photo.setVisibility(visibilyty);
+            name.setVisibility(visibilyty);
+            title.setVisibility(visibilyty);
+            text.setVisibility(visibilyty);
+            likes.setVisibility(visibilyty);
+            date.setVisibility(visibilyty);
+            like.setVisibility(visibilyty);
+            typeText.setVisibility(visibilyty);
+            mRecyclerView.setVisibility(visibilyty);
+            tags_list.setVisibility(visibilyty);
+        }
 
         public PostHolder(final View itemView,final ManagerActivity manager) {
             super(itemView);
@@ -184,6 +200,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
             holder.date.setText(DateFormat.getDateTimeInstance().format(new Date(model.getDate())));
             holder.title.setText(model.getTitle());
             holder.text.setText(model.getText());
+            holder.hideItems(true);
 
             if(holder.likes!=null) holder.likes.setText(String.valueOf(model.getLikes()));
 
@@ -192,7 +209,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue()!=null){
-                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                        String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                        if(firstName==null)
+                            firstName=null;
+                        firstName = (firstName==null) ? "" : firstName;
+                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + firstName;
                         holder.name.setText(name);
                         String photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
 
@@ -216,9 +237,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                         @Override
                         public void onClick(View view) {
                             String postid = model.getPostid();
+                            String uid = model.getUserid();
                             mDatabase.getReference().child(URLS.POSTS+ postid).removeValue();
                             jobPosts.remove(postid);
-                            notifyItemChanged(position);
+                            notifyDataSetChanged();
+                            manager.updateProfile(uid);
                         }
                     });
                     holder.setPostID(model.getPostid());
@@ -255,6 +278,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                             manager.openPost(model);
                         }
                     });
+                    holder.hideItems(false);
                 }
 
                 @Override

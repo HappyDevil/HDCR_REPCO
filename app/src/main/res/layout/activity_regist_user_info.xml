@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/cardview_light_background"
         android:theme="?attr/actionBarTheme"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
@@ -111,7 +112,7 @@
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/cardtags1"
-                    android:onClick="photo"
+                    android:onClick="header"
                     app:srcCompat="@drawable/ic_add_black_24dp" />
 
                 <ProgressBar

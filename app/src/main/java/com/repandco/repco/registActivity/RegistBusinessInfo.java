@@ -126,12 +126,12 @@ public class RegistBusinessInfo extends AppCompatActivity {
 
                 if (requestCode == REQUEST_HEADER){
                     headerbut.setImageURI(uri);
-                    intent.putExtra(Keys.HEADER, uri);
+                    intent.putExtra(Keys.HEADER, String.valueOf(uri));
                 }
                 else
                 if (requestCode == REQUEST_PHOTO){
                     photobut.setImageURI(uri);
-                    intent.putExtra(Keys.PHOTO, uri);
+                    intent.putExtra(Keys.PHOTO, String.valueOf(uri));
                 }
             }
         }

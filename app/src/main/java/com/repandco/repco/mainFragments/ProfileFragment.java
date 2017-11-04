@@ -73,6 +73,7 @@ public class ProfileFragment extends Fragment {
     private TextView rateTimes;
     private TextView noimages;
     private TextView friendCount;
+    private TextView nopost;
     private RatingBar ratingBar;
     private Button follow;
     private Button rate;
@@ -101,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
     private String photourl;
     private double ratingV;
-    private Long curRate;
+    private double curRate;
     private long rateTimesV;
     private DatabaseReference reference;
     private View context;
@@ -176,8 +177,8 @@ public class ProfileFragment extends Fragment {
                             }
                         }
                     });
-
-                    mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter));
+                    nopost = (TextView) content.findViewById(R.id.nopost);
+                    mDatabase.getReference().child(URLS.POSTS).orderByChild(Keys.USERID).equalTo(uid).addListenerForSingleValueEvent(new PostListener(postAdapter,nopost));
 
 
                     history.setAdapter(postAdapter);
@@ -241,7 +242,11 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.getValue()!=null) {
-                                    curRate = (long)dataSnapshot.child(Keys.RATING).getValue();
+                                    Object rateObj= dataSnapshot.child(Keys.RATING).getValue();
+                                    if(rateObj!=null) {
+                                        if (rateObj instanceof Double) curRate = (double) rateObj;
+                                        else curRate = (Long) rateObj;
+                                    }
                                 }
                                 bar.setProgress(1);
                             }
@@ -313,16 +318,19 @@ public class ProfileFragment extends Fragment {
                                     if(rateObj!=null) {
                                         if (rateObj instanceof Double) ratingV = (double) rateObj;
                                         else ratingV = (Long) rateObj;
-                                        ratingBar.setRating((float) ratingV/2);
-                                        rateTimes.setText("Rated " + rateTimesV + " times");
+                                        ratingBar.setRating((float) ratingV);
                                     }
+
 
                                     photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
                                     String headerurl = (String) dataSnapshot.child(Keys.HEADER).getValue();
                                     ArrayList<String> photos = (ArrayList<String>) dataSnapshot.child(Keys.PHOTOS).getValue();
                                     Object rateTimesObj = dataSnapshot.child(Keys.RATETIMES).getValue();
-                                    if(rateTimesObj!=null) rateTimesV = (long) rateTimesObj;
-
+                                    if(rateTimesObj!=null) {
+                                        rateTimesV = (long) rateTimesObj;
+                                        rateTimes.setText("Rated " + rateTimesV + " times");
+                                    }
+                                    else rateTimes.setText("Rated " + 0 + " times");
 
                                     if(photos!=null) {
                                         noimages.setVisibility(View.GONE);
@@ -334,6 +342,8 @@ public class ProfileFragment extends Fragment {
                                         if (!headerurl.equals(Values.URLS.STANDARD)) {
                                             Picasso.with(context.getContext())
                                                     .load(headerurl)
+                                                    .resize(header.getWidth(),header.getHeight())
+                                                    .centerCrop()
                                                     .into(header);
                                         }
                                     }
@@ -341,6 +351,8 @@ public class ProfileFragment extends Fragment {
                                         if (!photourl.equals(Values.URLS.STANDARD)) {
                                             Picasso.with(context.getContext())
                                                     .load(photourl)
+                                                    .resize(photo.getWidth(),photo.getHeight())
+                                                    .centerCrop()
                                                     .into(photo);
 
                                             photo.setOnClickListener(new View.OnClickListener() {
@@ -441,20 +453,24 @@ public class ProfileFragment extends Fragment {
 
     public void showRatingDialog() {
         final AlertDialog.Builder ratingdialog = new AlertDialog.Builder(context.getContext());
-        final RatingBar rating = new RatingBar(context.getContext());
+
+        LayoutInflater inflater = manager.getLayoutInflater();
+
+
+        View inflate = inflater.inflate(R.layout.rating, null);
+        ratingdialog.setView(inflate);
+
+
+        final RatingBar rating = (RatingBar) inflate.findViewById(R.id.ratingBar2);
 
         ratingdialog.setIcon(android.R.drawable.btn_star_big_on);
         if(curRate!=0) ratingdialog.setTitle("Your last voute: "+curRate);
         else ratingdialog.setTitle("Choose rate:");
-        rating.setMax(5);
-        rating.setNumStars(5);
-        rating.setStepSize(0.25f);
-        ratingdialog.setView(rating);
 
         ratingdialog.setPositiveButton("Accept",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        curRate = (long) rating.getRating();
+                        curRate = rating.getRating();
                         manager.cloudAPI.rateReq(uid,curUserID, curRate).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {

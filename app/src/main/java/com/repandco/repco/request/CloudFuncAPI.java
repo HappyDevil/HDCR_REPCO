@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 public interface CloudFuncAPI {
 
     @GET(URLS.rateReq)
-    Call<Void> rateReq(@Query("to") String to, @Query("from") String from,@Query("rate") Long rate);
+    Call<Void> rateReq(@Query("to") String to, @Query("from") String from,@Query("rate") Double rate);
 
     @GET(URLS.developNotReq)
     Call<Void> developNotReq(@Query("work") String work, @Query("dev") String dev);

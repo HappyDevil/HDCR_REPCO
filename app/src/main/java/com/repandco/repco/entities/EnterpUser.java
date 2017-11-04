@@ -2,6 +2,8 @@ package com.repandco.repco.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class EnterpUser {
 
     @SerializedName("bact")
@@ -24,6 +26,8 @@ public class EnterpUser {
     private Integer type;
     @SerializedName("visible")
     private Integer visible;
+    @SerializedName("photos")
+    private ArrayList<String> photos;
 
     @SerializedName("Bact")
     public String getBact() {
@@ -119,4 +123,13 @@ public class EnterpUser {
     @SerializedName("visible")
     public void setVisible(Integer visible) { this.visible = visible; }
 
+    @SerializedName("photos")
+    public ArrayList<String> getPhotos() {
+        return photos;
+    }
+
+    @SerializedName("photos")
+    public void setPhotos(ArrayList<String> photos) {
+        this.photos = photos;
+    }
 }

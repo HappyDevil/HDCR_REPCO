@@ -16,6 +16,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:popupTheme="@style/AppTheme.AppBarOverlay"
+        app:titleTextColor="@color/cardview_light_background"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
 

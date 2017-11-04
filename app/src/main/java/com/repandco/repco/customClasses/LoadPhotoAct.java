@@ -43,6 +43,7 @@ public class LoadPhotoAct extends AppCompatActivity {
                 if (requestCode == LOAD_POST_PHOTO){
                     if(imageViewLoader.getImageView() != null) imageViewLoader.getImageView().setImageURI(uri);
                 }
+                imagesAdapter.plus.getProgressBar().setVisibility(View.VISIBLE);
 
                 mStorage.getReference(IMAGES).child(uri.getLastPathSegment()).putFile(uri)
                         .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -50,9 +51,9 @@ public class LoadPhotoAct extends AppCompatActivity {
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                 if (task.isSuccessful()) {
 //                                    imageViewLoader.setLoadPhotoUrl();
+                                    imagesAdapter.plus.getProgressBar().setVisibility(View.GONE);
                                     imagesAdapter.convertPlus(task.getResult().getMetadata().getDownloadUrl().toString());
                                     imagesAdapter.plus.getImageView().setTag(task.getResult().getMetadata().getDownloadUrl().toString());
-                                    imagesAdapter.plus.getProgressBar().setVisibility(View.GONE);
                                     imagesAdapter.addPlus();
                                     Toast.makeText(context,"SUCSESS",Toast.LENGTH_SHORT).show();
                                     if(imageViewLoader.getProgressBar()!=null) imageViewLoader.getProgressBar().setVisibility(View.INVISIBLE);

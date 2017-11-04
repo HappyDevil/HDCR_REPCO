@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.customClasses.ImageViewLoader;
 import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.R;
@@ -34,9 +35,12 @@ import static com.repandco.repco.constants.URLS.IMAGES;
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolder> {
 
     private ArrayList<String> mDataset;
+    private ArrayList<String> tags;
+    private boolean isTags = false;
     private LoadPhotoAct loadPhoto;
     public ImageViewLoader plus;
     private ImagesAdapter imagesAdapter;
+    private ManagerActivity manager;
 
     public static class ImageHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -123,7 +127,15 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
     }
 
     public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto) {
-        this.mDataset = mDataset;
+        this.mDataset = (mDataset!=null) ? mDataset : new ArrayList<String>();
+        this.loadPhoto = loadPhoto;
+        this.imagesAdapter = this;
+    }
+
+    public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto,boolean tags) {
+        this.isTags = tags;
+        if(isTags) this.tags = mDataset;
+        this.mDataset = (mDataset!=null) ? mDataset : new ArrayList<String>();
         this.loadPhoto = loadPhoto;
         this.imagesAdapter = this;
     }
@@ -138,38 +150,45 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
 
     @Override
     public void onBindViewHolder(final ImageHolder holder, final int position) {
-        String url = mDataset.get(position);
+        final String url = mDataset.get(position);
         holder.setUrl(url);
         if (!url.equals("PLUS"))
             Picasso.with(holder.mImageView.getContext())
                     .load(url)
-                    .resize(300,300)
+                    .resize(450,450 )
                     .centerCrop()
                     .into(holder.mImageView);
         else {
             plus = new ImageViewLoader(holder.mImageView);
+            holder.photoprogress.setVisibility(View.GONE);
             plus.setProgressBar(holder.photoprogress);
-            plus.getImageView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (view instanceof ImageView) {
-                        ImageView imageView = (ImageView) view;
-                        if (imageView.getTag() != null) {
-                            String s = imageView.getTag().toString();
-                            mStorage.getReference(IMAGES).child(s).delete();
-                            imageView.setTag(null);
-                            imageView.setImageResource(R.drawable.ic_plus_24);
-                            mDataset.remove(s);
-                            notifyItemChanged(position);
-                        } else {
-                            loadPhoto.loadPhoto(imagesAdapter);
+        }
+        if(tags!=null)
+            if(tags.size()>position)
+            if(isTags) holder.mImageView.setTag(tags.get(position));
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view instanceof ImageView) {
+                    ImageView imageView = (ImageView) view;
+                    if (imageView.getTag() != null) {
+                        String s = imageView.getTag().toString();
+                        mStorage.getReference(IMAGES).child(s).delete();
+                        imageView.setTag(null);
+                        imageView.setImageResource(R.drawable.ic_plus_24);
+                        mDataset.remove(s);
+                        notifyDataSetChanged();
+                    } else {
+                        if (url.equals("PLUS")) {
                             plus.getProgressBar().setVisibility(View.VISIBLE);
+                            loadPhoto.loadPhoto(imagesAdapter);
                             notifyItemChanged(position);
                         }
+                        else showImage(url,imageView);
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     @Override
@@ -209,6 +228,59 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
 
     public ArrayList<String> getPhotos() {
         return mDataset;
+    }
+
+    public void showImage(String url, ImageView mImageView){
+        if (url != null) {
+            Context context = mImageView.getContext();
+
+            final Dialog progressDialog = new Dialog(context, R.style.Theme_AppCompat);
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+            ProgressBar dialogProgrBar = new ProgressBar(context);
+            dialogProgrBar.setLayoutParams(new RelativeLayout.LayoutParams(250, 250));
+            progressDialog.addContentView(dialogProgrBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+            progressDialog.show();
+
+
+            final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
+            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+
+                }
+            });
+            ImageView newImage = new ImageView(context);
+
+            newImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    builder.hide();
+                }
+            });
+
+            if (progressDialog.isShowing()) {
+                Picasso.with(context)
+                        .load(url)
+                        .into(newImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.hide();
+                                    builder.show();
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+            }
+            builder.addContentView(newImage, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        }
     }
 }
 

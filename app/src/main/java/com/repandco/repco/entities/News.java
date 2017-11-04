@@ -9,6 +9,7 @@ public class News {
     private Long date;
     private Long type;
     private String postID;
+    private StripeJobPost postREF;
 
     public String getPostID() {
         return postID;
@@ -40,5 +41,13 @@ public class News {
 
     public void setType(Long type) {
         this.type = type;
+    }
+
+    public StripeJobPost getPostREF() {
+        return postREF;
+    }
+
+    public void setPostREF(StripeJobPost postREF) {
+        this.postREF = postREF;
     }
 }

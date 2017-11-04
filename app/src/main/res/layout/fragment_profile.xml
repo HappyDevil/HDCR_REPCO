@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -135,9 +136,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="35dp"
                         android:adjustViewBounds="true"
+                        android:max="5"
                         android:numStars="5"
                         android:rating="3.75"
-                        android:stepSize="0.25"
+                        android:stepSize="0.33"
                         android:theme="@style/MyRatingBar" />
 
                     <TextView
@@ -598,7 +600,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/my_recycler_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:clipChildren="true"
                     android:clipToPadding="true"
@@ -619,6 +621,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nopost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No posts"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/history"
@@ -642,6 +653,6 @@
         app:backgroundTint="@color/colorPrimaryLight"
         app:fabSize="normal"
         app:rippleColor="@color/cardtags1"
-        app:srcCompat="@android:drawable/stat_notify_sdcard" />
+        app:srcCompat="@drawable/ic_settings_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

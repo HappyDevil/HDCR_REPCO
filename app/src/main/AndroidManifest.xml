@@ -49,8 +49,9 @@
         <activity
             android:name=".ProfileSettings"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".OpenPost"></activity>
-        <activity android:name="CreateJobPost"/>
+        <activity android:name=".OpenPost" />
+        <activity android:name=".CreateJobPost" />
+        <activity android:name=".Followers_Act"></activity>
     </application>
 
 </manifest>

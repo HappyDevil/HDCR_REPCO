@@ -35,6 +35,8 @@ import com.repandco.repco.entities.ProfUser;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.repandco.repco.FirebaseConfig.mAuth;
+import static com.repandco.repco.FirebaseConfig.mDatabase;
 import static com.repandco.repco.FirebaseConfig.mStorage;
 import static com.repandco.repco.constants.URLS.IMAGES;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
@@ -84,8 +86,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                 {
                     progressDialog.setMessage("Register successful");
                     mUser = FirebaseConfig.mAuth.getCurrentUser();
-                    Task<Void> databaseTask = addUserToFirebase();
-                    if(databaseTask!=null) databaseTask.addOnCompleteListener(goToProfile);
+                    addUserToFirebase().start();
                     progressDialog.setMessage("Add personal info...");
                 }
                 else
@@ -115,6 +116,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                     progressDialog.setMessage("Adding successful");
                     Intent goProfile = new Intent(context,ManagerActivity.class);
                     goProfile.putExtra(Keys.UID,mUser.getUid());
+                    goProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     progressDialog.dismiss();
                     startActivity(goProfile);
                 }
@@ -157,23 +159,23 @@ public class RegistAuthInfo extends AppCompatActivity {
         return true;
     }
 
+    private boolean p=false,h=false;
+    private String header_START_STR,photo_START_STR;
 
-    private Task<Void> addUserToFirebase()
+    private Thread addUserToFirebase()
     {
-        int type = intent.getIntExtra(Keys.TYPE, Values.TYPES.DEFAULT_TYPE);
-        Task<Void> databaseTask = null;
+        final int type = intent.getIntExtra(Keys.TYPE, Values.TYPES.DEFAULT_TYPE);
         final Task<UploadTask.TaskSnapshot> photoTask;
         final Task<UploadTask.TaskSnapshot> headerTask;
-        DatabaseReference reference = FirebaseConfig.mDatabase.getReference();
+        final DatabaseReference reference = FirebaseConfig.mDatabase.getReference();
 
         final String[] resPhoto = new String[1];
         final String[] resHeader = new String[1];
 
         String photoSTR = intent.getStringExtra(Keys.PHOTO);
-        final String headerSTR = intent.getStringExtra(Keys.HEADER);
-
-        final Uri photoURI = (photoSTR!=null) ? Uri.parse(photoSTR) : null;
-        final Uri headerURI = (headerSTR!=null) ? Uri.parse(headerSTR) : null;
+        final Uri photoURI = (photoSTR !=null) ? Uri.parse(photoSTR) : null;
+        String headerSTR = intent.getStringExtra(Keys.HEADER);
+        final Uri headerURI = (headerSTR !=null) ? Uri.parse(headerSTR) : null;
 
         progressDialog.setMessage("Loading photo");
         if(photoURI != null) photoTask = mStorage.getReference(IMAGES).child(photoURI.getLastPathSegment()).putFile(photoURI)
@@ -183,10 +185,12 @@ public class RegistAuthInfo extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressDialog.setMessage("Loading header");
                             resPhoto[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                            p = true;
                         }
                         else {
                             progressDialog.setMessage("Failed load photo");
-                            resPhoto[0] =  Values.URLS.STANDARD;
+                            resPhoto[0] =  (photo_START_STR==null) ? Values.URLS.STANDARD : photo_START_STR;
+                            p = true;
                         }
                     }
                 })
@@ -199,7 +203,8 @@ public class RegistAuthInfo extends AppCompatActivity {
                 });
         else {
             photoTask = null;
-            resPhoto[0] = Values.URLS.STANDARD;
+            p = true;
+            resPhoto[0] = (photo_START_STR==null) ? Values.URLS.STANDARD : photo_START_STR;
         }
 
 
@@ -210,10 +215,12 @@ public class RegistAuthInfo extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             progressDialog.setMessage("Loading header");
                             resHeader[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                            h = true;
                         }
                         else {
                             progressDialog.setMessage("Failed load header");
-                            resHeader[0] = Values.URLS.STANDARD;
+                            resHeader[0] = (header_START_STR==null) ? Values.URLS.STANDARD : header_START_STR;
+                            h = true;
                         }
                     }
                 })
@@ -226,52 +233,89 @@ public class RegistAuthInfo extends AppCompatActivity {
                 });
         else{
             headerTask = null;
-            resHeader[0] = Values.URLS.STANDARD;
+            h = true;
+            resHeader[0] = (header_START_STR==null) ? Values.URLS.STANDARD : header_START_STR;
         }
 
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (h && p) break;
+                }
+                Task<Void> databaseTask = null;
 
-        switch(type)
-        {
-            case Values.TYPES.PROFESSIONAL_TYPE:
-                final ProfUser profUser = new ProfUser();
-                profUser.setName(intent.getStringExtra(Keys.NAME));
-                profUser.setEmail(email);
-                profUser.setFirstname(intent.getStringExtra(Keys.FIRSTNAME));
-                profUser.setBirthday(intent.getLongExtra(Keys.BIRTHDAY,0));
-                profUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
-                profUser.setGender(intent.getIntExtra(Keys.GENDER,0));
-                profUser.setType(type);
-                profUser.setVisible(Values.Visible.PRIVATE);
+                switch (type) {
+                    case Values.TYPES.PROFESSIONAL_TYPE:
+                        final ProfUser profUser = new ProfUser();
+                        profUser.setName(intent.getStringExtra(Keys.NAME));
+                        profUser.setEmail(email);
+                        profUser.setFirstname(intent.getStringExtra(Keys.FIRSTNAME));
+                        profUser.setBirthday(intent.getLongExtra(Keys.BIRTHDAY, 0));
+                        profUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
+                        profUser.setGender(intent.getIntExtra(Keys.GENDER, 0));
+                        profUser.setType(type);
+                        profUser.setVisible(Values.Visible.PRIVATE);
 
-                if(photoTask!=null) photoTask.getResult();
-                if(headerTask!=null) headerTask.getResult();
-                profUser.setHeaderurl(resHeader[0]);
-                profUser.setPhotourl(resPhoto[0]);
+                        if (photoTask != null) photoTask.getResult();
+                        if (headerTask != null) headerTask.getResult();
+                        profUser.setHeaderurl(resHeader[0]);
+                        profUser.setPhotourl(resPhoto[0]);
 
-                progressDialog.setMessage("Loading main info");
-                databaseTask = reference.child(URLS.USERS+mUser.getUid()).setValue(profUser);
-                break;
-            case Values.TYPES.ENTERPRISE_TYPE:
-                EnterpUser enterpUser = new EnterpUser();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.setMessage("Loading main info");
+                            }
+                        });
+                        databaseTask = reference.child(URLS.USERS + mUser.getUid()).setValue(profUser);
+                        break;
+                    case Values.TYPES.ENTERPRISE_TYPE:
+                        EnterpUser enterpUser = new EnterpUser();
 
-                enterpUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
-                enterpUser.setAddress(intent.getStringExtra(Keys.ADDRESS));
-                enterpUser.setBact(intent.getStringExtra(Keys.BACT));
-                enterpUser.setName(intent.getStringExtra(Keys.NAME));
-                enterpUser.setSIRET(intent.getStringExtra(Keys.SIRET));
-                enterpUser.setEmail(email);
-                enterpUser.setVisible(Values.Visible.PRIVATE);
-                enterpUser.setType(type);
+                        enterpUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
+                        enterpUser.setAddress(intent.getStringExtra(Keys.ADDRESS));
+                        enterpUser.setBact(intent.getStringExtra(Keys.BACT));
+                        enterpUser.setName(intent.getStringExtra(Keys.NAME));
+                        enterpUser.setSIRET(intent.getStringExtra(Keys.SIRET));
+                        enterpUser.setEmail(email);
+                        enterpUser.setVisible(Values.Visible.PRIVATE);
+                        enterpUser.setType(type);
 
-                if(photoTask!=null) photoTask.getResult();
-                if(headerTask!=null) headerTask.getResult();
-                enterpUser.setHeaderurl(resHeader[0]);
-                enterpUser.setPhotourl(resPhoto[0]);
+                        if (photoTask != null) photoTask.getResult();
+                        if (headerTask != null) headerTask.getResult();
+                        enterpUser.setHeaderurl(resHeader[0]);
+                        enterpUser.setPhotourl(resPhoto[0]);
 
-                databaseTask = reference.child("users/"+mUser.getUid()).setValue(enterpUser);
-                break;
-        }
+                        databaseTask = reference.child("users/" + mUser.getUid()).setValue(enterpUser);
+                        break;
+                }
 
-        return databaseTask;
+                if (databaseTask != null) {
+                    databaseTask.addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressDialog.setMessage("Update successful");
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                                Intent goProfile = new Intent(context, ManagerActivity.class);
+                                goProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                goProfile.putExtra(Keys.UID, mAuth.getCurrentUser().getUid());
+                                startActivity(goProfile);
+                                finish();
+                                finish();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        return t;
     }
 }

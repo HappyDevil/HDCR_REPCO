@@ -1,5 +1,6 @@
 package com.repandco.repco.registActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.ImageButton;
 import com.repandco.repco.FirstActivity;
 import com.repandco.repco.R;
 import com.repandco.repco.constants.Keys;
+import com.squareup.picasso.Picasso;
 
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
@@ -27,6 +29,7 @@ public class RegistUserInfo extends AppCompatActivity {
     private ImageButton photobut;
     private ImageButton headerbut;
     private Toolbar postTolbar;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class RegistUserInfo extends AppCompatActivity {
         email = (EditText) findViewById(R.id.emailaddress);
         photobut = (ImageButton) findViewById(R.id.photobut);
         headerbut = (ImageButton) findViewById(R.id.headerbut);
+        context = this;
 
     }
 
@@ -114,13 +118,21 @@ public class RegistUserInfo extends AppCompatActivity {
                 final Uri uri = data.getData();
 
                 if (requestCode == REQUEST_HEADER){
-                    headerbut.setImageURI(uri);
-                    intent.putExtra(Keys.HEADER, uri);
+                    Picasso.with(context)
+                            .load(uri)
+                            .resize(300,300)
+                            .into(headerbut);
+//                    headerbut.setImageURI(uri);
+                    intent.putExtra(Keys.HEADER, String.valueOf(uri));
                 }
                 else
                 if (requestCode == REQUEST_PHOTO){
-                    photobut.setImageURI(uri);
-                    intent.putExtra(Keys.PHOTO, uri);
+//                    photobut.setImageURI(uri);
+                    Picasso.with(context)
+                            .load(uri)
+                            .resize(300,300)
+                            .into(photobut);
+                    intent.putExtra(Keys.PHOTO, String.valueOf(uri));
                 }
             }
         }

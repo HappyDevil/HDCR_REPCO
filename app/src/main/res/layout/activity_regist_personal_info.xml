@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@color/cardview_light_background"
         android:theme="?attr/actionBarTheme"
         app:popupTheme="@style/AppTheme.AppBarOverlay"
         tools:layout_editor_absoluteX="8dp"
@@ -29,15 +30,41 @@
         android:singleLine="true"
         android:layout_margin="3dp"/>
 
-    <EditText
-        android:id="@+id/birthdate"
+    <LinearLayout
+        android:id="@+id/birthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Birthdate"
-        android:inputType="date"
-        android:singleLine="true"
-        android:layout_margin="3dp"/>
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Birthday:"
+            android:layout_weight="0.2"/>
+
+        <TextView
+            android:id="@+id/birthdaySTR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="01.12.1996"
+            android:textColor="@color/colorMyText"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/addjobpost"
+            android:elevation="10dp"
+            android:onClick="showDatePickerDialog"
+            android:text="CHANGE"
+            android:textColor="@color/cardview_light_background" />
+
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radiogroup"

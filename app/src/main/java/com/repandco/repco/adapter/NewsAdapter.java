@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,8 +35,9 @@ import static com.repandco.repco.FirebaseConfig.mDatabase;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     private ArrayList<News> mDataset;
     private ManagerActivity manager;
+    private ProgressBar temp;
 
-    public NewsAdapter(ManagerActivity manager,ArrayList<News> mDataset) {
+    public NewsAdapter(ManagerActivity manager,ArrayList<News> mDataset,ProgressBar temp) {
         this.manager = manager;
         Collections.sort(mDataset, new Comparator<News>() {
             @Override
@@ -43,6 +46,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
             }
         });
         this.mDataset = mDataset;
+        this.temp = temp;
     }
 
 
@@ -70,10 +74,30 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         return vh;
     }
 
+
     @Override
-    public void onBindViewHolder(final NewsHolder holder, int position) {
+    public void onBindViewHolder(final NewsHolder holder, final int position) {
         final News model = mDataset.get(position);
         if (model.getUid() !=null){
+
+            if(model.getPostID()!=null){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(model.getPostREF()==null) manager.openPost(model.getPostID(),model.getUid());
+                        else manager.openPost(model.getPostREF());
+                    }
+                });
+
+            }
+            else {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        manager.openProfile(model.getUid());
+                    }
+                });
+            }
 
             switch (model.getType().intValue()){
                 case Values.NEWS.DISFOLLOW:
@@ -99,7 +123,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue()!=null){
-                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                        String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                        firstName = (firstName==null) ? "" : firstName;
+                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + firstName;
                         holder.name.setText(name);
                         String photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
 

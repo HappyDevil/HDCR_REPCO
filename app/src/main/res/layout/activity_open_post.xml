@@ -20,6 +20,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:popupTheme="@style/AppTheme.AppBarOverlay"
+        app:titleTextColor="@color/cardview_light_background"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -169,7 +170,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -202,7 +203,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5 "
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textView87"
@@ -219,10 +221,10 @@
                 android:id="@+id/commission"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="Commission"
                 android:textColor="@color/colorMyText"
-                android:textSize="17sp"
-                android:layout_margin="5dp"/>
+                android:textSize="17sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -246,10 +248,10 @@
                 android:id="@+id/currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:text="Currency"
                 android:textColor="@color/colorMyText"
-                android:textSize="17sp"
-                android:layout_margin="5dp"/>
+                android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -271,7 +273,15 @@
         android:clipChildren="true"
         android:clipToPadding="true"
         android:orientation="horizontal"
-        android:scrollbars="horizontal" />
+        android:scrollbars="horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/accept_jobs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/adapter_accept_job" />
 
     <LinearLayout
         android:layout_width="match_parent"

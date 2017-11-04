@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,9 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
+import com.repandco.repco.adapter.ImagesAdapter;
 import com.repandco.repco.constants.Keys;
 import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
+import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.entities.EnterpUser;
 import com.repandco.repco.entities.ProfUser;
 import com.squareup.picasso.Picasso;
@@ -35,6 +41,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,7 +52,7 @@ import static com.repandco.repco.constants.URLS.IMAGES;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
 
-public class ProfileSettings extends AppCompatActivity {
+public class ProfileSettings extends LoadPhotoAct {
     private ManagerActivity manager;
     private Toolbar postTolbar;
     private Context context;
@@ -80,6 +87,8 @@ public class ProfileSettings extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private String header_START_STR,photo_START_STR;
+    private RecyclerView photos;
+    private ImagesAdapter imagesAdapter;
 
 
     @Override
@@ -95,6 +104,11 @@ public class ProfileSettings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+        photos = (RecyclerView) findViewById(R.id.photos);
+        photos.setHasFixedSize(false);
+        RecyclerView.LayoutManager  photosLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        photos.setLayoutManager(photosLayoutManager);
 
         name = (EditText) findViewById(R.id.name);
         bact = (EditText) findViewById(R.id.bact);
@@ -146,6 +160,11 @@ public class ProfileSettings extends AppCompatActivity {
             profUser.setPhonenumber(setIntent.getStringExtra(Keys.PHONE));
             profUser.setPhotourl(photo_START_STR);
             profUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
+            profUser.setPhotos(setIntent.getStringArrayListExtra(Keys.PHOTOS));
+
+            imagesAdapter = new ImagesAdapter(profUser.getPhotos(),this,true);
+            imagesAdapter.addPlus();
+            photos.setAdapter(imagesAdapter);
 
             birthdayLONG = profUser.getBirthday();
 
@@ -159,21 +178,47 @@ public class ProfileSettings extends AppCompatActivity {
             firstname.setText(profUser.getFirstname());
             phonenumber.setText(profUser.getPhonenumber());
 
-            if(profUser.getGender() == Values.GENDERS.MALE) sex.setChecked(false);
-            else sex.setChecked(true);
+            if(profUser.getGender() == Values.GENDERS.MALE){
+                sex.setChecked(false);
+            }
+            else{
+                sex.setChecked(true);
+            }
+
+            sex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    String text = "Male";
+                    if(b) text = "Female";
+                    sex.setText(text);
+                }
+            });
 
             if(profUser.getVisible() == Values.Visible.PRIVATE) visibility.setChecked(false);
             else visibility.setChecked(true);
 
+            visibility.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    String text = "Private";
+                    if(b) text = "Public";
+                    visibility.setText(text);
+                }
+            });
+
             if(profUser.getPhotourl()!=null){
                 Picasso.with(context)
                         .load(profUser.getPhotourl())
+                        .resize(450,450)
+                        .centerCrop()
                         .into(photo);
             }
 
             if(profUser.getHeaderurl()!=null){
                 Picasso.with(context)
                         .load(profUser.getHeaderurl())
+                        .resize(450,450)
+                        .centerCrop()
                         .into(header);
             }
         }
@@ -197,8 +242,12 @@ public class ProfileSettings extends AppCompatActivity {
             enterpUser.setName(setIntent.getStringExtra(Keys.NAME));
             enterpUser.setPhonenumber(setIntent.getStringExtra(Keys.PHONE));
             enterpUser.setPhotourl(photo_START_STR);
+            enterpUser.setPhotos(setIntent.getStringArrayListExtra(Keys.PHOTOS));
             enterpUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
 
+            imagesAdapter = new ImagesAdapter(enterpUser.getPhotos(),this);
+            imagesAdapter.addPlus();
+            photos.setAdapter(imagesAdapter);
 
             name.setText(enterpUser.getName());
             siret.setText(enterpUser.getSIRET());
@@ -211,12 +260,16 @@ public class ProfileSettings extends AppCompatActivity {
             if(enterpUser.getPhotourl()!=null){
                 Picasso.with(context)
                         .load(enterpUser.getPhotourl())
+                        .resize(450,450)
+                        .centerCrop()
                         .into(photo);
             }
 
             if(enterpUser.getHeaderurl()!=null){
                 Picasso.with(context)
                         .load(enterpUser.getHeaderurl())
+                        .resize(450,450)
+                        .centerCrop()
                         .into(header);
             }
         }
@@ -302,6 +355,8 @@ public class ProfileSettings extends AppCompatActivity {
         }
 
 
+        imagesAdapter.deletePhoto("PLUS");
+
         if(type == Values.TYPES.PROFESSIONAL_TYPE){
             firstname.setError(null);
             if(firstname.length()==0){
@@ -314,6 +369,7 @@ public class ProfileSettings extends AppCompatActivity {
             profUser.setFirstname(firstname.getText().toString());
             profUser.setPhonenumber(phonenumber.getText().toString());
             profUser.setBirthday(birthdayLONG);
+            profUser.setPhotos(imagesAdapter.getPhotos());
 
             if(sex.isChecked()) profUser.setGender(Values.GENDERS.FEMALE);
             else profUser.setGender(Values.GENDERS.MALE);
@@ -339,12 +395,13 @@ public class ProfileSettings extends AppCompatActivity {
 
             enterpUser.setBact(bact.getText().toString());
             enterpUser.setSIRET(siret.getText().toString());
+            enterpUser.setPhotos(imagesAdapter.getPhotos());
 
             if(visibility.isChecked()) enterpUser.setVisible(Values.Visible.PRIVATE);
             else enterpUser.setVisible(Values.Visible.PUBLIC);
         }
 
-
+        progressDialog.setMessage("Loading photo");
         if(photoURI != null) photoTask = mStorage.getReference(IMAGES).child(photoURI.getLastPathSegment()).putFile(photoURI)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override

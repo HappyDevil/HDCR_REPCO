@@ -77,6 +77,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
 
     private AlertDialog alertDialog;
     private ProgressBar progress;
+    private Dialog progressDialog;
 
     private Boolean open = false;
 
@@ -89,6 +90,13 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.getMenu().findItem(R.id.navigation_profile).setChecked(true);
+
+        progressDialog = new Dialog(this, R.style.Theme_AppCompat);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.darkTransp)));
+        ProgressBar dialogProgrBar = new ProgressBar(this);
+        dialogProgrBar.setLayoutParams(new RelativeLayout.LayoutParams(250, 250));
+        progressDialog.addContentView(dialogProgrBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
         cloudFunctions = new Retrofit.Builder()
                 .baseUrl(URLS.cloudFunc)
@@ -128,6 +136,8 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         });
 
         String tag = getIntent().getStringExtra(Keys.TAG);
+        String uid = getIntent().getStringExtra(Keys.UID);
+        uid = (uid==null) ? mAuth.getCurrentUser().getUid() : uid;
         if (tag != null) {
             openSearh(tag);
         }
@@ -136,7 +146,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
             profileFragment.setManager(this);
 
             Bundle bundle = new Bundle();
-            bundle.putString(Keys.UID, mAuth.getCurrentUser().getUid());
+            bundle.putString(Keys.UID, uid);
             profileFragment.setArguments(bundle);
 
             fTrans.add(R.id.frgmCont, profileFragment);
@@ -224,18 +234,21 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         fTrans.commit();
     }
 
+
+    public void showProgress(){
+        progressDialog.show();
+    }
+
+    public void hideProgress(){
+        if (progressDialog.isShowing()) progressDialog.hide();
+    }
+
     public void showImage(String url, ImageView mImageView){
             if (url != null) {
                 Context context = mImageView.getContext();
 
-                final Dialog progressDialog = new Dialog(context, R.style.Theme_AppCompat);
-                progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
-                ProgressBar dialogProgrBar = new ProgressBar(context);
-                dialogProgrBar.setLayoutParams(new RelativeLayout.LayoutParams(250, 250));
-                progressDialog.addContentView(dialogProgrBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
-                progressDialog.show();
 
+                showProgress();
 
                 final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
                 builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -255,24 +268,21 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                     }
                 });
 
-                if (progressDialog.isShowing()) {
-                    Picasso.with(context)
-                            .load(url)
-                            .into(newImage, new Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    if (progressDialog.isShowing()) {
-                                        progressDialog.hide();
-                                        builder.show();
-                                    }
-                                }
+                Picasso.with(context)
+                        .load(url)
+                        .into(newImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                    hideProgress();
+                                    builder.show();
+                            }
 
-                                @Override
-                                public void onError() {
+                            @Override
+                            public void onError() {
 
-                                }
-                            });
-                }
+                            }
+                        });
+
                 builder.addContentView(newImage, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             }
     }
@@ -321,6 +331,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
             setIntent.putExtra(Keys.NAME,profUser.getName());
             setIntent.putExtra(Keys.PHONE,profUser.getPhonenumber());
             setIntent.putExtra(Keys.PHOTO,profUser.getPhotourl());
+            setIntent.putExtra(Keys.PHOTOS,profUser.getPhotos());
             setIntent.putExtra(Keys.VISIBILITY,profUser.getVisible());
 
             startActivity(setIntent);
@@ -439,16 +450,51 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                type = (long) dataSnapshot.child(Keys.TYPE).getValue();
-                status = dataSnapshot.child(Keys.STATUS).getValue(String.class);
-                stripeEmail = dataSnapshot.child(Keys.STRIPE_EMAIL).getValue(String.class);
-                email = dataSnapshot.child(Keys.EMAIL).getValue(String.class);
-                onCreateDialog();
+                if(dataSnapshot!=null) {
+                    type = (long) dataSnapshot.child(Keys.TYPE).getValue();
+                    status = dataSnapshot.child(Keys.STATUS).getValue(String.class);
+                    stripeEmail = dataSnapshot.child(Keys.STRIPE_EMAIL).getValue(String.class);
+                    email = dataSnapshot.child(Keys.EMAIL).getValue(String.class);
+                    onCreateDialog();
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(ManagerActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateProfile(String uid){
+        onCreateDialog();
+        fTrans = getFragmentManager().beginTransaction();
+        ProfileFragment profileFragment = new ProfileFragment();
+        profileFragment.setManager(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(Keys.UID, uid);
+        profileFragment.setArguments(bundle);
+
+        fTrans.replace(R.id.frgmCont, profileFragment);
+        fTrans.commit();
+
+    }
+
+    public void openPost(final String postID, final String uid) {
+        mDatabase.getReference().child(URLS.POSTS+postID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                StripeJobPost post = dataSnapshot.getValue(StripeJobPost.class);
+                if(post!=null) {
+                    post.setUserid(uid);
+                    openPost(post);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(ManagerActivity.this, "Internet error", Toast.LENGTH_SHORT).show();
             }
         });
     }

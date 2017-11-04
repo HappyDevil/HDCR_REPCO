@@ -34,41 +34,28 @@
                 android:orientation="horizontal">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/photo2"
+                    android:id="@+id/photo"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
                     android:gravity="center"
                     android:scaleType="centerCrop"
                     android:src="@drawable/podcast_ac_new_0"
                     app:riv_corner_radius="13dp"
-                    app:riv_mutate_background="true"
-                    android:layout_marginTop="8dp"/>
+                    app:riv_mutate_background="true" />
 
-                <LinearLayout
-                    android:layout_width="210dp"
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="190dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="7dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginTop="8dp">
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="Robot Android"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:text="date" />
-
-                </LinearLayout>
+                    android:foregroundGravity="center"
+                    android:text="Robot Android"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -77,15 +64,15 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/accept"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
                         android:backgroundTint="@color/addjobpost"
                         android:text="Accept"
-                        android:textColor="@android:color/white"/>
+                        android:textColor="@android:color/white" />
 
                     <Button
-                        android:id="@+id/button3"
+                        android:id="@+id/ignore"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
                         android:backgroundTint="@android:color/darker_gray"

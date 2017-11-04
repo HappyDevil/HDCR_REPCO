@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.repandco.repco.ManagerActivity;
 import com.repandco.repco.R;
@@ -30,6 +31,7 @@ public class PostFragment extends Fragment {
     private StripeJobPost[] jobs;
     private Long curChunk = 0L;
     private ProgressBar progressPost;
+    private TextView nopost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +42,7 @@ public class PostFragment extends Fragment {
         history = (RecyclerView) content.findViewById(R.id.history);
         progressPost = (ProgressBar) content.findViewById(R.id.progressPost);
         progressPost.setVisibility(View.VISIBLE);
+        nopost = (TextView) content.findViewById(R.id.nopost);
 
         history.setHasFixedSize(false);
         historyLayoutManager = new LinearLayoutManager(content.getContext(),LinearLayoutManager.VERTICAL,false);
@@ -54,6 +57,8 @@ public class PostFragment extends Fragment {
                 if (jobs != null)
                     for (StripeJobPost post : jobs)
                         postAdapter.addNewPost(post);
+                if(postAdapter.getItemCount()==0) nopost.setVisibility(View.VISIBLE);
+                else nopost.setVisibility(View.GONE);
                 progressPost.setVisibility(View.GONE);
             }
 
