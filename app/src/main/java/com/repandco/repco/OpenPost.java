@@ -181,7 +181,7 @@ public class OpenPost extends AppCompatActivity {
                     if(dataSnapshot.getValue()!=null){
                         String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
                         String userName = dataSnapshot.child(Keys.NAME).getValue(String.class);
-
+                        firstName = (firstName!=null) ? firstName : "";
                         firstName = upperCaseFirstLetter(firstName);
                         userName = upperCaseFirstLetter(userName);
                         String nameSTR = userName + " " + firstName;

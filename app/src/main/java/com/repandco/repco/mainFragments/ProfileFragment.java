@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,10 +25,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +49,7 @@ import com.repandco.repco.constants.URLS;
 import com.repandco.repco.constants.Values;
 import com.repandco.repco.entities.EnterpUser;
 import com.repandco.repco.entities.ProfUser;
+import com.repandco.repco.handlers.VideoRequestHandler;
 import com.repandco.repco.listeners.PostListener;
 import com.squareup.picasso.Picasso;
 
@@ -73,6 +77,7 @@ public class ProfileFragment extends Fragment {
     private TextView usename;
     private TextView rateTimes;
     private TextView noimages;
+    private TextView novideo;
     private TextView friendCount;
     private TextView nopost;
     private RatingBar ratingBar;
@@ -84,6 +89,8 @@ public class ProfileFragment extends Fragment {
     private CardView card_email;
     private CardView card_phone;
     private CardView card_bact;
+    private CardView card_job;
+    private CardView card_job_description;
     private CardView friends;
     private CardView card_address;
     private RecyclerView history;
@@ -96,6 +103,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton exitButton;
 
+    private ImageView videoView;
 
     private EnterpUser enterpUser;
     private ProfUser profUser;
@@ -134,9 +142,11 @@ public class ProfileFragment extends Fragment {
                     content.setVisibility(View.INVISIBLE);
                     usename = (TextView) content.findViewById(R.id.username);
                     noimages = (TextView) content.findViewById(R.id.noimages);
+                    novideo = (TextView) content.findViewById(R.id.novideo);
                     friendCount = (TextView) content.findViewById(R.id.friendCount);
                     mRecyclerView = (RecyclerView) content.findViewById(R.id.my_recycler_view);
                     history = (RecyclerView) content.findViewById(R.id.history);
+                    videoView = (ImageView) content.findViewById(R.id.videoView);
 
                     rateTimes = (TextView) content.findViewById(R.id.rateTimes);
                     ratingBar = (RatingBar) content.findViewById(R.id.ratingBar);
@@ -150,6 +160,8 @@ public class ProfileFragment extends Fragment {
                     card_email = (CardView) content.findViewById(R.id.card_email);
                     card_phone = (CardView) content.findViewById(R.id.card_phone);
                     card_bact = (CardView) content.findViewById(R.id.card_bact);
+                    card_job = (CardView) content.findViewById(R.id.card_job);
+                    card_job_description = (CardView) content.findViewById(R.id.card_job_description);
                     card_address = (CardView) content.findViewById(R.id.card_address);
                     friends = (CardView) content.findViewById(R.id.friends);
 
@@ -334,6 +346,7 @@ public class ProfileFragment extends Fragment {
 
                                     photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
                                     String headerurl = (String) dataSnapshot.child(Keys.HEADER).getValue();
+                                     final String videourl = (String) dataSnapshot.child(Keys.VIDEO).getValue();
                                     ArrayList<String> photos = (ArrayList<String>) dataSnapshot.child(Keys.PHOTOS).getValue();
                                     Object rateTimesObj = dataSnapshot.child(Keys.RATETIMES).getValue();
                                     if(rateTimesObj!=null) {
@@ -341,7 +354,20 @@ public class ProfileFragment extends Fragment {
                                         rateTimes.setText("Rated " + rateTimesV + " times");
                                     }
                                     else rateTimes.setText("Rated " + 0 + " times");
-
+                                    if(videourl!=null){
+                                        novideo.setVisibility(View.GONE);
+                                        videoView.setVisibility(View.VISIBLE);
+                                        videoView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                manager.openVideo(videourl,context.getContext());
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        novideo.setVisibility(View.VISIBLE);
+                                        videoView.setVisibility(View.GONE);
+                                    }
                                     if(photos!=null) {
                                         noimages.setVisibility(View.GONE);
                                         mAdapter = new ImagesAdapter(photos,manager,null);
@@ -399,6 +425,9 @@ public class ProfileFragment extends Fragment {
                                         if (birthday != null)
                                             ((TextView) card_birthday.findViewById(R.id.text_birthday)).setText(DateFormat.getDateInstance().format(new Date(birthday)));
 
+                                        ((TextView) card_job.findViewById(R.id.text_job)).setText(dataSnapshot.child(Keys.JOB).getValue(String.class));
+                                        ((TextView) card_job_description.findViewById(R.id.text_job_description)).setText(dataSnapshot.child(Keys.JOB_DESCRIPTION).getValue(String.class));
+
                                     } else {
                                         if (type == Values.TYPES.ENTERPRISE_TYPE) {
                                             proffesionalInfo(View.GONE);
@@ -454,6 +483,8 @@ public class ProfileFragment extends Fragment {
     private void proffesionalInfo(int visibility){
         card_gender.setVisibility(visibility);
         card_birthday.setVisibility(visibility);
+        card_job.setVisibility(visibility);
+        card_job_description.setVisibility(visibility);
     }
 
     private void enterpriseInfo(int visibility){

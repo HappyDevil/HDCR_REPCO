@@ -61,6 +61,8 @@ public class ProfileSettings extends LoadPhotoAct {
     private EditText bact;
     private EditText firstname;
     private EditText phonenumber;
+    private EditText job;
+    private EditText text_job_description;
     private EditText siret;
 
     private TextView birthdaySTR;
@@ -114,6 +116,8 @@ public class ProfileSettings extends LoadPhotoAct {
         bact = (EditText) findViewById(R.id.bact);
         firstname = (EditText) findViewById(R.id.firstname);
         phonenumber = (EditText) findViewById(R.id.phonenumber);
+        job = (EditText) findViewById(R.id.job);
+        text_job_description = (EditText) findViewById(R.id.text_job_description);
         siret = (EditText) findViewById(R.id.siret);
 
         birthdaySTR = (TextView) findViewById(R.id.birthdaySTR);
@@ -161,6 +165,8 @@ public class ProfileSettings extends LoadPhotoAct {
             profUser.setPhotourl(photo_START_STR);
             profUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
             profUser.setPhotos(setIntent.getStringArrayListExtra(Keys.PHOTOS));
+            profUser.setJob(setIntent.getStringExtra(Keys.JOB));
+            profUser.setJobdescription(setIntent.getStringExtra(Keys.JOB_DESCRIPTION));
 
             imagesAdapter = new ImagesAdapter(profUser.getPhotos(),this,true,save);
             imagesAdapter.addPlus();
@@ -177,6 +183,8 @@ public class ProfileSettings extends LoadPhotoAct {
             name.setText(profUser.getName());
             firstname.setText(profUser.getFirstname());
             phonenumber.setText(profUser.getPhonenumber());
+            job.setText(profUser.getJob());
+            text_job_description.setText(profUser.getJobdescription());
 
             if(profUser.getGender() == Values.GENDERS.MALE){
                 sex.setChecked(false);
@@ -227,6 +235,8 @@ public class ProfileSettings extends LoadPhotoAct {
             bact.setVisibility(View.VISIBLE);
             siret.setVisibility(View.VISIBLE);
             firstname.setVisibility(View.GONE);
+            job.setVisibility(View.GONE);
+            text_job_description.setVisibility(View.GONE);
             birthday.setVisibility(View.GONE);
             sex.setVisibility(View.GONE);
 
@@ -338,7 +348,6 @@ public class ProfileSettings extends LoadPhotoAct {
         progressDialog.setMessage("Loading...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
-        progressDialog.show();
         progressDialog.setMessage("Update account info");
 
         name.setError(null);
@@ -355,8 +364,6 @@ public class ProfileSettings extends LoadPhotoAct {
         }
 
 
-        imagesAdapter.deletePhoto("PLUS");
-
         if(type == Values.TYPES.PROFESSIONAL_TYPE){
             firstname.setError(null);
             if(firstname.length()==0){
@@ -364,10 +371,23 @@ public class ProfileSettings extends LoadPhotoAct {
                 firstname.requestFocus();
                 return;
             }
+            job.setError(null);
+            if(job.length()==0){
+                job.setError("Job is empty");
+                job.requestFocus();
+                return;
+            }
+            if(text_job_description.length()==0){
+                text_job_description.setError("Job is empty");
+                text_job_description.requestFocus();
+                return;
+            }
 
             profUser.setName(name.getText().toString());
             profUser.setFirstname(firstname.getText().toString());
             profUser.setPhonenumber(phonenumber.getText().toString());
+            profUser.setJob(job.getText().toString());
+            profUser.setJobdescription(text_job_description.getText().toString());
             profUser.setBirthday(birthdayLONG);
             profUser.setPhotos(imagesAdapter.getPhotos());
 
@@ -400,7 +420,8 @@ public class ProfileSettings extends LoadPhotoAct {
             if(visibility.isChecked()) enterpUser.setVisible(Values.Visible.PRIVATE);
             else enterpUser.setVisible(Values.Visible.PUBLIC);
         }
-
+        imagesAdapter.deletePhoto("PLUS");
+        progressDialog.show();
         progressDialog.setMessage("Loading photo");
         if(photoURI != null) photoTask = mStorage.getReference(IMAGES).child(photoURI.getLastPathSegment()).putFile(photoURI)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {

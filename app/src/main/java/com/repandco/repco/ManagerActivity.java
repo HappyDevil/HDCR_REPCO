@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
@@ -21,9 +22,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -69,6 +72,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     private Retrofit cloudFunctions;
     public CloudFuncAPI cloudAPI;
 
+    public Picasso picassoInstance;
     public long type;
     private String status;
     private String stripeEmail;
@@ -86,6 +90,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        picassoInstance = ((RepCoApp)getApplication()).picassoInstance;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -333,6 +338,8 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
             setIntent.putExtra(Keys.PHOTO,profUser.getPhotourl());
             setIntent.putExtra(Keys.PHOTOS,profUser.getPhotos());
             setIntent.putExtra(Keys.VISIBILITY,profUser.getVisible());
+            setIntent.putExtra(Keys.JOB_DESCRIPTION,profUser.getJob());
+            setIntent.putExtra(Keys.JOB,profUser.getJobdescription());
 
             startActivity(setIntent);
         }
@@ -496,5 +503,41 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                 Toast.makeText(ManagerActivity.this, "Internet error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void openVideo(String videourl,Context context) {
+        if (videourl != null) {
+            showProgress();
+
+            final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
+            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+
+                }
+            });
+            VideoView videoView = new VideoView(context);
+            videoView.setVisibility(View.VISIBLE);
+
+            MediaController mc = new MediaController(context);
+            mc.setAnchorView(videoView);
+            mc.setMediaPlayer(videoView);
+            Uri video = Uri.parse(videourl);
+            videoView.setMediaController(mc);
+            videoView.setVideoURI(video);
+            videoView.start();
+
+            videoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    builder.hide();
+                }
+            });
+
+            builder.addContentView(videoView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+            builder.show();
+        }
     }
 }
