@@ -248,9 +248,9 @@ public class RegistAuthInfo extends AppCompatActivity {
                 switch (type) {
                     case Values.TYPES.PROFESSIONAL_TYPE:
                         final ProfUser profUser = new ProfUser();
-                        profUser.setName(intent.getStringExtra(Keys.NAME));
+                        profUser.setName(intent.getStringExtra(Keys.NAME).toLowerCase());
                         profUser.setEmail(email);
-                        profUser.setFirstname(intent.getStringExtra(Keys.FIRSTNAME));
+                        profUser.setFirstname(intent.getStringExtra(Keys.FIRSTNAME).toLowerCase());
                         profUser.setBirthday(intent.getLongExtra(Keys.BIRTHDAY, 0));
                         profUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
                         profUser.setGender(intent.getIntExtra(Keys.GENDER, 0));
@@ -276,7 +276,7 @@ public class RegistAuthInfo extends AppCompatActivity {
                         enterpUser.setPhonenumber(intent.getStringExtra(Keys.PHONE));
                         enterpUser.setAddress(intent.getStringExtra(Keys.ADDRESS));
                         enterpUser.setBact(intent.getStringExtra(Keys.BACT));
-                        enterpUser.setName(intent.getStringExtra(Keys.NAME));
+                        enterpUser.setName(intent.getStringExtra(Keys.NAME).toLowerCase());
                         enterpUser.setSIRET(intent.getStringExtra(Keys.SIRET));
                         enterpUser.setEmail(email);
                         enterpUser.setVisible(Values.Visible.PRIVATE);

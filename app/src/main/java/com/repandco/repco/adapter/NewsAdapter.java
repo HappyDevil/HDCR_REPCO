@@ -124,8 +124,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue()!=null){
                         String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
-                        firstName = (firstName==null) ? "" : firstName;
-                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + firstName;
+                        String userName = dataSnapshot.child(Keys.NAME).getValue(String.class);
+
+                        firstName = upperCaseFirstLetter(firstName);
+                        userName = upperCaseFirstLetter(userName);
+                        String name = userName + " " + firstName;
                         holder.name.setText(name);
                         String photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
 
@@ -156,5 +159,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    private String upperCaseFirstLetter(String name){
+        if(name!=null) {
+            String s1 = name.substring(0, 1).toUpperCase();
+            name = s1 + name.substring(1);
+        }
+        else name = "";
+        return name;
     }
 }

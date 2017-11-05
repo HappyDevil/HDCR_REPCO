@@ -162,7 +162,7 @@ public class ProfileSettings extends LoadPhotoAct {
             profUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
             profUser.setPhotos(setIntent.getStringArrayListExtra(Keys.PHOTOS));
 
-            imagesAdapter = new ImagesAdapter(profUser.getPhotos(),this,true);
+            imagesAdapter = new ImagesAdapter(profUser.getPhotos(),this,true,save);
             imagesAdapter.addPlus();
             photos.setAdapter(imagesAdapter);
 
@@ -245,7 +245,7 @@ public class ProfileSettings extends LoadPhotoAct {
             enterpUser.setPhotos(setIntent.getStringArrayListExtra(Keys.PHOTOS));
             enterpUser.setVisible(setIntent.getIntExtra(Keys.VISIBILITY,0));
 
-            imagesAdapter = new ImagesAdapter(enterpUser.getPhotos(),this);
+            imagesAdapter = new ImagesAdapter(enterpUser.getPhotos(),this,save);
             imagesAdapter.addPlus();
             photos.setAdapter(imagesAdapter);
 
@@ -292,11 +292,11 @@ public class ProfileSettings extends LoadPhotoAct {
                 startActivityForResult(intent, REQUEST_HEADER);
             }
         });
-
+        save.setActivated(true);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                if(save.isActivated()) attemptLogin();
             }
         });
 
@@ -531,5 +531,11 @@ public class ProfileSettings extends LoadPhotoAct {
         },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 
         newFragment.show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

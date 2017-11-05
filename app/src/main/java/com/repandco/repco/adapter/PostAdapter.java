@@ -119,7 +119,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
         public void setPhotos(ArrayList<String> photos) {
             this.photos = photos;
             if(photos!=null) {
-                mAdapter = new ImagesAdapter(photos,managerref);
+                mAdapter = new ImagesAdapter(photos,managerref,null);
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
@@ -210,10 +210,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue()!=null){
                         String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
-                        if(firstName==null)
-                            firstName=null;
-                        firstName = (firstName==null) ? "" : firstName;
-                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + firstName;
+                        String userName = dataSnapshot.child(Keys.NAME).getValue(String.class);
+
+                        firstName = upperCaseFirstLetter(firstName);
+                        userName = upperCaseFirstLetter(userName);
+                        String name = userName + " " + firstName;
+
+
                         holder.name.setText(name);
                         String photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
 
@@ -336,4 +339,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostHolder> {
              jobPosts.remove(i);
         notifyDataSetChanged();
     }
+
+    private String upperCaseFirstLetter(String name){
+        if(name!=null) {
+            String s1 = name.substring(0, 1).toUpperCase();
+            name = s1 + name.substring(1);
+        }
+        else name = "";
+        return name;
+    }
 }
+

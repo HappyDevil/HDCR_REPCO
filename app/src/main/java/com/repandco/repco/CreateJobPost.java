@@ -185,7 +185,7 @@ public class CreateJobPost extends LoadPhotoAct {
         RecyclerView.LayoutManager  photosLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         photos.setLayoutManager(photosLayoutManager);
 
-        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),this);
+        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),this,create);
         imagesAdapter.addPlus();
         photos.setAdapter(imagesAdapter);
 
@@ -266,68 +266,68 @@ public class CreateJobPost extends LoadPhotoAct {
         finds.setAdapter(findsAdapter);
 
         find_card.setVisibility(View.GONE);
-
+        create.setActivated(true);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StripeJobPost post = new StripeJobPost();
-                String text = CreateJobPost.this.text.getText().toString();
-                String title = CreateJobPost.this.title.getText().toString();
-                long standardPost = radioGroup.getCheckedRadioButtonId();
-                if(standardPost == cdd_but_id) standardPost = Values.POSTS.CDD_JOB_POST;
-                if(standardPost == cdi_but_id) standardPost = Values.POSTS.CDI_JOB_POST;
-                if(standardPost == extra_but_id) standardPost = Values.POSTS.EXTRA_JOB_POST;
-                String currency = CreateJobPost.this.currency.getSelectedItem().toString();
-                String profession = proffesion.getSelectedItem().toString();
-                String category = CreateJobPost.this.category.getSelectedItem().toString();
-                Integer price = null;
+                if(create.isActivated()) {
+                    StripeJobPost post = new StripeJobPost();
+                    String text = CreateJobPost.this.text.getText().toString();
+                    String title = CreateJobPost.this.title.getText().toString();
+                    long standardPost = radioGroup.getCheckedRadioButtonId();
+                    if (standardPost == cdd_but_id) standardPost = Values.POSTS.CDD_JOB_POST;
+                    if (standardPost == cdi_but_id) standardPost = Values.POSTS.CDI_JOB_POST;
+                    if (standardPost == extra_but_id) standardPost = Values.POSTS.EXTRA_JOB_POST;
+                    String currency = CreateJobPost.this.currency.getSelectedItem().toString();
+                    String profession = proffesion.getSelectedItem().toString();
+                    String category = CreateJobPost.this.category.getSelectedItem().toString();
+                    Integer price = null;
 
-                if(text.isEmpty()) {
-                    CreateJobPost.this.text.setError("Text empty");
-                    return;
-                }
-                if(title.isEmpty()) {
-                    CreateJobPost.this.title.setError("Title empty");
-                    return;
-                }
-                if(currency.isEmpty()) {
-                    Toast.makeText(context, "Currency is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(profession.isEmpty()) {
-                    Toast.makeText(context, "Profession is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(category.isEmpty()) {
-                    Toast.makeText(context, "Category is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(standardPost==Values.POSTS.EXTRA_JOB_POST){
-                    price = Integer.valueOf(CreateJobPost.this.price.getText().toString());
-                    if(price==null){
-                        CreateJobPost.this.price.setError("Price is empty");
+                    if (title.isEmpty()) {
+                        CreateJobPost.this.title.setError("Title empty");
                         return;
                     }
-                }
+                    if (text.isEmpty()) {
+                        CreateJobPost.this.text.setError("Text empty");
+                        return;
+                    }
+                    if (currency.isEmpty()) {
+                        Toast.makeText(context, "Currency is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (profession.isEmpty()) {
+                        Toast.makeText(context, "Profession is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (category.isEmpty()) {
+                        Toast.makeText(context, "Category is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (standardPost == Values.POSTS.EXTRA_JOB_POST) {
+                        price = Integer.valueOf(CreateJobPost.this.price.getText().toString());
+                        if (price == null) {
+                            CreateJobPost.this.price.setError("Price is empty");
+                            return;
+                        }
+                    }
 
-                post.setText(text);
-                post.setTitle(title);
-                post.setType(standardPost);
-                post.setUserid(mAuth.getCurrentUser().getUid());
-                post.setTags(tagsAdapter.getTags());
-                post.setCurrency(currency);
-                post.setPrice(price);
-                post.setProfession(profession);
-                post.setCategory(category);
-                imagesAdapter.deletePhoto("PLUS");
-                post.setPhotos(imagesAdapter.getPhotos());
-                mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
-                finish();
-                finish();
+                    post.setText(text);
+                    post.setTitle(title);
+                    post.setType(standardPost);
+                    post.setUserid(mAuth.getCurrentUser().getUid());
+                    post.setTags(tagsAdapter.getTags());
+                    post.setCurrency(currency);
+                    post.setPrice(price);
+                    post.setProfession(profession);
+                    post.setCategory(category);
+                    imagesAdapter.deletePhoto("PLUS");
+                    post.setPhotos(imagesAdapter.getPhotos());
+                    mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
+                    finish();
+                    finish();
+                }
             }
         });
-
-
     }
 
     @Override

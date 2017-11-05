@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -34,12 +35,14 @@ import static com.repandco.repco.constants.URLS.IMAGES;
 
 public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolder> {
 
+    public Button create;
     private ArrayList<String> mDataset;
     private ArrayList<String> tags;
     private boolean isTags = false;
     private LoadPhotoAct loadPhoto;
     public ImageViewLoader plus;
     private ImagesAdapter imagesAdapter;
+
     private ManagerActivity manager;
 
     public static class ImageHolder extends RecyclerView.ViewHolder {
@@ -126,18 +129,20 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
         }
     }
 
-    public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto) {
+    public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto, Button create) {
         this.mDataset = (mDataset!=null) ? mDataset : new ArrayList<String>();
         this.loadPhoto = loadPhoto;
         this.imagesAdapter = this;
+        this.create = create;
     }
 
-    public ImagesAdapter(ArrayList<String> mDataset,LoadPhotoAct loadPhoto,boolean tags) {
+    public ImagesAdapter(ArrayList<String> mDataset, LoadPhotoAct loadPhoto, boolean tags, Button create) {
         this.isTags = tags;
         if(isTags) this.tags = mDataset;
         this.mDataset = (mDataset!=null) ? mDataset : new ArrayList<String>();
         this.loadPhoto = loadPhoto;
         this.imagesAdapter = this;
+        this.create = create;
     }
 
     @Override

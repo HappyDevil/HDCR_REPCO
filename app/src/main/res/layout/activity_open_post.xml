@@ -316,15 +316,15 @@
             android:gravity="center"
             android:text="Candidates"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/accept_jobs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:listitem="@layout/adapter_accept_job"
-            >
+            android:visibility="gone"
+            tools:listitem="@layout/adapter_accept_job">
 
         </android.support.v7.widget.RecyclerView>
 
