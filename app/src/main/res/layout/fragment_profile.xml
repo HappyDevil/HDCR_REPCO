@@ -226,7 +226,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_email_black_24dp" />
+                            app:srcCompat="@drawable/ic_email_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView17"
@@ -244,10 +244,9 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:gravity="right"
-                            android:lineSpacingExtra="8sp"
                             android:text="aaaa@gmail.com"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -278,7 +277,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_phone_black_24dp" />
+                            app:srcCompat="@drawable/ic_phone_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView21"
@@ -298,8 +297,8 @@
                             android:adjustViewBounds="true"
                             android:gravity="end"
                             android:text="8(123)4567891"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -330,7 +329,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_people_black_24dp" />
+                            app:srcCompat="@drawable/ic_people_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView20"
@@ -349,8 +348,8 @@
                             android:adjustViewBounds="true"
                             android:gravity="end"
                             android:text="Male"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -380,7 +379,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_date_range_black_24dp" />
+                            app:srcCompat="@drawable/ic_date_range_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView15"
@@ -398,8 +397,8 @@
                             android:layout_margin="5dp"
                             android:gravity="end"
                             android:text="24.12.1996"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -446,10 +445,9 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:gravity="right"
-                            android:lineSpacingExtra="8sp"
                             android:text="test"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -501,10 +499,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:lineSpacingExtra="8sp"
                             android:text="aaaa@gmail.comaaaa@gmail.comaaaa@gmail.comaaaa@gmail.comaaaa@gmail.comaaaa@gmail.comaaaa@gmail.com"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -534,7 +531,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_business_black_24dp" />
+                            app:srcCompat="@drawable/ic_business_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView22"
@@ -554,8 +551,8 @@
                             android:adjustViewBounds="true"
                             android:gravity="end"
                             android:text="Some bact"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -585,7 +582,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="6dp"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/ic_add_location_black_24dp" />
+                            app:srcCompat="@drawable/ic_add_location_black_24dp_1" />
 
                         <TextView
                             android:id="@+id/textView23"
@@ -604,8 +601,8 @@
                             android:layout_margin="5dp"
                             android:gravity="end"
                             android:text="Some address"
-                            android:textColor="@color/colorMyText"
-                            android:textSize="18sp" />
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
