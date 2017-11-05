@@ -69,7 +69,7 @@
                     android:id="@+id/friends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
+                    android:layout_margin="3dp"
                     android:layout_weight="0.8"
                     app:cardBackgroundColor="@color/cardtags1"
                     app:cardCornerRadius="10dp"
@@ -78,23 +78,26 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/friendCount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="3dp"
                             android:layout_weight="0.4"
-                            android:text="112" />
+                            android:gravity="right"
+                            android:text="112"
+                            android:textSize="16sp"/>
 
                         <ImageView
                             android:id="@+id/imageView3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.6"
-                            app:srcCompat="@drawable/ic_supervisor_account_black_24dp" />
+                            app:srcCompat="@drawable/ic_supervisor_account_black_24dp"
+                            android:layout_margin="2dp"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
@@ -710,7 +713,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="15dp"
         android:visibility="gone"
-        app:backgroundTint="@color/colorPrimaryLight"
+        app:backgroundTint="@color/addjobpost"
         app:fabSize="normal"
         app:rippleColor="@color/cardtags1"
         app:srcCompat="@drawable/ic_settings_black_24dp" />

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="0.08"
-            app:cardBackgroundColor="@color/colorPrimaryLight"
+            app:cardBackgroundColor="@color/addjobpost"
             app:cardCornerRadius="30dp"
             app:cardElevation="15dp"
             app:contentPadding="5dp">
