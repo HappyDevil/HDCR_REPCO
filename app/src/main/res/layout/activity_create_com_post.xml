@@ -46,7 +46,7 @@
                 android:ems="10"
                 android:gravity="start"
                 android:hint="@string/text"
-                android:inputType="textAutoCorrect"
+                android:inputType="textAutoCorrect|textMultiLine"
                 android:textAlignment="viewStart" />
 
             <android.support.v7.widget.CardView
