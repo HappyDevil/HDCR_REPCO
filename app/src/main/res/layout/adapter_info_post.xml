@@ -75,23 +75,33 @@
 
             <ImageButton
                 android:id="@+id/deletebut"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end"
-                android:layout_margin="3dp"
-                android:layout_weight="0.89"
-                android:adjustViewBounds="true"
+                android:layout_margin="5dp"
+                android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 android:visibility="invisible"
-                app:srcCompat="@android:drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
         </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@color/cardtags1"
+            tools:ignore="DuplicateIds" />
 
         <TextView
             android:id="@+id/typeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
             android:background="@drawable/rounded"
             android:gravity="center"
             android:padding="3dp"

@@ -13,4 +13,5 @@
     <color name="cardtags1">#bbdefb</color>
     <color name="cardtags2">#80d748</color>
     <color name="colorPrimaryLight">#1976d2</color>
+    <color name="light_gray">#f1f1f1</color>
 </resources>
