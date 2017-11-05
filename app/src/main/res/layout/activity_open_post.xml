@@ -15,12 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:popupTheme="@style/AppTheme.AppBarOverlay"
             app:titleTextColor="@color/cardview_light_background"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="0dp" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
         <View
             android:id="@+id/view"
@@ -91,7 +88,7 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view56"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginLeft="4dp"
@@ -310,6 +307,14 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:background="@color/cardtags1" />
+
+        <TextView
+            android:id="@+id/novideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="No video"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/videoView"

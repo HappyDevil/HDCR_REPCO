@@ -1,7 +1,11 @@
 package com.repandco.repco;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +17,17 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 import com.repandco.repco.customClasses.LoadPhotoAct;
 import com.repandco.repco.adapter.FindsAdapter;
 import com.repandco.repco.adapter.ImagesAdapter;
@@ -31,6 +41,9 @@ import java.util.TreeSet;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
+import static com.repandco.repco.FirebaseConfig.mStorage;
+import static com.repandco.repco.constants.URLS.VIDEOS;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_VIDEO;
 
 
 public class  CreateComPost extends LoadPhotoAct {
@@ -49,6 +62,10 @@ public class  CreateComPost extends LoadPhotoAct {
     private Toolbar postTolbar;
     private EditText title;
     private ImagesAdapter imagesAdapter;
+
+    private Uri videoURI;
+    private ImageView videoView;
+    private String videoURL;
 
 
     @Override
@@ -72,6 +89,17 @@ public class  CreateComPost extends LoadPhotoAct {
         create = (Button) findViewById(R.id.create);
         find_card = (CardView) findViewById(R.id.find_card);
         tags_card = (CardView) findViewById(R.id.tags_card);
+        videoView = (ImageView) findViewById(R.id.videoView);
+
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_VIDEO);
+            }
+        });
 
 
         tags_list.setHasFixedSize(false);
@@ -174,6 +202,7 @@ public class  CreateComPost extends LoadPhotoAct {
                     post.setTitle(title_STR);
                     post.setType((long) Values.POSTS.STANDARD_POST);
                     post.setUserid(mAuth.getCurrentUser().getUid());
+                    post.setVideourl(videoURL);
                     post.setTags(tagsAdapter.getTags());
                     imagesAdapter.deletePhoto("PLUS");
                     post.setPhotos(imagesAdapter.getPhotos());
@@ -183,6 +212,57 @@ public class  CreateComPost extends LoadPhotoAct {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIDEO) {
+            if (data != null) {
+                final Uri uri = data.getData();
+                videoView.setBackgroundColor(getResources().getColor(R.color.cardtags2));
+                videoURI = uri;
+                if (videoURI != null) {
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    retriever.setDataSource(CreateComPost.this, videoURI);
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+                    retriever.release();
+                    if (timeInMillisec > 60000) {
+                        videoView.setBackgroundColor(getResources().getColor(R.color.addjobpost));
+                        videoURI = null;
+                        Toast.makeText(manager, "Error, File is too long", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        create.setActivated(false);
+                        mStorage.getReference(VIDEOS).child(videoURI.getLastPathSegment()).putFile(videoURI)
+                                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        create.setActivated(true);
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(CreateComPost.this, "Success", Toast.LENGTH_SHORT).show();
+                                            videoURL = task.getResult().getMetadata().getDownloadUrl().toString();
+                                        }
+                                        else{
+                                            Toast.makeText(CreateComPost.this, "Failed", Toast.LENGTH_SHORT).show();
+                                            videoURL = null;
+                                        }
+                                    }
+                                })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                        create.setActivated(false);
+                                        Toast.makeText(CreateComPost.this, "Loading video: "+((int)progress)+"%", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
+            }
+        }
     }
 
     @Override

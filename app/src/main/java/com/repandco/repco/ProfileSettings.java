@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +41,7 @@ import com.repandco.repco.entities.ProfUser;
 import com.squareup.picasso.Picasso;
 
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,8 +52,10 @@ import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
 import static com.repandco.repco.FirebaseConfig.mStorage;
 import static com.repandco.repco.constants.URLS.IMAGES;
+import static com.repandco.repco.constants.URLS.VIDEOS;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_HEADER;
 import static com.repandco.repco.constants.Values.REQUEST.REQUEST_PHOTO;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_VIDEO;
 
 public class ProfileSettings extends LoadPhotoAct {
     private ManagerActivity manager;
@@ -72,6 +77,7 @@ public class ProfileSettings extends LoadPhotoAct {
 
     private ImageView photo;
     private ImageView header;
+    private ImageView videoView;
 
     private ImageButton exitButton;
 
@@ -90,7 +96,8 @@ public class ProfileSettings extends LoadPhotoAct {
 
     private String header_START_STR,photo_START_STR;
     private RecyclerView photos;
-    private ImagesAdapter imagesAdapter;
+    private ImagesAdapter imagesAdapter;;
+    private Uri videoURI;
 
 
     @Override
@@ -127,6 +134,7 @@ public class ProfileSettings extends LoadPhotoAct {
 
         photo = (ImageView) findViewById(R.id.photo);
         header = (ImageView) findViewById(R.id.header);
+        videoView = (ImageView) findViewById(R.id.videoView);
 
         exitButton = (ImageButton) findViewById(R.id.exitButton);
 
@@ -302,6 +310,15 @@ public class ProfileSettings extends LoadPhotoAct {
                 startActivityForResult(intent, REQUEST_HEADER);
             }
         });
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_VIDEO);
+            }
+        });
         save.setActivated(true);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,6 +344,23 @@ public class ProfileSettings extends LoadPhotoAct {
                     photo.setImageURI(uri);
                     photoURI = uri;
                 }
+                if (requestCode == REQUEST_VIDEO){
+                    videoView.setBackgroundColor(getResources().getColor(R.color.cardtags2));
+                    videoURI = uri;
+                    if(videoURI!=null) {
+                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                        //use one of overloaded setDataSource() functions to set your data source
+                        retriever.setDataSource(context, videoURI);
+                        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                        long timeInMillisec = Long.parseLong(time);
+                        retriever.release();
+                        if (timeInMillisec > 60000){
+                            videoView.setBackgroundColor(getResources().getColor(R.color.addjobpost));
+                            videoURI = null;
+                            Toast.makeText(manager, "Error, File is too long", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             }
         }
     }
@@ -334,6 +368,7 @@ public class ProfileSettings extends LoadPhotoAct {
     Task<Void> databaseTask;
     boolean h = false;
     boolean p = false;
+    boolean v = false;
     private void attemptLogin() {
         // Reset errors.
 
@@ -341,6 +376,7 @@ public class ProfileSettings extends LoadPhotoAct {
         final Task<UploadTask.TaskSnapshot> headerTask;
 
         final String[] resPhoto = new String[1];
+        final String[] resVideo = new String[1];
         final String[] resHeader = new String[1];
 
         progressDialog = new ProgressDialog(context);
@@ -452,6 +488,34 @@ public class ProfileSettings extends LoadPhotoAct {
             resPhoto[0] = (photo_START_STR==null) ? Values.URLS.STANDARD : photo_START_STR;
         }
 
+        progressDialog.setMessage("Loading video");
+        if(videoURI!=null) {
+                mStorage.getReference(VIDEOS).child(videoURI.getLastPathSegment()).putFile(videoURI)
+                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    resVideo[0] = task.getResult().getMetadata().getDownloadUrl().toString();
+                                    v = true;
+                                } else {
+                                    progressDialog.setMessage("Failed load video");
+                                    resVideo[0] = null;
+                                    v = true;
+                                }
+                            }
+                        })
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                progressDialog.setProgress((int) progress);
+                            }
+                        });
+        }
+        else {
+            v = true;
+            resVideo[0] = null;
+        }
 
         if(headerURI != null) headerTask = mStorage.getReference(IMAGES).child(headerURI.getLastPathSegment()).putFile(headerURI)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -486,7 +550,7 @@ public class ProfileSettings extends LoadPhotoAct {
             @Override
             public void run() {
                 while(true){
-                    if(h&&p) break;
+                    if(h&&p&&v) break;
                 }
 
                 switch(type)
@@ -494,14 +558,13 @@ public class ProfileSettings extends LoadPhotoAct {
                     case Values.TYPES.PROFESSIONAL_TYPE:
                         profUser.setHeaderurl(resHeader[0]);
                         profUser.setPhotourl(resPhoto[0]);
-
-                        progressDialog.setMessage("Loading main info");
+                        if(resVideo[0]!=null) profUser.setVideourl(resVideo[0]);
                         databaseTask = mDatabase.getReference().child(URLS.USERS + mAuth.getCurrentUser().getUid()).setValue(profUser);
                         break;
                     case Values.TYPES.ENTERPRISE_TYPE:
                         enterpUser.setHeaderurl(resHeader[0]);
                         enterpUser.setPhotourl(resPhoto[0]);
-
+                        if(resVideo[0]!=null) enterpUser.setVideourl(resVideo[0]);
                         databaseTask = mDatabase.getReference().child("users/"+ mAuth.getCurrentUser().getUid()).setValue(enterpUser);
                         break;
                     default:
@@ -514,8 +577,13 @@ public class ProfileSettings extends LoadPhotoAct {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful())
                             {
-                                progressDialog.setMessage("Update successful");
-                                progressDialog.dismiss();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressDialog.setMessage("Update successful");
+                                        progressDialog.dismiss();
+                                    }
+                                });
                                 Intent goProfile = new Intent(context,ManagerActivity.class);
                                 goProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 goProfile.putExtra(Keys.UID,mAuth.getCurrentUser().getUid());

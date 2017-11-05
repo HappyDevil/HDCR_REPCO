@@ -50,6 +50,19 @@
                 android:inputType="textAutoCorrect|textMultiLine"
                 android:textAlignment="viewStart" />
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Load your photos:"
+                android:padding="2dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/cardtags1" />
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -230,6 +243,29 @@
                 android:scaleType="centerCrop"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_collapseMode="parallax" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Load your video:"
+                android:padding="2dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/cardtags1" />
+
+            <ImageView
+                android:id="@+id/videoView"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:background="@color/addjobpost"
+                android:visibility="visible"
+                android:layout_margin="5dp"
+                app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
 
             <Button
                 android:id="@+id/create"

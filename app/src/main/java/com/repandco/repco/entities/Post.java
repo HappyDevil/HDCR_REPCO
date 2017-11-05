@@ -1,6 +1,7 @@
 package com.repandco.repco.entities;
 
 import com.google.gson.annotations.SerializedName;
+import com.repandco.repco.constants.Keys;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +13,10 @@ public class Post {
     private Long likes;
     @SerializedName("tags")
     private Map<String, Boolean> tags = new HashMap<>();
-    @SerializedName("photos")
+    @SerializedName(Keys.PHOTOS)
     private ArrayList<String> photos = new ArrayList<>();
+    @SerializedName(Keys.VIDEO)
+    private String videourl;
     @SerializedName("text")
     private String text;
     @SerializedName("title")
@@ -91,12 +94,12 @@ public class Post {
         return postid;
     }
 
-    @SerializedName("postid")
+    @SerializedName(Keys.PHOTOS)
     public void setPostid(String postid) {
         this.postid = postid;
     }
 
-    @SerializedName("photos")
+    @SerializedName(Keys.PHOTOS)
     public ArrayList<String> getPhotos() {
         return photos;
     }
@@ -116,4 +119,13 @@ public class Post {
         this.type = type;
     }
 
+    @SerializedName(Keys.VIDEO)
+    public String getVideourl() {
+        return videourl;
+    }
+
+    @SerializedName(Keys.VIDEO)
+    public void setVideourl(String videourl) {
+        this.videourl = videourl;
+    }
 }

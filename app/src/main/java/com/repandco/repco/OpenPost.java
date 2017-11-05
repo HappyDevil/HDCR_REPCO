@@ -1,10 +1,13 @@
 package com.repandco.repco;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +15,16 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +43,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
@@ -59,8 +66,10 @@ public class OpenPost extends AppCompatActivity {
     public TextView profession;
     public TextView likes;
     public TextView text_apply;
+    public TextView novideo;
     private LinearLayout money_info;
     public ImageView like;
+    public ImageView videoView;
     public ImageButton deletebut;
     public RecyclerView mRecyclerView;
     public RecyclerView accept_jobs;
@@ -116,6 +125,7 @@ public class OpenPost extends AppCompatActivity {
         model.setType(postIntent.getLongExtra(Keys.TYPE,0));
         model.setUserid(postIntent.getStringExtra(Keys.UID));
         model.setText(postIntent.getStringExtra(Keys.TEXT));
+        model.setVideourl(postIntent.getStringExtra(Keys.VIDEO));
 
         HashMap<String,Boolean> stringHashMap = new HashMap<>();
 
@@ -129,6 +139,7 @@ public class OpenPost extends AppCompatActivity {
         model.setTags(stringHashMap);
 
         context = this;
+        novideo = (TextView) findViewById(R.id.novideo);
         photo = (ImageView) findViewById(R.id.photo);
         money_info = (LinearLayout) findViewById(R.id.money_info);
         name = (TextView) findViewById(R.id.name);
@@ -137,6 +148,7 @@ public class OpenPost extends AppCompatActivity {
         likes = (TextView) findViewById(R.id.likes);
         date = (TextView) findViewById(R.id.date);
         like = (ImageView) findViewById(R.id.like);
+        videoView = (ImageView) findViewById(R.id.videoView);
         deletebut = (ImageButton) findViewById(R.id.deletebut);
         apply = (CardView) findViewById(R.id.apply);
         currency = (TextView) findViewById(R.id.currency);
@@ -151,10 +163,24 @@ public class OpenPost extends AppCompatActivity {
         profession = (TextView) findViewById(R.id.profession);
         text_apply = (TextView) findViewById(R.id.text_apply);
 
-
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         accept_jobs = (RecyclerView) findViewById(R.id.accept_jobs);
         tags_list = (RecyclerView) findViewById(R.id.tags_list);
+
+        if(model.getVideourl()!=null) {
+            novideo.setVisibility(View.GONE);
+            videoView.setVisibility(View.VISIBLE);
+            videoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openVideo(model.getVideourl(), context);
+                }
+            });
+        }
+        else {
+            novideo.setVisibility(View.VISIBLE);
+            videoView.setVisibility(View.GONE);
+        }
 
         mRecyclerView.setHasFixedSize(false);
         accept_jobs.setHasFixedSize(false);
@@ -343,6 +369,51 @@ public class OpenPost extends AppCompatActivity {
                     break;
             }
 
+        }
+    }
+
+    public void openVideo(String videourl, Context context) {
+        if (videourl != null) {
+
+            final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
+//            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    builder.hide();
+                }
+            });
+            LayoutInflater inflater = getLayoutInflater();
+            final View inflate = inflater.inflate(R.layout.item_video_view, null);
+
+            final VideoView videoView = (VideoView) inflate.findViewById(R.id.videoView);
+
+            Uri video = Uri.parse(videourl);
+            videoView.setVideoURI(video);
+
+            MediaController mc = new MediaController(OpenPost.this);
+            videoView.setMediaController(mc);
+            mc.setAnchorView(videoView);
+            mc.setMediaPlayer(videoView);
+
+            ((ViewGroup) mc.getParent()).removeView(mc);
+
+            ((FrameLayout) inflate.findViewById(R.id.videoViewWrapper))
+                    .addView(mc);
+            mc.setVisibility(View.VISIBLE);
+
+            videoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    builder.hide();
+                }
+            });
+
+            builder.setContentView(inflate);
+
+            builder.show();
+            videoView.start();
         }
     }
 

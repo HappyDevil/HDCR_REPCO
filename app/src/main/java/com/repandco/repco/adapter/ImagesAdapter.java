@@ -182,6 +182,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                         imageView.setTag(null);
                         imageView.setImageResource(R.drawable.ic_add_a_photo_black_24dp);
                         mDataset.remove(s);
+                        isTags = true;
                         notifyDataSetChanged();
                     } else {
                         if (url.equals("PLUS")) {

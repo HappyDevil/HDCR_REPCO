@@ -1,7 +1,11 @@
 package com.repandco.repco;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,10 +26,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 import com.repandco.repco.adapter.FindsAdapter;
 import com.repandco.repco.adapter.ImagesAdapter;
 import com.repandco.repco.adapter.TagsAdapter;
@@ -39,6 +48,9 @@ import java.util.TreeSet;
 
 import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
+import static com.repandco.repco.FirebaseConfig.mStorage;
+import static com.repandco.repco.constants.URLS.VIDEOS;
+import static com.repandco.repco.constants.Values.REQUEST.REQUEST_VIDEO;
 
 
 public class CreateJobPost extends LoadPhotoAct {
@@ -70,6 +82,10 @@ public class CreateJobPost extends LoadPhotoAct {
     private Spinner proffesion;
     private Spinner currency;
     private EditText price;
+
+    private Uri videoURI;
+    private ImageView videoView;
+    private String videoURL;
 
     private int cdd_but_id,cdi_but_id,extra_but_id;
 
@@ -112,7 +128,17 @@ public class CreateJobPost extends LoadPhotoAct {
         price = (EditText) findViewById(R.id.editText);
 
         priceLayout = (LinearLayout) findViewById(R.id.price);
+        videoView = (ImageView) findViewById(R.id.videoView);
 
+        videoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Video"),REQUEST_VIDEO);
+            }
+        });
         final Context context = this;
 
         // Настраиваем адаптер
@@ -320,6 +346,7 @@ public class CreateJobPost extends LoadPhotoAct {
                     post.setPrice(price);
                     post.setProfession(profession);
                     post.setCategory(category);
+                    post.setVideourl(videoURL);
                     imagesAdapter.deletePhoto("PLUS");
                     post.setPhotos(imagesAdapter.getPhotos());
                     mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
@@ -328,6 +355,57 @@ public class CreateJobPost extends LoadPhotoAct {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIDEO) {
+            if (data != null) {
+                final Uri uri = data.getData();
+                videoView.setBackgroundColor(getResources().getColor(R.color.cardtags2));
+                videoURI = uri;
+                if (videoURI != null) {
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    //use one of overloaded setDataSource() functions to set your data source
+                    retriever.setDataSource(CreateJobPost.this, videoURI);
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+                    retriever.release();
+                    if (timeInMillisec > 60000) {
+                        videoView.setBackgroundColor(getResources().getColor(R.color.addjobpost));
+                        videoURI = null;
+                        Toast.makeText(manager, "Error, File is too long", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        create.setActivated(false);
+                        mStorage.getReference(VIDEOS).child(videoURI.getLastPathSegment()).putFile(videoURI)
+                                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        create.setActivated(true);
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(CreateJobPost.this, "Success", Toast.LENGTH_SHORT).show();
+                                            videoURL = task.getResult().getMetadata().getDownloadUrl().toString();
+                                        }
+                                        else{
+                                            Toast.makeText(CreateJobPost.this, "Failed", Toast.LENGTH_SHORT).show();
+                                            videoURL = null;
+                                        }
+                                    }
+                                })
+                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                        create.setActivated(false);
+                                        Toast.makeText(CreateJobPost.this, "Loading video: "+((int)progress)+"%", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
+            }
+        }
     }
 
     @Override

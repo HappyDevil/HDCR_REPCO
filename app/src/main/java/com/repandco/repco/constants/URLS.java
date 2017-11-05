@@ -10,6 +10,7 @@ public class URLS {
     public static final String FRIENDS = "friends/";
     public static final String LIKES = "likes/";
     public static final String IMAGES = "images/";
+    public static final String VIDEOS = "videos//";
     public static final String PHOTOS = "photos/";
     public static final String TAGS = "tags/";
     public static final String CATEGORY = "category/";

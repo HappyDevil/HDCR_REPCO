@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +67,7 @@ import static com.repandco.repco.FirebaseConfig.mAuth;
 import static com.repandco.repco.FirebaseConfig.mDatabase;
 import static com.repandco.repco.constants.URLS.USERS;
 
-public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationView.OnNavigationItemSelectedListener{
+public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
     private FragmentTransaction fTrans;
@@ -90,7 +93,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        picassoInstance = ((RepCoApp)getApplication()).picassoInstance;
+        picassoInstance = ((RepCoApp) getApplication()).picassoInstance;
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -118,18 +121,19 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         reference = mDatabase.getReference();
         updateAccountInfo();
 
-        reference.child(URLS.USERS+mAuth.getCurrentUser().getUid()).child(Keys.STATUS).addValueEventListener(new ValueEventListener() {
+        reference.child(URLS.USERS + mAuth.getCurrentUser().getUid()).child(Keys.STATUS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 status = dataSnapshot.getValue(String.class);
-                status = (status==null) ? Values.STATUS.ERROR : status;
-                if(open){
+                status = (status == null) ? Values.STATUS.ERROR : status;
+                if (open) {
                     progress.setVisibility(View.GONE);
                     alertDialog.cancel();
                     open = false;
                 }
-                if(status.equals(Values.STATUS.ACTIVE)){
-                    if(type==Values.TYPES.ENTERPRISE_TYPE) Toast.makeText(ManagerActivity.this, "Account active", Toast.LENGTH_SHORT).show();
+                if (status.equals(Values.STATUS.ACTIVE)) {
+                    if (type == Values.TYPES.ENTERPRISE_TYPE)
+                        Toast.makeText(ManagerActivity.this, "Account active", Toast.LENGTH_SHORT).show();
                 }
                 onCreateDialog();
             }
@@ -142,11 +146,10 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
 
         String tag = getIntent().getStringExtra(Keys.TAG);
         String uid = getIntent().getStringExtra(Keys.UID);
-        uid = (uid==null) ? mAuth.getCurrentUser().getUid() : uid;
+        uid = (uid == null) ? mAuth.getCurrentUser().getUid() : uid;
         if (tag != null) {
             openSearh(tag);
-        }
-        else {
+        } else {
             ProfileFragment profileFragment = new ProfileFragment();
             profileFragment.setManager(this);
 
@@ -240,56 +243,56 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     }
 
 
-    public void showProgress(){
+    public void showProgress() {
         progressDialog.show();
     }
 
-    public void hideProgress(){
+    public void hideProgress() {
         if (progressDialog.isShowing()) progressDialog.hide();
     }
 
-    public void showImage(String url, ImageView mImageView){
-            if (url != null) {
-                Context context = mImageView.getContext();
+    public void showImage(String url, ImageView mImageView) {
+        if (url != null) {
+            Context context = mImageView.getContext();
 
 
-                showProgress();
+            showProgress();
 
-                final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
-                builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
+            final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
+            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
 
-                    }
-                });
-                ImageView newImage = new ImageView(context);
+                }
+            });
+            ImageView newImage = new ImageView(context);
 
-                newImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        builder.hide();
-                    }
-                });
+            newImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    builder.hide();
+                }
+            });
 
-                Picasso.with(context)
-                        .load(url)
-                        .into(newImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                    hideProgress();
-                                    builder.show();
-                            }
+            Picasso.with(context)
+                    .load(url)
+                    .into(newImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            hideProgress();
+                            builder.show();
+                        }
 
-                            @Override
-                            public void onError() {
+                        @Override
+                        public void onError() {
 
-                            }
-                        });
+                        }
+                    });
 
-                builder.addContentView(newImage, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-            }
+            builder.addContentView(newImage, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        }
     }
 
     public BottomNavigationView getBottomNavigationView() {
@@ -313,51 +316,51 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         postIntent.putExtra(Keys.TYPE, model.getType());
         postIntent.putExtra(Keys.UID, model.getUserid());
         postIntent.putExtra(Keys.TEXT, model.getText());
+        postIntent.putExtra(Keys.VIDEO, model.getVideourl());
         String[] tags = new String[model.getTags().keySet().size()];
         model.getTags().keySet().toArray(tags);
         postIntent.putExtra(Keys.TAGS, tags);
         startActivity(postIntent);
     }
 
-    public void openSettings(int type,Object user){
+    public void openSettings(int type, Object user) {
         onCreateDialog();
-        if(user==null) return;
-        if(type == Values.TYPES.PROFESSIONAL_TYPE){
+        if (user == null) return;
+        if (type == Values.TYPES.PROFESSIONAL_TYPE) {
             ProfUser profUser = (ProfUser) user;
 
             Intent setIntent = new Intent(this, ProfileSettings.class);
 
-            setIntent.putExtra(Keys.TYPE,profUser.getType());
-            setIntent.putExtra(Keys.BIRTHDAY,profUser.getBirthday());
-            setIntent.putExtra(Keys.EMAIL,profUser.getEmail());
-            setIntent.putExtra(Keys.FIRSTNAME,profUser.getFirstname());
-            setIntent.putExtra(Keys.GENDER,profUser.getGender());
-            setIntent.putExtra(Keys.HEADER,profUser.getHeaderurl());
-            setIntent.putExtra(Keys.NAME,profUser.getName());
-            setIntent.putExtra(Keys.PHONE,profUser.getPhonenumber());
-            setIntent.putExtra(Keys.PHOTO,profUser.getPhotourl());
-            setIntent.putExtra(Keys.PHOTOS,profUser.getPhotos());
-            setIntent.putExtra(Keys.VISIBILITY,profUser.getVisible());
-            setIntent.putExtra(Keys.JOB_DESCRIPTION,profUser.getJob());
-            setIntent.putExtra(Keys.JOB,profUser.getJobdescription());
+            setIntent.putExtra(Keys.TYPE, profUser.getType());
+            setIntent.putExtra(Keys.BIRTHDAY, profUser.getBirthday());
+            setIntent.putExtra(Keys.EMAIL, profUser.getEmail());
+            setIntent.putExtra(Keys.FIRSTNAME, profUser.getFirstname());
+            setIntent.putExtra(Keys.GENDER, profUser.getGender());
+            setIntent.putExtra(Keys.HEADER, profUser.getHeaderurl());
+            setIntent.putExtra(Keys.NAME, profUser.getName());
+            setIntent.putExtra(Keys.PHONE, profUser.getPhonenumber());
+            setIntent.putExtra(Keys.PHOTO, profUser.getPhotourl());
+            setIntent.putExtra(Keys.PHOTOS, profUser.getPhotos());
+            setIntent.putExtra(Keys.VISIBILITY, profUser.getVisible());
+            setIntent.putExtra(Keys.JOB_DESCRIPTION, profUser.getJob());
+            setIntent.putExtra(Keys.JOB, profUser.getJobdescription());
 
             startActivity(setIntent);
-        }
-        else {
+        } else {
             EnterpUser enterpUser = (EnterpUser) user;
 
             Intent setIntent = new Intent(this, ProfileSettings.class);
 
-            setIntent.putExtra(Keys.TYPE,enterpUser.getType());
-            setIntent.putExtra(Keys.BACT,enterpUser.getBact());
-            setIntent.putExtra(Keys.EMAIL,enterpUser.getEmail());
-            setIntent.putExtra(Keys.SIRET,enterpUser.getSIRET());
-            setIntent.putExtra(Keys.ADDRESS,enterpUser.getAddress());
-            setIntent.putExtra(Keys.HEADER,enterpUser.getHeaderurl());
-            setIntent.putExtra(Keys.NAME,enterpUser.getName());
-            setIntent.putExtra(Keys.PHONE,enterpUser.getPhonenumber());
-            setIntent.putExtra(Keys.PHOTO,enterpUser.getPhotourl());
-            setIntent.putExtra(Keys.VISIBILITY,enterpUser.getVisible());
+            setIntent.putExtra(Keys.TYPE, enterpUser.getType());
+            setIntent.putExtra(Keys.BACT, enterpUser.getBact());
+            setIntent.putExtra(Keys.EMAIL, enterpUser.getEmail());
+            setIntent.putExtra(Keys.SIRET, enterpUser.getSIRET());
+            setIntent.putExtra(Keys.ADDRESS, enterpUser.getAddress());
+            setIntent.putExtra(Keys.HEADER, enterpUser.getHeaderurl());
+            setIntent.putExtra(Keys.NAME, enterpUser.getName());
+            setIntent.putExtra(Keys.PHONE, enterpUser.getPhonenumber());
+            setIntent.putExtra(Keys.PHOTO, enterpUser.getPhotourl());
+            setIntent.putExtra(Keys.VISIBILITY, enterpUser.getVisible());
 
             startActivity(setIntent);
         }
@@ -372,7 +375,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     }
 
     public boolean onCreateDialog() {
-        if(((status==null)||(status.equals(Values.STATUS.ERROR)))&&(type==Values.TYPES.ENTERPRISE_TYPE)) {
+        if (((status == null) || (status.equals(Values.STATUS.ERROR))) && (type == Values.TYPES.ENTERPRISE_TYPE)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             LayoutInflater inflater = this.getLayoutInflater();
@@ -385,8 +388,8 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
             final EditText editText = (EditText) inflate.findViewById(R.id.editText2);
             progress = (ProgressBar) inflate.findViewById(R.id.progress);
 
-            if(stripeEmail!=null) editText.setText(stripeEmail);
-            else if(email!=null) editText.setText(email);
+            if (stripeEmail != null) editText.setText(stripeEmail);
+            else if (email != null) editText.setText(email);
 
             alertDialog = builder.create();
             button.setOnClickListener(new View.OnClickListener() {
@@ -394,18 +397,18 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                 public void onClick(View v) {
                     progress.setVisibility(View.VISIBLE);
                     String newEmail = editText.getText().toString();
-                    if(newEmail.isEmpty()){
+                    if (newEmail.isEmpty()) {
                         editText.setError("Email is empty");
                         progress.setVisibility(View.GONE);
                         return;
                     }
-                    if((!newEmail.contains("@"))||(newEmail.length()<4)){
+                    if ((!newEmail.contains("@")) || (newEmail.length() < 4)) {
                         editText.setError("Email is wrong");
                         progress.setVisibility(View.GONE);
                         return;
                     }
                     open = true;
-                    if((stripeEmail==null)||(!stripeEmail.equals(newEmail))) {
+                    if ((stripeEmail == null) || (!stripeEmail.equals(newEmail))) {
                         stripeEmail = newEmail;
                         reference.child(URLS.USERS + mAuth.getCurrentUser().getUid()).child(Keys.STRIPE_EMAIL).setValue(newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -429,8 +432,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                                 }, 10000L);
                             }
                         });
-                    }
-                    else {
+                    } else {
                         cloudAPI.createSubscription(mAuth.getCurrentUser().getUid()).enqueue(new retrofit2.Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -452,12 +454,12 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         return true;
     }
 
-    private void updateAccountInfo(){
+    private void updateAccountInfo() {
         reference.child(USERS + mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null) {
+                if (dataSnapshot != null) {
                     type = (long) dataSnapshot.child(Keys.TYPE).getValue();
                     status = dataSnapshot.child(Keys.STATUS).getValue(String.class);
                     stripeEmail = dataSnapshot.child(Keys.STRIPE_EMAIL).getValue(String.class);
@@ -473,7 +475,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         });
     }
 
-    public void updateProfile(String uid){
+    public void updateProfile(String uid) {
         onCreateDialog();
         fTrans = getFragmentManager().beginTransaction();
         ProfileFragment profileFragment = new ProfileFragment();
@@ -489,11 +491,11 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
     }
 
     public void openPost(final String postID) {
-        mDatabase.getReference().child(URLS.POSTS+postID).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.getReference().child(URLS.POSTS + postID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StripeJobPost post = dataSnapshot.getValue(StripeJobPost.class);
-                if(post!=null) {
+                if (post != null) {
                     openPost(post);
                 }
             }
@@ -505,39 +507,52 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
         });
     }
 
-    public void openVideo(String videourl,Context context) {
+    public void openVideo(String videourl, Context context) {
         if (videourl != null) {
             showProgress();
 
             final Dialog builder = new Dialog(context, R.style.Theme_AppCompat);
-            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
+//            builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            builder.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(context, R.color.darkTransp)));
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
                     hideProgress();
+                    builder.hide();
                 }
             });
-            VideoView videoView = new VideoView(context);
-            videoView.setVisibility(View.VISIBLE);
+            LayoutInflater inflater = getLayoutInflater();
+            final View inflate = inflater.inflate(R.layout.item_video_view, null);
 
-            MediaController mc = new MediaController(context);
+            final VideoView videoView = (VideoView) inflate.findViewById(R.id.videoView);
+
+            Uri video = Uri.parse(videourl);
+            videoView.setVideoURI(video);
+
+            MediaController mc = new MediaController(ManagerActivity.this);
+            videoView.setMediaController(mc);
             mc.setAnchorView(videoView);
             mc.setMediaPlayer(videoView);
-            Uri video = Uri.parse(videourl);
-            videoView.setMediaController(mc);
-            videoView.setVideoURI(video);
-            videoView.start();
+
+            ((ViewGroup) mc.getParent()).removeView(mc);
+
+            ((FrameLayout) inflate.findViewById(R.id.videoViewWrapper))
+                    .addView(mc);
+            mc.setVisibility(View.VISIBLE);
 
             videoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     builder.hide();
-                    hideProgress();
                 }
             });
 
-            builder.addContentView(videoView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+            builder.setContentView(inflate);
+
+            builder.show();
+            videoView.start();
+            hideProgress();
         }
     }
 }
+
