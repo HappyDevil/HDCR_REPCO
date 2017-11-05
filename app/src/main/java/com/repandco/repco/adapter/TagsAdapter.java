@@ -113,6 +113,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
     public void addTag(String tag){
         if(tag.length()>0) {
+            tag = tag.toLowerCase();
             if (tags_List.size() == 0) tags_card.setVisibility(View.VISIBLE);
             if (tags_List.size() < TAG_SIZES) {
                 if (!tags_List.contains(tag)) tags_List.add(tag);

@@ -297,7 +297,7 @@ public class ProfileFragment extends Fragment {
                                 if(friendType == 0) follow.setText(R.string.followed);
                                 else follow.setText(R.string.firends);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardview_dark_background)));
+                                    follow.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context.getContext(), R.color.cardtags2)));
                                 }
                             }
                             else {
@@ -344,7 +344,7 @@ public class ProfileFragment extends Fragment {
 
                                     if(photos!=null) {
                                         noimages.setVisibility(View.GONE);
-                                        mAdapter = new ImagesAdapter(photos,manager);
+                                        mAdapter = new ImagesAdapter(photos,manager,null);
                                         mRecyclerView.setAdapter(mAdapter);
                                     }
 
@@ -383,7 +383,11 @@ public class ProfileFragment extends Fragment {
                                         enterpriseInfo(View.GONE);
                                         proffesionalInfo(View.VISIBLE);
 
-                                        String name = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                                        String profName = dataSnapshot.child(Keys.NAME).getValue(String.class);
+                                        profName = upperCaseFirstLetter(profName);
+                                        String profFirstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                                        profFirstName = upperCaseFirstLetter(profFirstName);
+                                        String name = profName + " " + profFirstName;
                                         usename.setText(name);
 
                                         Integer gender = dataSnapshot.child(Keys.GENDER).getValue(Integer.class);
@@ -401,6 +405,7 @@ public class ProfileFragment extends Fragment {
                                             enterpriseInfo(View.VISIBLE);
 
                                             String name = dataSnapshot.child("name").getValue(String.class);
+                                            name = upperCaseFirstLetter(name);
                                             usename.setText(name);
 
                                             ((TextView) card_bact.findViewById(R.id.text_bact)).setText(dataSnapshot.child(Keys.BACT).getValue(String.class));
@@ -431,7 +436,7 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    usename.setText(uid);
+//                    usename.setText(uid);
                 }
             }
         }
@@ -505,6 +510,15 @@ public class ProfileFragment extends Fragment {
 
         ratingdialog.create();
         ratingdialog.show();
+    }
+
+    private String upperCaseFirstLetter(String name){
+        if(name!=null) {
+            String s1 = name.substring(0, 1).toUpperCase();
+            name = s1 + name.substring(1);
+        }
+        else name = "";
+        return name;
     }
 
 }

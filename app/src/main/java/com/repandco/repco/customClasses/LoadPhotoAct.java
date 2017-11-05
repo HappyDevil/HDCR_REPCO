@@ -33,10 +33,10 @@ public class LoadPhotoAct extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        context = this;//
-        final ImageViewLoader imageViewLoader = imagesAdapter.plus;
-
         if (resultCode == RESULT_OK) {
+            context = this;//
+            if(imagesAdapter.create!=null) imagesAdapter.create.setActivated(false);
+            final ImageViewLoader imageViewLoader = imagesAdapter.plus;
             if (data != null) {
                 final Uri uri = data.getData();
 
@@ -57,10 +57,13 @@ public class LoadPhotoAct extends AppCompatActivity {
                                     imagesAdapter.addPlus();
                                     Toast.makeText(context,"SUCSESS",Toast.LENGTH_SHORT).show();
                                     if(imageViewLoader.getProgressBar()!=null) imageViewLoader.getProgressBar().setVisibility(View.INVISIBLE);
+                                    if(imagesAdapter.create!=null) imagesAdapter.create.setActivated(true);
                                 }
                                 else {
+                                    Toast.makeText(context,"Load error",Toast.LENGTH_SHORT).show();
                                     if(imageViewLoader.getProgressBar()!=null)  imageViewLoader.getProgressBar().setVisibility(View.INVISIBLE);
                                     imageViewLoader.setImageURI(null);
+                                    if(imagesAdapter.create!=null) imagesAdapter.create.setActivated(true);
                                 }
                             }
                         })

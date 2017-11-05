@@ -86,7 +86,7 @@ public class  CreateComPost extends LoadPhotoAct {
         RecyclerView.LayoutManager  photosLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         photos.setLayoutManager(photosLayoutManager);
 
-        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),this);
+        imagesAdapter = new ImagesAdapter(new ArrayList<String>(),this,create);
         imagesAdapter.addPlus();
         photos.setAdapter(imagesAdapter);
 
@@ -153,21 +153,34 @@ public class  CreateComPost extends LoadPhotoAct {
         finds.setAdapter(findsAdapter);
 
         find_card.setVisibility(View.GONE);
-
+        create.setActivated(true);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Post post = new Post();
-                post.setText(text.getText().toString());
-                post.setTitle(title.getText().toString());
-                post.setType((long) Values.POSTS.STANDARD_POST);
-                post.setUserid(mAuth.getCurrentUser().getUid());
-                post.setTags(tagsAdapter.getTags());
-                imagesAdapter.deletePhoto("PLUS");
-                post.setPhotos(imagesAdapter.getPhotos());
-                mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
-                finish();
-                finish();
+                if(create.isActivated()) {
+                    String text_STR = text.getText().toString();
+                    String title_STR = CreateComPost.this.title.getText().toString();
+                    if(title_STR.isEmpty()){
+                        title.setError("Title is empty");
+                        return;
+                    }
+                    if(text_STR.isEmpty()){
+                        text.setError("Text is empty");
+                        return;
+                    }
+
+                    Post post = new Post();
+                    post.setText(text_STR);
+                    post.setTitle(title_STR);
+                    post.setType((long) Values.POSTS.STANDARD_POST);
+                    post.setUserid(mAuth.getCurrentUser().getUid());
+                    post.setTags(tagsAdapter.getTags());
+                    imagesAdapter.deletePhoto("PLUS");
+                    post.setPhotos(imagesAdapter.getPhotos());
+                    mDatabase.getReference().child(URLS.POSTS).push().setValue(post);
+                    finish();
+                    finish();
+                }
             }
         });
     }

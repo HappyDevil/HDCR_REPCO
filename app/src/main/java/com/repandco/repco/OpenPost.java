@@ -95,6 +95,8 @@ public class OpenPost extends AppCompatActivity {
         postTolbar = (Toolbar) findViewById(R.id.postTolbar);
         postTolbar.setTitle("Rep&Co");
         setSupportActionBar(postTolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent postIntent = getIntent();
 
@@ -177,8 +179,13 @@ public class OpenPost extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue()!=null){
-                        String nameStr = dataSnapshot.child(Keys.NAME).getValue(String.class) + " " + dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
-                        name.setText(nameStr);
+                        String firstName = dataSnapshot.child(Keys.FIRSTNAME).getValue(String.class);
+                        String userName = dataSnapshot.child(Keys.NAME).getValue(String.class);
+
+                        firstName = upperCaseFirstLetter(firstName);
+                        userName = upperCaseFirstLetter(userName);
+                        String nameSTR = userName + " " + firstName;
+                        name.setText(nameSTR);
                         String photourl = (String) dataSnapshot.child(Keys.PHOTO).getValue();
 
                         if(photourl!=null){
@@ -242,7 +249,6 @@ public class OpenPost extends AppCompatActivity {
                     });
 
                     if(model.getUserid().equals(mAuth.getCurrentUser().getUid())){
-                        canditates.setVisibility(View.VISIBLE);
                         mDatabase.getReference().child(URLS.LIKES+ postID).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -284,7 +290,7 @@ public class OpenPost extends AppCompatActivity {
                         }
                     });
                     if(model.getPhotos()!=null) {
-                        mAdapter = new ImagesAdapter(model.getPhotos(),null);
+                        mAdapter = new ImagesAdapter(model.getPhotos(),null,null);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                     tags_list.setAdapter(new TagsAdapter(act,model.getTags()));
@@ -300,6 +306,11 @@ public class OpenPost extends AppCompatActivity {
             if(type!=Values.POSTS.STANDARD_POST){
                 category.setText(model.getCategory());
                 profession.setText(profession.getText());
+
+                if(model.getUserid().equals(mAuth.getCurrentUser().getUid())){
+                    accept_jobs.setVisibility(View.VISIBLE);
+                    canditates.setVisibility(View.VISIBLE);
+                }
 
                 like.setVisibility(View.GONE);
                 likes.setVisibility(View.GONE);
@@ -347,8 +358,13 @@ public class OpenPost extends AppCompatActivity {
         return true;
     }
 
-    private void hideElements(){
-        act.setVisible(false);
+    private String upperCaseFirstLetter(String name){
+        if(name!=null) {
+            String s1 = name.substring(0, 1).toUpperCase();
+            name = s1 + name.substring(1);
+        }
+        else name = "";
+        return name;
     }
 
 }
