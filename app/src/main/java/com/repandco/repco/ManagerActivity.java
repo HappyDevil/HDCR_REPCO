@@ -515,7 +515,7 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-
+                    hideProgress();
                 }
             });
             VideoView videoView = new VideoView(context);
@@ -533,11 +533,11 @@ public class ManagerActivity extends LoadPhotoAct implements  BottomNavigationVi
                 @Override
                 public void onClick(View view) {
                     builder.hide();
+                    hideProgress();
                 }
             });
 
             builder.addContentView(videoView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
-            builder.show();
         }
     }
 }
