@@ -180,7 +180,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImageHolde
                         String s = imageView.getTag().toString();
                         mStorage.getReference(IMAGES).child(s).delete();
                         imageView.setTag(null);
-                        imageView.setImageResource(R.drawable.ic_plus_24);
+                        imageView.setImageResource(R.drawable.ic_add_a_photo_black_24dp);
                         mDataset.remove(s);
                         notifyDataSetChanged();
                     } else {

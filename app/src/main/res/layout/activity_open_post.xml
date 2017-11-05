@@ -79,22 +79,33 @@
 
             <ImageButton
                 android:id="@+id/deletebut"
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end"
-                android:layout_weight="0.88"
-                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:visibility="invisible"
-                app:srcCompat="@android:drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_cancel_black_24dp" />
 
         </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/cardtags1" />
 
         <TextView
             android:id="@+id/typeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/rounded"
             android:gravity="center"
             android:padding="3dp"
@@ -300,11 +311,14 @@
             android:layout_marginBottom="2dp"
             android:background="@color/cardtags1" />
 
-        <VideoView
+        <ImageView
             android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:background="@color/addjobpost"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_play_circle_outline_black_24dp" />
 
         <TextView
             android:id="@+id/canditates"
